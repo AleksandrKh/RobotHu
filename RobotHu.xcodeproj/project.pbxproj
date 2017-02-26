@@ -117,6 +117,7 @@
 		412084E61E635E5B002A1039 /* board8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = board8.jpg; sourceTree = "<group>"; };
 		412084E71E635E76002A1039 /* marker8-10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "marker8-10.jpg"; sourceTree = "<group>"; };
 		412084E81E6362D8002A1039 /* mac_charuco_calib.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = mac_charuco_calib.yml; sourceTree = "<group>"; };
+		412084E91E6370AF002A1039 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +187,7 @@
 		4120843D1E61B6A2002A1039 = {
 			isa = PBXGroup;
 			children = (
+				412084E91E6370AF002A1039 /* README.md */,
 				4120846A1E61B8BE002A1039 /* OpenCV */,
 				412084481E61B6A2002A1039 /* RobotHu */,
 				412084B31E63402A002A1039 /* Utils */,

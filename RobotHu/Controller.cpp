@@ -38,12 +38,12 @@ Controller::Controller() {
 void Controller::start() {
 
     // Delegates
-    function<void(vector<double>)> didObtainPoseDelegate = [this](vector<double> pose) {
+    function<void(vector<double>)> didObtainPoseDelegate = [=](vector<double> pose) {
         this->didObtainPoseDelegate(pose);
     };
     PoseEstimator::Instance().didObtainPoseDelegate = &didObtainPoseDelegate;
 
-    function<void(string)> didReceiveErrorMessage = [this](string errorMessage) {
+    function<void(string)> didReceiveErrorMessage = [=](string errorMessage) {
         this->didReceiveErrorMessage(errorMessage);
     };
     PoseEstimator::Instance().didReceiveErrorMessage = &didReceiveErrorMessage;
@@ -141,9 +141,9 @@ void Controller::startMotionHandler() {
         
                 Utils::printMotionVector(motionVector);
                 
-                MotionController motionController;
+                MotionController::Instance().setMotionVector(motionVector);
                 
-                motionController.move(motionVector);
+                cout << "lol" << endl;
             }
         }
         
