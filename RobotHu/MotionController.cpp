@@ -13,7 +13,6 @@
 #include <iostream>
 #include "wiringPi.h"
 
-
 #include <unistd.h>
 
 using namespace std;
@@ -69,7 +68,7 @@ void MotionController::setMotionVector(MotionVector _motionVector) {
 
 void MotionController::move() {
     
-    // TODO Need lock mutex here
+    m.lock();
     
     motionInProcess = true;
     
@@ -87,7 +86,7 @@ void MotionController::move() {
     
     Utils::printMessage("Moving finished");
     
-    // TODO Need unlock mutex here
+    m.unlock();
 }
 
 void MotionController::rotate(double angleInDegrees) {
@@ -101,12 +100,12 @@ void MotionController::rotate(double angleInDegrees) {
     
     for (int i = 0; i < stepsNum; i++) {
         
-//        if (newMotion)
-//            break; // TODO
+        if (newMotion)
+            break;
         
         stepLeftMotor(leftMotorDirectionFactor);
         stepRightMotor(rightMotorDirectionFactor);
-        //usleep(300000);
+        usleep(30000);
         //delay(rotDelay);
     }
 }
@@ -117,14 +116,14 @@ void MotionController::go(double distanceInMeters) {
     
     int directionFactor = distanceInMeters / fabs(distanceInMeters);
     
-    for (int i = 0; i < stepsNum; i++) {
+    for (int i = 0; i < abs(stepsNum); i++) {
         
-//        if (newMotion)
-//            break; // TODO
+        if (newMotion)
+            break;
         
         stepLeftMotor(directionFactor);
         stepRightMotor(directionFactor);
-        //usleep(300000);
+        usleep(30000);
         //delay(goDelay);
     }
 }
@@ -146,16 +145,6 @@ MotionVector MotionController::convertCoordinateToMotionVector(std::vector<doubl
 }
 
 #pragma mark - Motors
-
-void MotionController::testMotion() {
-    
-    for (int i = 0; i < 100; i++) {
-        
-        stepLeftMotor(1);
-        stepRightMotor(1);
-        //delay(goDelay);
-    }
-}
 
 void MotionController::motorSetup() {
     
@@ -185,4 +174,16 @@ void MotionController::stepRightMotor(int direction) {
 void MotionController::stepMotor(int motorPin, int direction) {
     
     //direction > 0 ? digitalWrite(motorPin, HIGH) : digitalWrite(motorPin, LOW);
+}
+
+#pragma mark -
+
+void MotionController::testMotion(int stepNum, int direction) {
+    
+    for (int i = 0; i < stepNum; i++) {
+        
+        stepLeftMotor(direction);
+        stepRightMotor(direction);
+        //delay(goDelay);
+    }
 }

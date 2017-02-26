@@ -20,6 +20,8 @@ struct MotionVector {
 
 class MotionController {
     
+    std::mutex m;
+    
 public:
     
     static MotionController& Instance() {
@@ -46,9 +48,6 @@ private:
     bool motionInProcess;
     MotionVector motionVector;
     
-    double motorStepInMeters;
-    double machineTurningCircleLength;
-    
     void setup();
     void motorSetup();
     void startMovingMonitor();
@@ -57,11 +56,14 @@ private:
     void go(double distance);
     int convertRotationAngleToSteps(double angleInDegrees);
     
-    void testMotion();
+    double motorStepInMeters;
+    double machineTurningCircleLength;
     double goDelay, rotDelay;
     void stepLeftMotor(int direction);
     void stepRightMotor(int direction);
     void stepMotor(int motorPin, int direction);
+    
+    void testMotion(int stepNum, int direction);
 };
 
 #endif /* MotionController_hpp */
