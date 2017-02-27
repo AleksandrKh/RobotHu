@@ -75,12 +75,11 @@ void MotionController::move() {
     Utils::printMessage("Moving started");
     
     // TODO need trajectory approximator
-    if (motionVector.angleInDegrees >= 1) {
-
+    if (motionVector.angleInDegrees >= 1)
         rotate(motionVector.angleInDegrees);
-    }
 
-    go(motionVector.distanceInMeters);
+    if (!newMotion) // if no new motion while rotation
+        go(motionVector.distanceInMeters);
     
     motionInProcess = false;
     
