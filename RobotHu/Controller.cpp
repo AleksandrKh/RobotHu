@@ -49,12 +49,11 @@ void Controller::start() {
     PoseEstimator::Instance().didReceiveErrorMessage = &didReceiveErrorMessage;
     
     thread t1(&Controller::startPoseEstimator, this);
-    //t1.join();
-    
     thread t2(&Controller::startPoseMonitor, this);
-    //t2.join();
-    
     thread t3(&Controller::startMotionHandler, this);
+    
+    t1.join();
+    t2.join();
     t3.join();
 }
 
