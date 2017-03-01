@@ -27,9 +27,7 @@ public:
         static MotionController s;
         return s;
     }
-    
-    //void setMotionVector(MotionVector _motionVector);
-    
+        
     void shouldMove(MotionVector motionVector);
     
     static MotionVector convertCoordinateToMotionVector(std::vector<double> coordinate);

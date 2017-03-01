@@ -1,5 +1,0 @@
-cmake_minimum_required(VERSION 2.8)
-project(motorTest)
-SET(CMAKE_CXX_FLAGS "-pthread -I/usr/local/include -L/usr/local/lib -lwiringPi")
-add_executable(motorTest motorTest.cpp)
-target_link_libraries (motorTest LINK_PUBLIC MotorTest)

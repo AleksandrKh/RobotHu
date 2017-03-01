@@ -127,7 +127,6 @@
 		412084E91E6370AF002A1039 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		41C404781E6673900083F841 /* motorTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = motorTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		41C404821E6678D30083F841 /* motorTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = motorTest.cpp; sourceTree = "<group>"; };
-		41C404851E667A260083F841 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		41C404891E66BBD00083F841 /* generateMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = generateMarker.cpp; sourceTree = "<group>"; };
 		41C4048B1E66BBD90083F841 /* createBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = createBoard.cpp; sourceTree = "<group>"; };
 		41C4048D1E66BBE40083F841 /* calibrateCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = calibrateCamera.cpp; sourceTree = "<group>"; };
@@ -284,7 +283,6 @@
 		41C404811E6678C90083F841 /* motorTest */ = {
 			isa = PBXGroup;
 			children = (
-				41C404851E667A260083F841 /* CMakeLists.txt */,
 				41C404821E6678D30083F841 /* motorTest.cpp */,
 			);
 			path = motorTest;
@@ -771,6 +769,7 @@
 				41C4047D1E6673900083F841 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
