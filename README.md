@@ -1,6 +1,6 @@
 ## Raspberry Pi robot following Aruco pattern
 Hard:
-- Raspberyy Pi
+- Raspberry Pi
 - Camera
 - Two wheels on stepper motors connected with RPi GPIO
 
