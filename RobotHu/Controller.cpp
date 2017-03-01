@@ -98,8 +98,6 @@ void Controller::startPoseAnalyzer() {
     chrono::milliseconds interval(kPoseAnalyzerFreqInMilliSec);
     
     while (true) {
-
-        //list<vector<double> > lastPosesList(sharedLastPosesList);
         
         // Get average coordinate between last poses
         double avgX = 0, avgY = 0, avgZ = 0;
@@ -116,10 +114,6 @@ void Controller::startPoseAnalyzer() {
         avgX /= posesListSize;
         avgY /= posesListSize;
         avgZ /= posesListSize;
-        
-        //        function<double(double)> roundCoordinate = [](double coordinate) {
-        //            return round(coordinate * 100.0) / 100.0;
-        //        };
         
         vector<double> targetCoordinate = {avgX, avgY, avgZ};
         
