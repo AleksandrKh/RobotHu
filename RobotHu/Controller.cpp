@@ -152,9 +152,9 @@ bool Controller::filterCoordinate(vector<double> coordinate) {
     }
     
     // Check min deviation from last coordinate
-    if (fabs(fabs(lastFilteredCoordinate[0]) - fabs(coordinate[0])) > kMinDeviationInMeters ||
-        fabs(fabs(lastFilteredCoordinate[1]) - fabs(coordinate[1])) > kMinDeviationInMeters ||
-        fabs(fabs(lastFilteredCoordinate[2]) - fabs(coordinate[2])) > kMinDeviationInMeters) {
+    if (fabs(lastFilteredCoordinate[0] - coordinate[0]) > kMinDeviationInMeters ||
+        fabs(lastFilteredCoordinate[1] - coordinate[1]) > kMinDeviationInMeters ||
+        fabs(lastFilteredCoordinate[2] - coordinate[2]) > kMinDeviationInMeters) {
         
         lastFilteredCoordinate = coordinate;
         
