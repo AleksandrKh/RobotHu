@@ -28,8 +28,6 @@
 		4120848D1E620A7D002A1039 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4120848B1E620A7D002A1039 /* Controller.cpp */; };
 		412084981E622681002A1039 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 412084961E622681002A1039 /* Utils.cpp */; };
 		412084B21E633BF8002A1039 /* MotionController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 412084B01E633BF8002A1039 /* MotionController.cpp */; };
-		412084B51E63402A002A1039 /* generateMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 412084B41E63402A002A1039 /* generateMarker.cpp */; };
-		412084C51E635617002A1039 /* calibrateCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 412084B81E635600002A1039 /* calibrateCamera.cpp */; };
 		412084C61E635837002A1039 /* libopencv_video.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 412084811E61C393002A1039 /* libopencv_video.3.2.0.dylib */; };
 		412084C71E635837002A1039 /* libopencv_videoio.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 412084821E61C393002A1039 /* libopencv_videoio.3.2.0.dylib */; };
 		412084C81E635837002A1039 /* libopencv_imgcodecs.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4120847A1E61BB72002A1039 /* libopencv_imgcodecs.3.2.0.dylib */; };
@@ -46,7 +44,10 @@
 		412084E11E635C00002A1039 /* libopencv_core.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4120846D1E61B8BE002A1039 /* libopencv_core.3.2.0.dylib */; };
 		412084E21E635C00002A1039 /* libopencv_highgui.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4120846E1E61B8BE002A1039 /* libopencv_highgui.3.2.0.dylib */; };
 		412084E31E635C00002A1039 /* libopencv_imgproc.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4120846F1E61B8BE002A1039 /* libopencv_imgproc.3.2.0.dylib */; };
-		412084E41E635C34002A1039 /* createBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 412084CE1E635BC0002A1039 /* createBoard.cpp */; };
+		41C404831E6678D30083F841 /* motorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C404821E6678D30083F841 /* motorTest.cpp */; };
+		41C4048A1E66BBD00083F841 /* generateMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C404891E66BBD00083F841 /* generateMarker.cpp */; };
+		41C4048C1E66BBD90083F841 /* createBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C4048B1E66BBD90083F841 /* createBoard.cpp */; };
+		41C4048E1E66BBE40083F841 /* calibrateCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C4048D1E66BBE40083F841 /* calibrateCamera.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -86,6 +87,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		41C404761E6673900083F841 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -108,16 +118,19 @@
 		412084971E622681002A1039 /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
 		412084B01E633BF8002A1039 /* MotionController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MotionController.cpp; sourceTree = "<group>"; };
 		412084B11E633BF8002A1039 /* MotionController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MotionController.hpp; sourceTree = "<group>"; };
-		412084B41E63402A002A1039 /* generateMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = generateMarker.cpp; sourceTree = "<group>"; };
 		412084B71E635294002A1039 /* wiringPi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wiringPi.h; sourceTree = "<group>"; };
-		412084B81E635600002A1039 /* calibrateCamera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = calibrateCamera.cpp; sourceTree = "<group>"; };
 		412084BE1E635612002A1039 /* calibrateCamera */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = calibrateCamera; sourceTree = BUILT_PRODUCTS_DIR; };
-		412084CE1E635BC0002A1039 /* createBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = createBoard.cpp; sourceTree = "<group>"; };
 		412084D51E635BF1002A1039 /* createBoard */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = createBoard; sourceTree = BUILT_PRODUCTS_DIR; };
 		412084E61E635E5B002A1039 /* board8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = board8.jpg; sourceTree = "<group>"; };
 		412084E71E635E76002A1039 /* marker8-10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "marker8-10.jpg"; sourceTree = "<group>"; };
 		412084E81E6362D8002A1039 /* mac_charuco_calib.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = mac_charuco_calib.yml; sourceTree = "<group>"; };
 		412084E91E6370AF002A1039 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		41C404781E6673900083F841 /* motorTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = motorTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		41C404821E6678D30083F841 /* motorTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = motorTest.cpp; sourceTree = "<group>"; };
+		41C404851E667A260083F841 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		41C404891E66BBD00083F841 /* generateMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = generateMarker.cpp; sourceTree = "<group>"; };
+		41C4048B1E66BBD90083F841 /* createBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = createBoard.cpp; sourceTree = "<group>"; };
+		41C4048D1E66BBE40083F841 /* calibrateCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = calibrateCamera.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +194,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		41C404751E6673900083F841 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -203,6 +223,7 @@
 				412084571E61B70C002A1039 /* generateMarker */,
 				412084BE1E635612002A1039 /* calibrateCamera */,
 				412084D51E635BF1002A1039 /* createBoard */,
+				41C404781E6673900083F841 /* motorTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -241,9 +262,10 @@
 		412084B31E63402A002A1039 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				412084B41E63402A002A1039 /* generateMarker.cpp */,
-				412084B81E635600002A1039 /* calibrateCamera.cpp */,
-				412084CE1E635BC0002A1039 /* createBoard.cpp */,
+				41C404881E66BBBE0083F841 /* generateMarker */,
+				41C404871E66BBB60083F841 /* createBoard */,
+				41C404861E66BBAF0083F841 /* calibrateCamera */,
+				41C404811E6678C90083F841 /* motorTest */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -257,6 +279,39 @@
 				412084B71E635294002A1039 /* wiringPi.h */,
 			);
 			path = tmp;
+			sourceTree = "<group>";
+		};
+		41C404811E6678C90083F841 /* motorTest */ = {
+			isa = PBXGroup;
+			children = (
+				41C404851E667A260083F841 /* CMakeLists.txt */,
+				41C404821E6678D30083F841 /* motorTest.cpp */,
+			);
+			path = motorTest;
+			sourceTree = "<group>";
+		};
+		41C404861E66BBAF0083F841 /* calibrateCamera */ = {
+			isa = PBXGroup;
+			children = (
+				41C4048D1E66BBE40083F841 /* calibrateCamera.cpp */,
+			);
+			path = calibrateCamera;
+			sourceTree = "<group>";
+		};
+		41C404871E66BBB60083F841 /* createBoard */ = {
+			isa = PBXGroup;
+			children = (
+				41C4048B1E66BBD90083F841 /* createBoard.cpp */,
+			);
+			path = createBoard;
+			sourceTree = "<group>";
+		};
+		41C404881E66BBBE0083F841 /* generateMarker */ = {
+			isa = PBXGroup;
+			children = (
+				41C404891E66BBD00083F841 /* generateMarker.cpp */,
+			);
+			path = generateMarker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +385,23 @@
 			productReference = 412084D51E635BF1002A1039 /* createBoard */;
 			productType = "com.apple.product-type.tool";
 		};
+		41C404771E6673900083F841 /* motorTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41C4047E1E6673900083F841 /* Build configuration list for PBXNativeTarget "motorTest" */;
+			buildPhases = (
+				41C404741E6673900083F841 /* Sources */,
+				41C404751E6673900083F841 /* Frameworks */,
+				41C404761E6673900083F841 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = motorTest;
+			productName = motorTest;
+			productReference = 41C404781E6673900083F841 /* motorTest */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -359,6 +431,11 @@
 						DevelopmentTeam = XPL37BB5X6;
 						ProvisioningStyle = Automatic;
 					};
+					41C404771E6673900083F841 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = XPL37BB5X6;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 412084411E61B6A2002A1039 /* Build configuration list for PBXProject "RobotHu" */;
@@ -377,6 +454,7 @@
 				412084561E61B70C002A1039 /* generateMarker */,
 				412084BD1E635612002A1039 /* calibrateCamera */,
 				412084D41E635BF1002A1039 /* createBoard */,
+				41C404771E6673900083F841 /* motorTest */,
 			);
 		};
 /* End PBXProject section */
@@ -398,7 +476,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				412084B51E63402A002A1039 /* generateMarker.cpp in Sources */,
+				41C4048A1E66BBD00083F841 /* generateMarker.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,7 +484,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				412084C51E635617002A1039 /* calibrateCamera.cpp in Sources */,
+				41C4048E1E66BBE40083F841 /* calibrateCamera.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,7 +492,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				412084E41E635C34002A1039 /* createBoard.cpp in Sources */,
+				41C4048C1E66BBD90083F841 /* createBoard.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41C404741E6673900083F841 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41C404831E6678D30083F841 /* motorTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +700,22 @@
 			};
 			name = Release;
 		};
+		41C4047C1E6673900083F841 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = XPL37BB5X6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		41C4047D1E6673900083F841 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = XPL37BB5X6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -633,6 +735,7 @@
 				4120844F1E61B6A2002A1039 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4120845B1E61B70C002A1039 /* Build configuration list for PBXNativeTarget "generateMarker" */ = {
 			isa = XCConfigurationList;
@@ -641,6 +744,7 @@
 				4120845D1E61B70C002A1039 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		412084C21E635612002A1039 /* Build configuration list for PBXNativeTarget "calibrateCamera" */ = {
 			isa = XCConfigurationList;
@@ -649,12 +753,22 @@
 				412084C41E635612002A1039 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		412084D91E635BF1002A1039 /* Build configuration list for PBXNativeTarget "createBoard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				412084DA1E635BF1002A1039 /* Debug */,
 				412084DB1E635BF1002A1039 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		41C4047E1E6673900083F841 /* Build configuration list for PBXNativeTarget "motorTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41C4047C1E6673900083F841 /* Debug */,
+				41C4047D1E6673900083F841 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

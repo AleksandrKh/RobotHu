@@ -8,7 +8,6 @@
 
 #include "Controller.hpp"
 #include "PoseEstimator.hpp"
-#include "MotionController.hpp"
 #include "Utils.hpp"
 #include <iostream>
 #include <thread>
@@ -16,24 +15,16 @@
 
 using namespace std;
 
-#define kPoseMonitorFreqInmSec 500
 #define kPosesListSize 3
-#define kMotionHandlerDelayInSec 3
-#define kMotionHandlerFreqInmSec 2000
-#define kMinDeviationInMeters 0.05
+#define kPoseListUpdateDelayInSec 0.5
 
+#define kPoseAnalyzerFreqInMilliSec 100
+
+#define kMinDeviationInMeters 0.05
 #define kHoldingPoseDistanceInMeters 1.0
 #define kHoldingPoseIgnoringAreaPercent 10.0
 
-Controller::Controller() {
-    
-    currentPose = {0, 0, 0};
-    lastFilteredCoordinate = {0, 0, 0};
-    
-    double calmnessAreaInMeters = kHoldingPoseDistanceInMeters / kHoldingPoseIgnoringAreaPercent;
-    upperBorderOfCalmnessArea = kHoldingPoseDistanceInMeters + calmnessAreaInMeters;
-    lowerBorderOfCalmnessArea = kHoldingPoseDistanceInMeters - calmnessAreaInMeters;
-}
+#define kMotionMonitorFreqInSec 3
 
 void Controller::start() {
 
@@ -49,13 +40,17 @@ void Controller::start() {
     PoseEstimator::Instance().didReceiveErrorMessage = &didReceiveErrorMessage;
     
     thread t1(&Controller::startPoseEstimator, this);
-    thread t2(&Controller::startPoseMonitor, this);
-    thread t3(&Controller::startMotionHandler, this);
+    thread t2(&Controller::startPoseAnalyzer, this);
+    thread t3(&Controller::startMotionMonitor, this);
     
     t1.join();
     t2.join();
     t3.join();
 }
+
+#pragma mark - PoseEstimator
+
+// Analyzes pose and returns delegate
 
 void Controller::startPoseEstimator() {
     
@@ -64,49 +59,59 @@ void Controller::startPoseEstimator() {
     PoseEstimator::Instance().start();
 }
 
-void Controller::startPoseMonitor() {
+#pragma mark - PoseEstimator delegates
+
+void Controller::didObtainPoseDelegate(vector<double> pose) {
     
-    Utils::printMessage("Start pose monitor");
+    //Utils::printCoordinate(pose);
     
-    chrono::milliseconds interval(kPoseMonitorFreqInmSec);
+    time_t now = time(0);
     
-    while (true) {
+    if (sharedLastPosesList.empty()) {
         
-        if (lastPosesList.size() == kPosesListSize)
-            lastPosesList.pop_front();
+        sharedLastPosesList.push_back(pose);
+        lastAcceptedPoseTime = now;
+        return;
+    }
+    else if (difftime(now, lastAcceptedPoseTime) > kPoseListUpdateDelayInSec) {
+    
+        if (sharedLastPosesList.size() == kPosesListSize)
+            sharedLastPosesList.pop_front();
         
-        lastPosesList.push_back(currentPose);
-        
-        //Utils::printCoordinate(currentPose);
-        
-        this_thread::sleep_for(interval);
+        sharedLastPosesList.push_back(pose);
     }
 }
 
-void Controller::startMotionHandler() {
+void Controller::didReceiveErrorMessage(string errorMessage) {
     
-    chrono::seconds delayInterval(kMotionHandlerDelayInSec);
-    this_thread::sleep_for(delayInterval);
+    Utils::printError(errorMessage);
+}
 
-    Utils::printMessage("Start motion handler");
+#pragma mark - Pose analyzer
 
-    chrono::milliseconds interval(kMotionHandlerFreqInmSec);
+// Analyzing and filtration "dirty" pose data from OpenCV
+
+void Controller::startPoseAnalyzer() {
+
+    Utils::printMessage("Start pose analyzer");
+
+    chrono::milliseconds interval(kPoseAnalyzerFreqInMilliSec);
     
     while (true) {
 
-        list<vector<double> > copyLastPosesList(lastPosesList);
+        //list<vector<double> > lastPosesList(sharedLastPosesList);
         
         // Get average coordinate between last poses
-        double avgX, avgY, avgZ = 0;
+        double avgX = 0, avgY = 0, avgZ = 0;
         
-        for (list<vector<double> >::iterator it = copyLastPosesList.begin(); it != copyLastPosesList.end(); ++it) {
+        for (auto const& i : sharedLastPosesList) {
             
-            avgX += (*it)[0];
-            avgY += (*it)[1];
-            avgZ += (*it)[2];
+            avgX += i[0];
+            avgY += i[1];
+            avgZ += i[2];
         }
         
-        double posesListSize = (double)copyLastPosesList.size();
+        double posesListSize = (double)sharedLastPosesList.size();
         
         avgX /= posesListSize;
         avgY /= posesListSize;
@@ -121,28 +126,24 @@ void Controller::startMotionHandler() {
         // Filter coordinate
         if (filterCoordinate(targetCoordinate)) {
             
-            //Utils::printCoordinate(targetCoordinate);
-            
-            bool shouldMove = false;
+            bool shouldUpdate = false;
             
             // Check if new coordinate is outside of "calmness area" - area around holding pose where we are keeping stillness
-            
-            if (targetCoordinate[2] > upperBorderOfCalmnessArea ||
-                targetCoordinate[2] < lowerBorderOfCalmnessArea) {
+    
+            double calmnessAreaInMeters = kHoldingPoseDistanceInMeters / kHoldingPoseIgnoringAreaPercent;
+
+            if (targetCoordinate[2] > kHoldingPoseDistanceInMeters + calmnessAreaInMeters ||
+                targetCoordinate[2] < kHoldingPoseDistanceInMeters - calmnessAreaInMeters) {
                 
                 targetCoordinate[2] -= kHoldingPoseDistanceInMeters;
-                shouldMove = true;
+                shouldUpdate = true;
             }
             
-            if (shouldMove) {
+            if (shouldUpdate) {
                 
-                MotionVector motionVector = MotionController::convertCoordinateToMotionVector(targetCoordinate);
+                sharedMotionVector = MotionController::convertCoordinateToMotionVector(targetCoordinate);
         
-                Utils::printMotionVector(motionVector);
-                
-                MotionController::Instance().setMotionVector(motionVector);
-                
-                cout << "lol" << endl;
+                Utils::printMotionVector(sharedMotionVector);
             }
         }
         
@@ -150,21 +151,11 @@ void Controller::startMotionHandler() {
     }
 }
 
-#pragma mark - PoseEstimator delegates
-
-void Controller::didObtainPoseDelegate(vector<double> pose) {
-        
-    currentPose = pose;
-}
-
-void Controller::didReceiveErrorMessage(string errorMessage) {
-    
-    Utils::printError(errorMessage);
-}
-
-#pragma mark -
-
 bool Controller::filterCoordinate(vector<double> coordinate) {
+    
+    if (lastFilteredCoordinate.empty()) {
+        lastFilteredCoordinate = {0, 0, 0};
+    }
     
     // Check min deviation from last coordinate
     if (fabs(fabs(lastFilteredCoordinate[0]) - fabs(coordinate[0])) > kMinDeviationInMeters ||
@@ -177,4 +168,34 @@ bool Controller::filterCoordinate(vector<double> coordinate) {
     }
     
     return false;
+}
+
+#pragma mark - Motion monitor
+
+void Controller::startMotionMonitor() {
+    
+    Utils::printMessage("Start motion monitor");
+    
+    chrono::seconds interval(kMotionMonitorFreqInSec);
+    
+    while (true) {
+        
+        if (fabs(sharedMotionVector.angleInDegrees) > __DBL_EPSILON__ && fabs(sharedMotionVector.distanceInMeters) > __DBL_EPSILON__) {
+            
+            if (!MotionController::compareMotionVectors(lastMotionVector, sharedMotionVector)) {
+                
+                lastMotionVector = sharedMotionVector;
+                
+                thread t(&Controller::move, this);
+                t.detach();
+            }
+        }
+        
+        this_thread::sleep_for(interval);
+    }
+}
+
+void Controller::move() {
+    
+    MotionController::Instance().shouldMove(sharedMotionVector);
 }

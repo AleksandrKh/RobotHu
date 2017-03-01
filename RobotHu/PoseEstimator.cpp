@@ -79,7 +79,7 @@ void PoseEstimator::startEstimator() {
                     continue;
                 
                 // Calc camera pose
-                double x, y, z;
+                double x = 0, y = 0, z = 0;
                 
 //                Mat R;
 //                Rodrigues(rvecs[i], R);

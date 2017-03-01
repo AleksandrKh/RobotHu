@@ -23,6 +23,7 @@ namespace {
     
     const char* about =
     "Calibration using a ChArUco board\n"
+    "Example command: ./calibrateCamera -d=8 -h=6 --ml=0.022 --sc --sl=0.033 -w=8 \"charuco_calib.yml\""
     "  To capture a frame for calibration, press 'c',\n"
     "  If input comes from video, press any key for next frame\n"
     "  To finish capturing, press 'ESC' key and calibration starts.\n";

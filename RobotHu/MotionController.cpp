@@ -35,55 +35,55 @@ using namespace std;
 
 void MotionController::setup() {
 
-    newMotion = false;
-    motionInProcess = false;
+    sharedNewMotion = false;
+    sharedMotionInProcess = false;
     
     motorSetup();
-    
-    thread t1(&MotionController::startMovingMonitor, this);
-    t1.detach();
 }
 
-void MotionController::startMovingMonitor() {
+void MotionController::motorSetup() {
     
-    chrono::milliseconds interval(kMovingMonitorFreqInmSec);
+    motorStepInMeters = (2 * M_PI * kWheelsRadiusInMeters / kMotorStepsPerRevolution) * kMotorStepInMetersCalibFactor;
+    
+    machineTurningCircleLength = M_PI * kDistanceBetweenWheelsInMeters;
+    
+    goDelay = motorStepInMeters / kGoSpeedInMeterPerSec;
+    rotDelay = motorStepInMeters / kRotSpeedInMeterPerSec;
+}
+
+void MotionController::shouldMove(MotionVector motionVector) {
+    
+    sharedNewMotion = true;
     
     while (true) {
         
-        if (newMotion && !motionInProcess) {
+        if (sharedNewMotion && !sharedMotionInProcess) {
             
-            newMotion = false;
-            move();
+            sharedNewMotion = false;
+            move(motionVector);
+            break;
         }
-        
-        this_thread::sleep_for(interval);
     }
 }
 
-void MotionController::setMotionVector(MotionVector _motionVector) {
-    
-    motionVector = _motionVector;
-    newMotion = true;
-}
-
-void MotionController::move() {
+void MotionController::move(MotionVector motionVector) {
     
     m.lock();
     
-    motionInProcess = true;
+    sharedMotionInProcess = true;
     
     Utils::printMessage("Moving started");
     
-    // TODO need trajectory approximator
+    // TODO need trajectory approximator?
     if (motionVector.angleInDegrees >= 1)
         rotate(motionVector.angleInDegrees);
 
-    if (!newMotion) // if no new motion while rotation
+    if (!sharedNewMotion) // if no new motion while rotation being processed
         go(motionVector.distanceInMeters);
     
-    motionInProcess = false;
-    
     Utils::printMessage("Moving finished");
+
+    sharedMotionInProcess = false;
     
     m.unlock();
 }
@@ -99,13 +99,13 @@ void MotionController::rotate(double angleInDegrees) {
     
     for (int i = 0; i < stepsNum; i++) {
         
-        if (newMotion)
+        if (sharedNewMotion)
             break;
         
         stepLeftMotor(leftMotorDirectionFactor);
         stepRightMotor(rightMotorDirectionFactor);
         usleep(30000);
-        //delay(rotDelay);
+        //usleep(rotDelay);
     }
 }
 
@@ -117,15 +117,34 @@ void MotionController::go(double distanceInMeters) {
     
     for (int i = 0; i < abs(stepsNum); i++) {
         
-        if (newMotion)
+        if (sharedNewMotion)
             break;
         
         stepLeftMotor(directionFactor);
         stepRightMotor(directionFactor);
         usleep(30000);
-        //delay(goDelay);
+        //usleep(goDelay);
     }
 }
+
+#pragma mark - Motors
+
+void MotionController::stepLeftMotor(int direction) {
+    
+    stepMotor(kLeftMotorPin1, direction);
+}
+
+void MotionController::stepRightMotor(int direction) {
+    
+    stepMotor(kRightMotorPin1, direction);
+}
+
+void MotionController::stepMotor(int motorPin, int direction) {
+    
+    //direction > 0 ? digitalWrite(motorPin, HIGH) : digitalWrite(motorPin, LOW); // TODO
+}
+
+#pragma mark - Helpers
 
 MotionVector MotionController::convertCoordinateToMotionVector(std::vector<double> coordinate) {
     
@@ -143,46 +162,7 @@ MotionVector MotionController::convertCoordinateToMotionVector(std::vector<doubl
     return {angle, distance};
 }
 
-#pragma mark - Motors
-
-void MotionController::motorSetup() {
+bool MotionController::compareMotionVectors(MotionVector mv1, MotionVector mv2) {
     
-    motorStepInMeters = 2 * M_PI * kWheelsRadiusInMeters / kMotorStepsPerRevolution;
-    motorStepInMeters *= kMotorStepInMetersCalibFactor;
-    
-    machineTurningCircleLength = M_PI * kDistanceBetweenWheelsInMeters;
-    
-    //wiringPiSetup ();
-    //pinMode(kLeftMotorPin1, OUTPUT);
-    //pinMode(kRightMotorPin1, OUTPUT);
-    
-    goDelay = motorStepInMeters / kGoSpeedInMeterPerSec;
-    rotDelay = motorStepInMeters / kRotSpeedInMeterPerSec;
-}
-
-void MotionController::stepLeftMotor(int direction) {
-    
-    stepMotor(kLeftMotorPin1, direction);
-}
-
-void MotionController::stepRightMotor(int direction) {
-    
-    stepMotor(kRightMotorPin1, direction);
-}
-
-void MotionController::stepMotor(int motorPin, int direction) {
-    
-    //direction > 0 ? digitalWrite(motorPin, HIGH) : digitalWrite(motorPin, LOW);
-}
-
-#pragma mark -
-
-void MotionController::testMotion(int stepNum, int direction) {
-    
-    for (int i = 0; i < stepNum; i++) {
-        
-        stepLeftMotor(direction);
-        stepRightMotor(direction);
-        //delay(goDelay);
-    }
+    return mv1.angleInDegrees == mv2.angleInDegrees && mv1.distanceInMeters == mv2.distanceInMeters;
 }

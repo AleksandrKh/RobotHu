@@ -19,9 +19,7 @@ struct MotionVector {
 };
 
 class MotionController {
-    
-    std::mutex m;
-    
+        
 public:
     
     static MotionController& Instance() {
@@ -30,9 +28,12 @@ public:
         return s;
     }
     
-    void setMotionVector(MotionVector _motionVector);
+    //void setMotionVector(MotionVector _motionVector);
+    
+    void shouldMove(MotionVector motionVector);
     
     static MotionVector convertCoordinateToMotionVector(std::vector<double> coordinate);
+    static bool compareMotionVectors(MotionVector mv1, MotionVector mv2);
     
 private:
     
@@ -44,26 +45,29 @@ private:
     MotionController(MotionController const&) = delete;
     MotionController& operator = (MotionController const&) = delete;
     
-    bool newMotion;
-    bool motionInProcess;
+    bool sharedNewMotion;
+    bool sharedMotionInProcess;
     MotionVector motionVector;
     
     void setup();
     void motorSetup();
-    void startMovingMonitor();
-    void move();
+    
+    void move(MotionVector motionVector);
+    
     void rotate(double angleInDegrees);
     void go(double distance);
+    
     int convertRotationAngleToSteps(double angleInDegrees);
     
     double motorStepInMeters;
     double machineTurningCircleLength;
     double goDelay, rotDelay;
+    
     void stepLeftMotor(int direction);
     void stepRightMotor(int direction);
     void stepMotor(int motorPin, int direction);
     
-    void testMotion(int stepNum, int direction);
+    std::mutex m;
 };
 
 #endif /* MotionController_hpp */

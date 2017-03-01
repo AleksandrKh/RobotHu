@@ -12,25 +12,28 @@
 #include <vector>
 #include <functional>
 #include <list>
+#include <mutex>
+#include "MotionController.hpp"
 
 class Controller {
 
 public:
     
-    Controller();
+    Controller() {};
     
     void start();
     
 private:
     
-    std::vector<double> currentPose;
-    std::list<std::vector<double> > lastPosesList;
+    MotionVector sharedMotionVector, lastMotionVector;
+    std::list<std::vector<double> > sharedLastPosesList;
+
+    time_t lastAcceptedPoseTime;
     std::vector<double> lastFilteredCoordinate;
-    double upperBorderOfCalmnessArea, lowerBorderOfCalmnessArea;
 
     void startPoseEstimator();
-    void startPoseMonitor();
-    void startMotionHandler();
+    void startPoseAnalyzer();
+    void startMotionMonitor();
     
     // Incoming delegates
     void didObtainPoseDelegate(std::vector<double> pose);
@@ -38,6 +41,10 @@ private:
     
     // Filters
     bool filterCoordinate(std::vector<double> coordinate);
+    
+    void move();
+    
+    std::mutex m;
 };
 
 #endif /* Controller_hpp */
