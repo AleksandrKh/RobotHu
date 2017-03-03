@@ -25,7 +25,6 @@ static bool readCameraParameters(string filename, Mat &camMatrix, Mat &distCoeff
 #define kMarkerDictionaryID 8
 #define kMarkerID 10
 #define kMarkerLengthInMeters 0.1
-#define kWaitTimeInmS 500
 
 void PoseEstimator::start() {
         

@@ -11,7 +11,7 @@
 #include "Utils.hpp"
 #include <thread>
 #include <iostream>
-#include "wiringPi.h"
+#include "Motor.hpp"
 
 #include <unistd.h>
 
@@ -20,8 +20,7 @@ using namespace std;
 #define xSideFactor 1 // 1 - Left side of the camera under zero, right is over zero, -1 - vice versa
 #define ySideFactor 1 // 1 - Upper side of the camera under zero, lower is over zero, -1 - vice versa
 
-#define kMovingMonitorFreqInmSec 100
-#define kMotorStepsPerRevolution 200
+#define kMotorStepsPerRevolution k17HS4401MotorStepsPerRevolution
 #define kWheelsRadiusInMeters 0.05
 #define kDistanceBetweenWheelsInMeters 0.15
 #define kMinDistanceForRotationInMeters 2.0
