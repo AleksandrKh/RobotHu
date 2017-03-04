@@ -6,10 +6,12 @@
 //  Copyright © 2017 AKTech. All rights reserved.
 //
 
-// Using at OS start
+// Using at OS start to reset motors
 
 // Compile: g++ resetMotors.cpp -o ../../Builds/resetMotors -lbcm2835
-// Add to autostart: sudo ln -s resetMotors /etc/init.d/
+// To run at start add: /path_to/resetMotors -m1p <pin_num> -m2p <pin_num> &
+// to /etc/rc.local
+
 
 #include <iostream>
 #include "bcm2835.h"
