@@ -22,7 +22,7 @@ using namespace std;
 
 #define kMinDeviationInMeters 0.05
 #define kHoldingPoseDistanceInMeters 1.0
-#define kHoldingPoseIgnoringAreaPercent 10.0
+#define kCalmnessAreaInPercent 10.0
 
 #define kMotionMonitorFreqInSec 3
 
@@ -124,7 +124,7 @@ void Controller::startPoseAnalyzer() {
             
             // Check if new coordinate is outside of "calmness area" - area around holding pose where we are keeping stillness
     
-            double calmnessAreaInMeters = kHoldingPoseDistanceInMeters / kHoldingPoseIgnoringAreaPercent;
+            double calmnessAreaInMeters = kHoldingPoseDistanceInMeters / kCalmnessAreaInPercent;
 
             if (targetCoordinate[2] > kHoldingPoseDistanceInMeters + calmnessAreaInMeters ||
                 targetCoordinate[2] < kHoldingPoseDistanceInMeters - calmnessAreaInMeters) {

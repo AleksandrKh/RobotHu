@@ -13,6 +13,8 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
+    // TODO make test mode in controller to start with test angle and distance
+    
     Controller controller;
     
     controller.start();

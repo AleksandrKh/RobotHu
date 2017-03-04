@@ -369,8 +369,8 @@
 		41C97EE61E6A3FD70039FB5E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				41C97EE71E6A3FD70039FB5E /* Motor.cpp */,
 				41C97EE81E6A3FD70039FB5E /* Motor.hpp */,
+				41C97EE71E6A3FD70039FB5E /* Motor.cpp */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
