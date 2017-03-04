@@ -27,11 +27,13 @@ using namespace std;
 
 #define kSteps 200
 
+// TODO add args parser
+
 int main(int argc, const char * argv[]) {
     
     if (!bcm2835_init())
         return 1;
-    
+        
     bcm2835_gpio_fsel(kMotorLeftEnablePin, BCM2835_GPIO_FSEL_OUTP);
     bcm2835_gpio_fsel(kMotorLeftStepPin, BCM2835_GPIO_FSEL_OUTP);
     bcm2835_gpio_fsel(kMotorLeftDirectionPin, BCM2835_GPIO_FSEL_OUTP);
@@ -54,6 +56,8 @@ int main(int argc, const char * argv[]) {
     
     usleep(1000);
     
+    // Forward
+    
     for (int i = 0; i < kSteps; i++) {
         
         // cout << "step: " << i + 1 << endl;
@@ -65,13 +69,13 @@ int main(int argc, const char * argv[]) {
         bcm2835_gpio_write(kMotorRightStepPin, LOW);
         usleep(10000);
     }
-    
-    usleep(10000);
-    
+        
     bcm2835_gpio_write(kMotorLeftDirectionPin, kMotorLeftDirection < 0 ? LOW : HIGH);
     bcm2835_gpio_write(kMotorRightDirectionPin, kMotorRightDirection > 0 ? LOW : HIGH);
     
     usleep(1000);
+    
+    // Backward
     
     for (int i = 0; i < kSteps; i++) {
         

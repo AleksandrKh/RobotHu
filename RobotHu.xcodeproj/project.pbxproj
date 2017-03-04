@@ -43,13 +43,23 @@
 		412084E11E635C00002A1039 /* libopencv_core.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4120846D1E61B8BE002A1039 /* libopencv_core.3.2.0.dylib */; };
 		412084E21E635C00002A1039 /* libopencv_highgui.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4120846E1E61B8BE002A1039 /* libopencv_highgui.3.2.0.dylib */; };
 		412084E31E635C00002A1039 /* libopencv_imgproc.3.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4120846F1E61B8BE002A1039 /* libopencv_imgproc.3.2.0.dylib */; };
-		414F718E1E6A1BF600235D31 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 414F718C1E6A1BF600235D31 /* Utils.cpp */; };
-		414F718F1E6A1BF600235D31 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 414F718C1E6A1BF600235D31 /* Utils.cpp */; };
 		414F719D1E6A1CD700235D31 /* calibrateCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 414F71961E6A1CD100235D31 /* calibrateCamera.cpp */; };
 		414F719E1E6A1CDB00235D31 /* createBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 414F71981E6A1CD100235D31 /* createBoard.cpp */; };
 		414F719F1E6A1CDE00235D31 /* generateMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 414F719A1E6A1CD100235D31 /* generateMarker.cpp */; };
 		414F71A01E6A1CE100235D31 /* motorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 414F719C1E6A1CD100235D31 /* motorTest.cpp */; };
-		414F71AB1E6A314200235D31 /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 414F71A91E6A314200235D31 /* Motor.cpp */; };
+		41C97EAD1E6A353E0039FB5E /* resetMotors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EAB1E6A353E0039FB5E /* resetMotors.cpp */; };
+		41C97EBF1E6A39000039FB5E /* InputParser.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EB91E6A39000039FB5E /* InputParser.hpp */; };
+		41C97EC01E6A39000039FB5E /* InputParser.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EB91E6A39000039FB5E /* InputParser.hpp */; };
+		41C97EC11E6A39000039FB5E /* InputParser.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EB91E6A39000039FB5E /* InputParser.hpp */; };
+		41C97EC21E6A39000039FB5E /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBA1E6A39000039FB5E /* Motor.cpp */; };
+		41C97EC31E6A39000039FB5E /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBA1E6A39000039FB5E /* Motor.cpp */; };
+		41C97EC41E6A39000039FB5E /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBA1E6A39000039FB5E /* Motor.cpp */; };
+		41C97EC81E6A39000039FB5E /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBD1E6A39000039FB5E /* Utils.cpp */; };
+		41C97EC91E6A39000039FB5E /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBD1E6A39000039FB5E /* Utils.cpp */; };
+		41C97ECA1E6A39000039FB5E /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBD1E6A39000039FB5E /* Utils.cpp */; };
+		41C97ED21E6A3A310039FB5E /* InputParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED11E6A3A310039FB5E /* InputParser.cpp */; };
+		41C97ED31E6A3A310039FB5E /* InputParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED11E6A3A310039FB5E /* InputParser.cpp */; };
+		41C97ED41E6A3A310039FB5E /* InputParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED11E6A3A310039FB5E /* InputParser.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,6 +108,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		41C97EA11E6A35060039FB5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -127,15 +146,19 @@
 		4120BC621E68CB3F004CA2E7 /* motor_connection_scheme.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = motor_connection_scheme.png; sourceTree = "<group>"; };
 		414F71891E6A15C100235D31 /* rpi3_pins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rpi3_pins.png; sourceTree = "<group>"; };
 		414F718A1E6A15E100235D31 /* bcm2835.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bcm2835.h; sourceTree = "<group>"; };
-		414F718C1E6A1BF600235D31 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
-		414F718D1E6A1BF600235D31 /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
 		414F71961E6A1CD100235D31 /* calibrateCamera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = calibrateCamera.cpp; sourceTree = "<group>"; };
 		414F71981E6A1CD100235D31 /* createBoard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = createBoard.cpp; sourceTree = "<group>"; };
 		414F719A1E6A1CD100235D31 /* generateMarker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = generateMarker.cpp; sourceTree = "<group>"; };
 		414F719C1E6A1CD100235D31 /* motorTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = motorTest.cpp; sourceTree = "<group>"; };
-		414F71A91E6A314200235D31 /* Motor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Motor.cpp; sourceTree = "<group>"; };
-		414F71AA1E6A314200235D31 /* Motor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Motor.hpp; sourceTree = "<group>"; };
 		41C404781E6673900083F841 /* motorTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = motorTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		41C97EA31E6A35060039FB5E /* resetMotors */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = resetMotors; sourceTree = BUILT_PRODUCTS_DIR; };
+		41C97EAB1E6A353E0039FB5E /* resetMotors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = resetMotors.cpp; sourceTree = "<group>"; };
+		41C97EB91E6A39000039FB5E /* InputParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputParser.hpp; sourceTree = "<group>"; };
+		41C97EBA1E6A39000039FB5E /* Motor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Motor.cpp; sourceTree = "<group>"; };
+		41C97EBB1E6A39000039FB5E /* Motor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Motor.hpp; sourceTree = "<group>"; };
+		41C97EBD1E6A39000039FB5E /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
+		41C97EBE1E6A39000039FB5E /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
+		41C97ED11E6A3A310039FB5E /* InputParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputParser.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +229,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		41C97EA01E6A35060039FB5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -215,6 +245,7 @@
 				412084E91E6370AF002A1039 /* README.md */,
 				4120846A1E61B8BE002A1039 /* OpenCV */,
 				412084481E61B6A2002A1039 /* RobotHu */,
+				41C97EB81E6A39000039FB5E /* Utils */,
 				414F71941E6A1CD100235D31 /* Tools */,
 				412084B61E635282002A1039 /* tmp */,
 				412084471E61B6A2002A1039 /* Products */,
@@ -229,6 +260,7 @@
 				412084BE1E635612002A1039 /* calibrateCamera */,
 				412084D51E635BF1002A1039 /* createBoard */,
 				41C404781E6673900083F841 /* motorTest */,
+				41C97EA31E6A35060039FB5E /* resetMotors */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -243,7 +275,6 @@
 				4120847D1E61C15E002A1039 /* PoseEstimator.cpp */,
 				412084B11E633BF8002A1039 /* MotionController.hpp */,
 				412084B01E633BF8002A1039 /* MotionController.cpp */,
-				414F718B1E6A1BE600235D31 /* Utils */,
 			);
 			path = RobotHu;
 			sourceTree = "<group>";
@@ -276,17 +307,6 @@
 			path = tmp;
 			sourceTree = "<group>";
 		};
-		414F718B1E6A1BE600235D31 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				414F718C1E6A1BF600235D31 /* Utils.cpp */,
-				414F718D1E6A1BF600235D31 /* Utils.hpp */,
-				414F71AA1E6A314200235D31 /* Motor.hpp */,
-				414F71A91E6A314200235D31 /* Motor.cpp */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
 		414F71941E6A1CD100235D31 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
@@ -294,6 +314,7 @@
 				414F71971E6A1CD100235D31 /* createBoard */,
 				414F71991E6A1CD100235D31 /* generateMarker */,
 				414F719B1E6A1CD100235D31 /* motorTest */,
+				41C97EAA1E6A352E0039FB5E /* resetMotors */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -328,6 +349,28 @@
 				414F719C1E6A1CD100235D31 /* motorTest.cpp */,
 			);
 			path = motorTest;
+			sourceTree = "<group>";
+		};
+		41C97EAA1E6A352E0039FB5E /* resetMotors */ = {
+			isa = PBXGroup;
+			children = (
+				41C97EAB1E6A353E0039FB5E /* resetMotors.cpp */,
+			);
+			path = resetMotors;
+			sourceTree = "<group>";
+		};
+		41C97EB81E6A39000039FB5E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				41C97EB91E6A39000039FB5E /* InputParser.hpp */,
+				41C97ED11E6A3A310039FB5E /* InputParser.cpp */,
+				41C97EBA1E6A39000039FB5E /* Motor.cpp */,
+				41C97EBB1E6A39000039FB5E /* Motor.hpp */,
+				41C97EBD1E6A39000039FB5E /* Utils.cpp */,
+				41C97EBE1E6A39000039FB5E /* Utils.hpp */,
+			);
+			name = Utils;
+			path = RobotHu/Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -418,6 +461,23 @@
 			productReference = 41C404781E6673900083F841 /* motorTest */;
 			productType = "com.apple.product-type.tool";
 		};
+		41C97EA21E6A35060039FB5E /* resetMotors */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41C97EA91E6A35060039FB5E /* Build configuration list for PBXNativeTarget "resetMotors" */;
+			buildPhases = (
+				41C97E9F1E6A35060039FB5E /* Sources */,
+				41C97EA01E6A35060039FB5E /* Frameworks */,
+				41C97EA11E6A35060039FB5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = resetMotors;
+			productName = resetMotors;
+			productReference = 41C97EA31E6A35060039FB5E /* resetMotors */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -452,6 +512,11 @@
 						DevelopmentTeam = XPL37BB5X6;
 						ProvisioningStyle = Automatic;
 					};
+					41C97EA21E6A35060039FB5E = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = XPL37BB5X6;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 412084411E61B6A2002A1039 /* Build configuration list for PBXProject "RobotHu" */;
@@ -471,6 +536,7 @@
 				412084BD1E635612002A1039 /* calibrateCamera */,
 				412084D41E635BF1002A1039 /* createBoard */,
 				41C404771E6673900083F841 /* motorTest */,
+				41C97EA21E6A35060039FB5E /* resetMotors */,
 			);
 		};
 /* End PBXProject section */
@@ -483,9 +549,11 @@
 				4120844A1E61B6A2002A1039 /* main.cpp in Sources */,
 				4120848D1E620A7D002A1039 /* Controller.cpp in Sources */,
 				4120847F1E61C15E002A1039 /* PoseEstimator.cpp in Sources */,
-				414F71AB1E6A314200235D31 /* Motor.cpp in Sources */,
-				414F718E1E6A1BF600235D31 /* Utils.cpp in Sources */,
+				41C97EC81E6A39000039FB5E /* Utils.cpp in Sources */,
+				41C97EC21E6A39000039FB5E /* Motor.cpp in Sources */,
+				41C97ED21E6A3A310039FB5E /* InputParser.cpp in Sources */,
 				412084B21E633BF8002A1039 /* MotionController.cpp in Sources */,
+				41C97EBF1E6A39000039FB5E /* InputParser.hpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,8 +585,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				414F718F1E6A1BF600235D31 /* Utils.cpp in Sources */,
+				41C97EC31E6A39000039FB5E /* Motor.cpp in Sources */,
 				414F71A01E6A1CE100235D31 /* motorTest.cpp in Sources */,
+				41C97EC91E6A39000039FB5E /* Utils.cpp in Sources */,
+				41C97EC01E6A39000039FB5E /* InputParser.hpp in Sources */,
+				41C97ED31E6A3A310039FB5E /* InputParser.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41C97E9F1E6A35060039FB5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41C97ED41E6A3A310039FB5E /* InputParser.cpp in Sources */,
+				41C97ECA1E6A39000039FB5E /* Utils.cpp in Sources */,
+				41C97EC11E6A39000039FB5E /* InputParser.hpp in Sources */,
+				41C97EAD1E6A353E0039FB5E /* resetMotors.cpp in Sources */,
+				41C97EC41E6A39000039FB5E /* Motor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -734,6 +817,24 @@
 			};
 			name = Release;
 		};
+		41C97EA71E6A35060039FB5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEVELOPMENT_TEAM = XPL37BB5X6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		41C97EA81E6A35060039FB5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEVELOPMENT_TEAM = XPL37BB5X6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -787,6 +888,15 @@
 			buildConfigurations = (
 				41C4047C1E6673900083F841 /* Debug */,
 				41C4047D1E6673900083F841 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		41C97EA91E6A35060039FB5E /* Build configuration list for PBXNativeTarget "resetMotors" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41C97EA71E6A35060039FB5E /* Debug */,
+				41C97EA81E6A35060039FB5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
