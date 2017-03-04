@@ -9,7 +9,7 @@
 #include "InputParser.hpp"
 #include <iostream>
 
-InputParser::InputParser (int argc, const char * argv[]) {
+InputParser::InputParser(int argc, const char * argv[]) {
     
     for (int i = 1; i < argc; ++i)
         this->tokens.push_back(std::string(argv[i]));

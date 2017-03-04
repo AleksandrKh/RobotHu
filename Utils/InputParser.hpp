@@ -15,7 +15,7 @@ class InputParser {
     
 public:
     
-    InputParser (int argc, const char * argv[]);
+    InputParser(int argc, const char * argv[]);
     
     const std::string& getCmdOption(const std::string &option);
     bool cmdOptionExists(const std::string &option);
