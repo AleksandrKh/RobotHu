@@ -11,7 +11,7 @@
 
 #include <string>
 #include <vector>
-#include "MotionController.hpp"
+#include "../RobotHu/MotionController.hpp"
 
 #define DEGREES_TO_RADIANS(degrees) ((M_PI * degrees)/180.0f)
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0f / M_PI))

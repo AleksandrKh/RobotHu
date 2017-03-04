@@ -1,6 +1,7 @@
 OpenCV/
 Pods/
 .DS_Store
+.AppleDouble
 Podfile.lock
 
 # Xcode
