@@ -11,7 +11,7 @@
 
 #include <vector>
 #include <mutex>
-#include "Motor.hpp"
+#include "Utils/Motor.hpp"
 
 struct MotionVector {
     

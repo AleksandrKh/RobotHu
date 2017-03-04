@@ -7,8 +7,7 @@
 //
 
 #include "MotionController.hpp"
-#include "Motor.hpp"
-#include "Utils.hpp"
+#include "../Utils/Utils.hpp"
 #include <cmath>
 #include <thread>
 #include <iostream>
