@@ -38,6 +38,7 @@ public:
     }
 
 private:
+    
     std::vector <std::string> tokens;
     std::string empty_string;
 };

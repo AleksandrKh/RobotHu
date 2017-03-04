@@ -9,6 +9,7 @@
 // Using at OS start
 
 // Compile: g++ resetMotors.cpp -o ../../Builds/resetMotors -lbcm2835
+// Add to autostart: ln -s resetMotors /etc/init.d/
 
 #include <iostream>
 #include "bcm2835.h"
@@ -21,7 +22,7 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    string exampleCommand = "Example command: ./resetMotors -m1p 16 10 -m2p 13\n"
+    string exampleCommand = "Example command: ./resetMotors -m1p 16 -m2p 13\n"
     "-m1p - motor 1 enable pin";
     
     if (argc < 3) {
@@ -46,9 +47,7 @@ int main(int argc, const char * argv[]) {
 
         return 1;
     }
-    
-    cout << motor1EnablePin << " " << motor2EnablePin << endl;
-    
+        
     if (!bcm2835_init())
         return 1;
     
