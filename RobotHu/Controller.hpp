@@ -23,8 +23,6 @@ public:
     
     void start();
     
-#pragma mark - Test
-    
     void startTest();
     
 private:
