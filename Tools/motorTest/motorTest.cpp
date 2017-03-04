@@ -116,7 +116,7 @@ int main(int argc, const char *argv[]) {
     bcm2835_gpio_write(motorLeftDirectionPin, motorLeftDirection < 0 ? LOW : HIGH);
     bcm2835_gpio_write(motorRightDirectionPin, motorRightDirection > 0 ? LOW : HIGH);
     
-    usleep(1000);
+    usleep(10000);
     
     // Backward
     
