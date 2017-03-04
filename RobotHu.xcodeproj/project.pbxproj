@@ -150,7 +150,7 @@
 		41C97EDC1E6A3F6A0039FB5E /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
 		41C97EE71E6A3FD70039FB5E /* Motor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Motor.cpp; sourceTree = "<group>"; };
 		41C97EE81E6A3FD70039FB5E /* Motor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Motor.hpp; sourceTree = "<group>"; };
-		41C97EEB1E6AF8BF0039FB5E /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		41C97EEC1E6AF9360039FB5E /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -375,7 +375,7 @@
 		41C97EEA1E6AF84B0039FB5E /* Builds */ = {
 			isa = PBXGroup;
 			children = (
-				41C97EEB1E6AF8BF0039FB5E /* .gitkeep */,
+				41C97EEC1E6AF9360039FB5E /* .gitignore */,
 			);
 			path = Builds;
 			sourceTree = "<group>";
