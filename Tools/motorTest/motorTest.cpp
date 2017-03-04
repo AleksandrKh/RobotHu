@@ -6,7 +6,7 @@
 //  Copyright © 2017 AKTech. All rights reserved.
 //
 
-// Compile: g++ motorTest.cpp -lbcm2835
+// Compile: g++ motorTest.cpp -o ../../Builds/motorTest -lbcm2835
 
 #include <iostream>
 #include <stdlib.h>
