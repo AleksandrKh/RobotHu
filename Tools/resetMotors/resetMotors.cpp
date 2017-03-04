@@ -27,13 +27,6 @@ int main(int argc, const char * argv[]) {
     string exampleCommand = "Example command: ./resetMotors -m1p 16 -m2p 13\n"
     "-m1p - motor 1 enable pin";
     
-    if (argc < 3) {
-        cout << "Error: wrong args number" << endl;
-        cout << exampleCommand << endl;
-        
-        return 1;
-    }
-    
     InputParser input(argc, argv);
 
     const std::string &motor1EnablePinString = input.getCmdOption("-m1p");

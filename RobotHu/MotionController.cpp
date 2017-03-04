@@ -82,12 +82,24 @@ void MotionController::move(MotionVector motionVector) {
     leftMotor.enable();
     rightMotor.enable();
     
-    // TODO need trajectory approximator?
-    if (motionVector.angleInDegrees >= 1)
+    if (fabs(motionVector.angleInDegrees) > 1) {
+        Utils::printMessage("Turn at the start at " + to_string(motionVector.angleInDegrees) + " degrees");
         rotate(motionVector.angleInDegrees);
-
-    if (!sharedNewMotion) // if no new motion while rotation being processed
+    }
+    
+    if (!sharedNewMotion) { // if no new motion while rotation being processed
+        
+        Utils::printMessage("Move " + to_string(motionVector.distanceInMeters) + " meters");
         go(motionVector.distanceInMeters);
+    }
+    
+    if (!sharedNewMotion) { // if no new motion while moving being processed
+        
+        if (fabs(motionVector.angleInDegrees) > 1) {
+            Utils::printMessage("Turn at the end at -" + to_string(motionVector.angleInDegrees) + " degrees");
+            rotate(-motionVector.angleInDegrees);
+        }
+    }
     
     leftMotor.disable();
     rightMotor.disable();
@@ -103,16 +115,20 @@ void MotionController::rotate(double angleInDegrees) {
     
     double turningSegmentOfCicleLength = machineTurningCircleLength * angleInDegrees / 360.0f;
     int stepsNum = round(turningSegmentOfCicleLength / motorStepInMeters);
-
+    
     int directionFactor = xSideFactor * angleInDegrees / fabs(angleInDegrees);
     
+    Utils::printMessage("Rotation at " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "right" : "left") + " direction");
+
     leftMotor.setDirection(directionFactor);
     rightMotor.setDirection(-directionFactor);
     
     for (int i = 0; i < stepsNum; i++) {
         
-        if (sharedNewMotion)
+        if (sharedNewMotion) {
+            Utils::printMessage("Break rotation due to new motion");
             break;
+        }
         
         leftMotor.step();
         rightMotor.step();
@@ -126,13 +142,17 @@ void MotionController::go(double distanceInMeters) {
     
     int directionFactor = distanceInMeters / fabs(distanceInMeters);
     
+    Utils::printMessage("Moving at " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "forward" : "backward") + " direction");
+    
     leftMotor.setDirection(directionFactor);
     rightMotor.setDirection(-directionFactor);
     
     for (int i = 0; i < abs(stepsNum); i++) {
         
-        if (sharedNewMotion)
+        if (sharedNewMotion) {
+            Utils::printMessage("Break moving due to new motion");
             break;
+        }
         
         leftMotor.step();
         rightMotor.step();
@@ -147,15 +167,19 @@ MotionVector MotionController::convertCoordinateToMotionVector(std::vector<doubl
     double x = coordinate[0];
     double z = coordinate[2];
     
-    double distance = sqrt(pow(x, 2) + pow(z, 2));
-    
+    double distance = 0.0;
+    distance = sqrt(pow(x, 2) + pow(z, 2));
     distance *= z / fabs(z); // consider direction sign
     
-    double angle = RADIANS_TO_DEGREES(acos(fabs(z / distance)));
+    double angle = 0.0;
+    angle = RADIANS_TO_DEGREES(acos(fabs(z / distance)));
+    
+    if (distance < 0)
+        angle = 180 - angle;
     
     angle *= xSideFactor * x / fabs(x); // consider angle sign
     
-    return {angle, distance};
+    return {fabs(angle) > __DBL_EPSILON__ ? angle : 0.0, fabs(distance) > __DBL_EPSILON__ ? distance : 0.0};
 }
 
 bool MotionController::compareMotionVectors(MotionVector mv1, MotionVector mv2) {

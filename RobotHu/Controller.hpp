@@ -23,9 +23,13 @@ public:
     
     void start();
     
+#pragma mark - Test
+    
+    void startTest();
+    
 private:
     
-    MotionVector sharedMotionVector, lastMotionVector;
+    MotionVector sharedAnalyzedMotionVector, lastMotionVector;
     std::list<std::vector<double> > sharedLastPosesList;
 
     time_t lastAcceptedPoseTime;
@@ -43,6 +47,8 @@ private:
     bool filterCoordinate(std::vector<double> coordinate);
     
     void move();
+    
+    void startTestPoseGenerator();
     
     std::mutex m;
 };

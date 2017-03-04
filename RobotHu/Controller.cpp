@@ -135,9 +135,9 @@ void Controller::startPoseAnalyzer() {
             
             if (shouldUpdate) {
                 
-                sharedMotionVector = MotionController::convertCoordinateToMotionVector(targetCoordinate);
+                sharedAnalyzedMotionVector = MotionController::convertCoordinateToMotionVector(targetCoordinate);
         
-                Utils::printMotionVector(sharedMotionVector);
+                Utils::printMotionVector(sharedAnalyzedMotionVector);
             }
         }
         
@@ -171,14 +171,14 @@ void Controller::startMotionMonitor() {
     Utils::printMessage("Start motion monitor");
     
     chrono::seconds interval(kMotionMonitorFreqInSec);
-    
+
     while (true) {
         
-        if (fabs(sharedMotionVector.angleInDegrees) > __DBL_EPSILON__ && fabs(sharedMotionVector.distanceInMeters) > __DBL_EPSILON__) {
+        if (fabs(sharedAnalyzedMotionVector.angleInDegrees) > __DBL_EPSILON__ || fabs(sharedAnalyzedMotionVector.distanceInMeters) > __DBL_EPSILON__) {
             
-            if (!MotionController::compareMotionVectors(lastMotionVector, sharedMotionVector)) {
+            if (!MotionController::compareMotionVectors(lastMotionVector, sharedAnalyzedMotionVector)) {
                 
-                lastMotionVector = sharedMotionVector;
+                lastMotionVector = sharedAnalyzedMotionVector;
                 
                 thread t(&Controller::move, this);
                 t.detach();
@@ -191,5 +191,48 @@ void Controller::startMotionMonitor() {
 
 void Controller::move() {
     
-    MotionController::Instance().shouldMove(sharedMotionVector);
+    MotionController::Instance().shouldMove(lastMotionVector);
+}
+
+#pragma mark - Test
+
+// For testing motion behaviour without camera data
+
+void Controller::startTest() {
+    
+    thread t1(&Controller::startPoseAnalyzer, this);
+    thread t2(&Controller::startMotionMonitor, this);
+    thread t3(&Controller::startTestPoseGenerator, this);
+
+    t1.join();
+    t2.join();
+    t3.join();
+}
+
+void Controller::startTestPoseGenerator() {
+    
+    Utils::printMessage("Start test pose generator");
+    
+    chrono::seconds interval(5);
+    
+    vector<vector<double> >testPoses = {
+        
+        // Just examples
+        
+        {-0.3, 0, kHoldingPoseDistanceInMeters - 0.9},
+        {-0.31, 0, kHoldingPoseDistanceInMeters - 0.89},
+        {-0.29, 0, kHoldingPoseDistanceInMeters - 0.89},
+        {-0.29, 0, kHoldingPoseDistanceInMeters - 0.69},
+
+        // add test pose
+    };
+    
+    for (int i = 0; i < testPoses.size(); i++) {
+        
+        Utils::printMessage("Test pose n: " + to_string(i));
+        
+        didObtainPoseDelegate(testPoses[i]);
+        
+        this_thread::sleep_for(interval);
+    }
 }

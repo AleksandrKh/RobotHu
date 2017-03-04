@@ -25,13 +25,6 @@ int main(int argc, const char *argv[]) {
     "-mldp: motor left direction pin\n"
     "-mld: motor left direction, may be 1 or -1";
     
-    if (argc < 11) {
-        cout << "Error: wrong args number" << endl;
-        cout << exampleCommand << endl;
-        
-        return 1;
-    }
-    
     InputParser input(argc, argv);
     
     const std::string &stepsString = input.getCmdOption("-steps");
