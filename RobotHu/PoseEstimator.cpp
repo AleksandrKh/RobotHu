@@ -21,7 +21,7 @@ using namespace cv;
 static bool readCameraParameters(string filename, Mat &camMatrix, Mat &distCoeffs);
 
 #define kCameraID 0
-#define kCameraParametersFile "sjcam_charuco_calib.yml"
+#define kCameraParametersFile "sjcam_charuco_calib.yml" // must be unique for any other camera, see calibrateCamera.cpp
 #define kMarkerDictionaryID 8
 #define kMarkerID 10
 #define kMarkerLengthInMeters 0.1
