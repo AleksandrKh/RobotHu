@@ -25,7 +25,7 @@
 //    return empty_string;
 //}
 
-bool InputParser::cmdOptionExists(const std::string &option) {
-    
-    return std::find(this->tokens.begin(), this->tokens.end(), option) != this->tokens.end();
-}
+//bool InputParser::cmdOptionExists(const std::string &option) {
+//    
+//    return std::find(this->tokens.begin(), this->tokens.end(), option) != this->tokens.end();
+//}
