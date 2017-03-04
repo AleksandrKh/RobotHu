@@ -357,8 +357,8 @@
 			isa = PBXGroup;
 			children = (
 				41C97ED81E6A3F6A0039FB5E /* InputParser.hpp */,
-				41C97EDB1E6A3F6A0039FB5E /* Utils.cpp */,
 				41C97EDC1E6A3F6A0039FB5E /* Utils.hpp */,
+				41C97EDB1E6A3F6A0039FB5E /* Utils.cpp */,
 			);
 			path = Utils;
 			sourceTree = "<group>";

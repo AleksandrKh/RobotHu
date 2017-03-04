@@ -14,6 +14,21 @@
 // 17HS4401 stepper (RED 2B GREEB 2A) (YELLOW 1A BLUE 1B) in parentheses may be reversed
 #define k17HS4401MotorStepsPerRevolution 200
 
-// TODO make motor abstraction over BCM
+class Motor {
+    
+public:
+    
+    Motor() {};
+    Motor(int enablePin, int stepPin, int dirPin);
+    void enable();
+    void disable();
+    void setDirection(int direction);
+    void step();
+    
+private:
+    int enablePin;
+    int stepPin;
+    int dirPin;
+};
 
 #endif /* Motor_hpp */

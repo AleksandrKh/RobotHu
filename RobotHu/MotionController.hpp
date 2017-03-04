@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <mutex>
+#include "Motor.hpp"
 
 struct MotionVector {
     
@@ -48,7 +49,7 @@ private:
     MotionVector motionVector;
     
     void setup();
-    void motorSetup();
+    void motorsSetup();
     
     void move(MotionVector motionVector);
     
@@ -59,11 +60,9 @@ private:
     
     double motorStepInMeters;
     double machineTurningCircleLength;
-    double goDelay, rotDelay;
+    double goDelayInMicroSec, rotDelayInMicroSec;
     
-    void stepLeftMotor(int direction);
-    void stepRightMotor(int direction);
-    void stepMotor(int motorPin, int direction);
+    Motor leftMotor, rightMotor;
     
     std::mutex m;
 };

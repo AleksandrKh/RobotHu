@@ -7,12 +7,11 @@
 //
 
 #include "MotionController.hpp"
-#include <cmath>
+#include "Motor.hpp"
 #include "Utils.hpp"
+#include <cmath>
 #include <thread>
 #include <iostream>
-#include "Motor.hpp"
-
 #include <unistd.h>
 
 using namespace std;
@@ -26,28 +25,35 @@ using namespace std;
 #define kMinDistanceForRotationInMeters 2.0
 #define kMotorStepInMetersCalibFactor 1
 
-#define kLeftMotorPin1 0
-#define kRightMotorPin1 1
-
 #define kGoSpeedInMeterPerSec 0.05
 #define kRotSpeedInMeterPerSec 0.01
+
+#define kLeftMotorEnablePin 16
+#define kLeftMotorStepPin 20
+#define kLeftMotorDirPin 21
+#define kRightMotorEnablePin 13
+#define kRightMotorStepPin 19
+#define kRightMotorDirPin 26
 
 void MotionController::setup() {
 
     sharedNewMotion = false;
     sharedMotionInProcess = false;
     
-    motorSetup();
+    motorsSetup();
 }
 
-void MotionController::motorSetup() {
+void MotionController::motorsSetup() {
     
     motorStepInMeters = (2 * M_PI * kWheelsRadiusInMeters / kMotorStepsPerRevolution) * kMotorStepInMetersCalibFactor;
     
     machineTurningCircleLength = M_PI * kDistanceBetweenWheelsInMeters;
     
-    goDelay = motorStepInMeters / kGoSpeedInMeterPerSec;
-    rotDelay = motorStepInMeters / kRotSpeedInMeterPerSec;
+    goDelayInMicroSec = motorStepInMeters / kGoSpeedInMeterPerSec * 1000000;
+    rotDelayInMicroSec = motorStepInMeters / kRotSpeedInMeterPerSec * 1000000;
+    
+    leftMotor = Motor(kLeftMotorEnablePin, kLeftMotorStepPin, kLeftMotorDirPin);
+    rightMotor = Motor(kRightMotorEnablePin, kRightMotorStepPin, kRightMotorDirPin);
 }
 
 void MotionController::shouldMove(MotionVector motionVector) {
@@ -72,6 +78,9 @@ void MotionController::move(MotionVector motionVector) {
     sharedMotionInProcess = true;
     
     Utils::printMessage("Moving started");
+
+    leftMotor.enable();
+    rightMotor.enable();
     
     // TODO need trajectory approximator?
     if (motionVector.angleInDegrees >= 1)
@@ -80,8 +89,11 @@ void MotionController::move(MotionVector motionVector) {
     if (!sharedNewMotion) // if no new motion while rotation being processed
         go(motionVector.distanceInMeters);
     
+    leftMotor.disable();
+    rightMotor.disable();
+    
     Utils::printMessage("Moving finished");
-
+    
     sharedMotionInProcess = false;
     
     m.unlock();
@@ -93,18 +105,18 @@ void MotionController::rotate(double angleInDegrees) {
     int stepsNum = round(turningSegmentOfCicleLength / motorStepInMeters);
 
     int directionFactor = xSideFactor * angleInDegrees / fabs(angleInDegrees);
-    int leftMotorDirectionFactor = directionFactor;
-    int rightMotorDirectionFactor = -directionFactor;
+    
+    leftMotor.setDirection(directionFactor);
+    rightMotor.setDirection(-directionFactor);
     
     for (int i = 0; i < stepsNum; i++) {
         
         if (sharedNewMotion)
             break;
         
-        stepLeftMotor(leftMotorDirectionFactor);
-        stepRightMotor(rightMotorDirectionFactor);
-        usleep(30000);
-        //usleep(rotDelay);
+        leftMotor.step();
+        rightMotor.step();
+        usleep(rotDelayInMicroSec);
     }
 }
 
@@ -114,33 +126,18 @@ void MotionController::go(double distanceInMeters) {
     
     int directionFactor = distanceInMeters / fabs(distanceInMeters);
     
+    leftMotor.setDirection(directionFactor);
+    rightMotor.setDirection(-directionFactor);
+    
     for (int i = 0; i < abs(stepsNum); i++) {
         
         if (sharedNewMotion)
             break;
         
-        stepLeftMotor(directionFactor);
-        stepRightMotor(directionFactor);
-        usleep(30000);
-        //usleep(goDelay);
+        leftMotor.step();
+        rightMotor.step();
+        usleep(goDelayInMicroSec);
     }
-}
-
-#pragma mark - Motors
-
-void MotionController::stepLeftMotor(int direction) {
-    
-    stepMotor(kLeftMotorPin1, direction);
-}
-
-void MotionController::stepRightMotor(int direction) {
-    
-    stepMotor(kRightMotorPin1, direction);
-}
-
-void MotionController::stepMotor(int motorPin, int direction) {
-    
-    //direction > 0 ? digitalWrite(motorPin, HIGH) : digitalWrite(motorPin, LOW); // TODO
 }
 
 #pragma mark - Helpers
