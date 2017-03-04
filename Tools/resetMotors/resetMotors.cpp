@@ -12,7 +12,7 @@
 
 #include <iostream>
 #include "bcm2835.h"
-#include "InputParser.hpp"
+#include "../../Utils/InputParser.hpp"
 
 using namespace std;
 
