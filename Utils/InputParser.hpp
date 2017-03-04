@@ -15,7 +15,11 @@ class InputParser {
     
 public:
     
-    InputParser(int argc, const char **argv);
+    InputParser(int argc, const char *argv[]) {
+        
+        for (int i = 1; i < argc; ++i)
+            this->tokens.push_back(std::string(argv[i]));
+    }
     
     const std::string& getCmdOption(const std::string &option);
     bool cmdOptionExists(const std::string &option);

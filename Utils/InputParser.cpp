@@ -9,11 +9,11 @@
 #include "InputParser.hpp"
 #include <iostream>
 
-InputParser::InputParser(int argc, const char **argv) {
-    
-    for (int i = 1; i < argc; ++i)
-        this->tokens.push_back(std::string(argv[i]));
-}
+//InputParser::InputParser(int argc, const char *argv[]) {
+//    
+//    for (int i = 1; i < argc; ++i)
+//        this->tokens.push_back(std::string(argv[i]));
+//}
 
 const std::string& InputParser::getCmdOption(const std::string &option) {
     

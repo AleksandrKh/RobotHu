@@ -16,7 +16,7 @@
 
 using namespace std;
 
-int main(int argc, const char ** argv) {
+int main(int argc, const char *argv[]) {
     
     string exampleCommand = "Example command: ./motorTest -steps 200 -delay 10000<delay between steps in microseconds> -mlep<motor left enable pin> 16 -mlsp<motor left step pin> 20 -mldp<motor left direction pin> 21 -mld<motor left direction> 1<may be 1 or -1> -mrep 13 -mrsp 19 -mrdp 26 -mrd 1";
     
