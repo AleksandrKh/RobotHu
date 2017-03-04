@@ -48,18 +48,15 @@
 		414F719F1E6A1CDE00235D31 /* generateMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 414F719A1E6A1CD100235D31 /* generateMarker.cpp */; };
 		414F71A01E6A1CE100235D31 /* motorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 414F719C1E6A1CD100235D31 /* motorTest.cpp */; };
 		41C97EAD1E6A353E0039FB5E /* resetMotors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EAB1E6A353E0039FB5E /* resetMotors.cpp */; };
-		41C97EBF1E6A39000039FB5E /* InputParser.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EB91E6A39000039FB5E /* InputParser.hpp */; };
-		41C97EC01E6A39000039FB5E /* InputParser.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EB91E6A39000039FB5E /* InputParser.hpp */; };
-		41C97EC11E6A39000039FB5E /* InputParser.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EB91E6A39000039FB5E /* InputParser.hpp */; };
-		41C97EC21E6A39000039FB5E /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBA1E6A39000039FB5E /* Motor.cpp */; };
-		41C97EC31E6A39000039FB5E /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBA1E6A39000039FB5E /* Motor.cpp */; };
-		41C97EC41E6A39000039FB5E /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBA1E6A39000039FB5E /* Motor.cpp */; };
-		41C97EC81E6A39000039FB5E /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBD1E6A39000039FB5E /* Utils.cpp */; };
-		41C97EC91E6A39000039FB5E /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBD1E6A39000039FB5E /* Utils.cpp */; };
-		41C97ECA1E6A39000039FB5E /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EBD1E6A39000039FB5E /* Utils.cpp */; };
-		41C97ED21E6A3A310039FB5E /* InputParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED11E6A3A310039FB5E /* InputParser.cpp */; };
-		41C97ED31E6A3A310039FB5E /* InputParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED11E6A3A310039FB5E /* InputParser.cpp */; };
-		41C97ED41E6A3A310039FB5E /* InputParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED11E6A3A310039FB5E /* InputParser.cpp */; };
+		41C97EDD1E6A3F6A0039FB5E /* InputParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED71E6A3F6A0039FB5E /* InputParser.cpp */; };
+		41C97EDE1E6A3F6A0039FB5E /* InputParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED71E6A3F6A0039FB5E /* InputParser.cpp */; };
+		41C97EDF1E6A3F6A0039FB5E /* InputParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED71E6A3F6A0039FB5E /* InputParser.cpp */; };
+		41C97EE01E6A3F6A0039FB5E /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED91E6A3F6A0039FB5E /* Motor.cpp */; };
+		41C97EE11E6A3F6A0039FB5E /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED91E6A3F6A0039FB5E /* Motor.cpp */; };
+		41C97EE21E6A3F6A0039FB5E /* Motor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97ED91E6A3F6A0039FB5E /* Motor.cpp */; };
+		41C97EE31E6A3F6A0039FB5E /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EDB1E6A3F6A0039FB5E /* Utils.cpp */; };
+		41C97EE41E6A3F6A0039FB5E /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EDB1E6A3F6A0039FB5E /* Utils.cpp */; };
+		41C97EE51E6A3F6A0039FB5E /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41C97EDB1E6A3F6A0039FB5E /* Utils.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -153,12 +150,12 @@
 		41C404781E6673900083F841 /* motorTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = motorTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		41C97EA31E6A35060039FB5E /* resetMotors */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = resetMotors; sourceTree = BUILT_PRODUCTS_DIR; };
 		41C97EAB1E6A353E0039FB5E /* resetMotors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = resetMotors.cpp; sourceTree = "<group>"; };
-		41C97EB91E6A39000039FB5E /* InputParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputParser.hpp; sourceTree = "<group>"; };
-		41C97EBA1E6A39000039FB5E /* Motor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Motor.cpp; sourceTree = "<group>"; };
-		41C97EBB1E6A39000039FB5E /* Motor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Motor.hpp; sourceTree = "<group>"; };
-		41C97EBD1E6A39000039FB5E /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
-		41C97EBE1E6A39000039FB5E /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
-		41C97ED11E6A3A310039FB5E /* InputParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputParser.cpp; sourceTree = "<group>"; };
+		41C97ED71E6A3F6A0039FB5E /* InputParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputParser.cpp; sourceTree = "<group>"; };
+		41C97ED81E6A3F6A0039FB5E /* InputParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputParser.hpp; sourceTree = "<group>"; };
+		41C97ED91E6A3F6A0039FB5E /* Motor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Motor.cpp; sourceTree = "<group>"; };
+		41C97EDA1E6A3F6A0039FB5E /* Motor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Motor.hpp; sourceTree = "<group>"; };
+		41C97EDB1E6A3F6A0039FB5E /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
+		41C97EDC1E6A3F6A0039FB5E /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,7 +242,7 @@
 				412084E91E6370AF002A1039 /* README.md */,
 				4120846A1E61B8BE002A1039 /* OpenCV */,
 				412084481E61B6A2002A1039 /* RobotHu */,
-				41C97EB81E6A39000039FB5E /* Utils */,
+				41C97ED61E6A3F6A0039FB5E /* Utils */,
 				414F71941E6A1CD100235D31 /* Tools */,
 				412084B61E635282002A1039 /* tmp */,
 				412084471E61B6A2002A1039 /* Products */,
@@ -359,18 +356,17 @@
 			path = resetMotors;
 			sourceTree = "<group>";
 		};
-		41C97EB81E6A39000039FB5E /* Utils */ = {
+		41C97ED61E6A3F6A0039FB5E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				41C97EB91E6A39000039FB5E /* InputParser.hpp */,
-				41C97ED11E6A3A310039FB5E /* InputParser.cpp */,
-				41C97EBA1E6A39000039FB5E /* Motor.cpp */,
-				41C97EBB1E6A39000039FB5E /* Motor.hpp */,
-				41C97EBD1E6A39000039FB5E /* Utils.cpp */,
-				41C97EBE1E6A39000039FB5E /* Utils.hpp */,
+				41C97ED71E6A3F6A0039FB5E /* InputParser.cpp */,
+				41C97ED81E6A3F6A0039FB5E /* InputParser.hpp */,
+				41C97ED91E6A3F6A0039FB5E /* Motor.cpp */,
+				41C97EDA1E6A3F6A0039FB5E /* Motor.hpp */,
+				41C97EDB1E6A3F6A0039FB5E /* Utils.cpp */,
+				41C97EDC1E6A3F6A0039FB5E /* Utils.hpp */,
 			);
-			name = Utils;
-			path = RobotHu/Utils;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -548,12 +544,11 @@
 			files = (
 				4120844A1E61B6A2002A1039 /* main.cpp in Sources */,
 				4120848D1E620A7D002A1039 /* Controller.cpp in Sources */,
+				41C97EE31E6A3F6A0039FB5E /* Utils.cpp in Sources */,
 				4120847F1E61C15E002A1039 /* PoseEstimator.cpp in Sources */,
-				41C97EC81E6A39000039FB5E /* Utils.cpp in Sources */,
-				41C97EC21E6A39000039FB5E /* Motor.cpp in Sources */,
-				41C97ED21E6A3A310039FB5E /* InputParser.cpp in Sources */,
+				41C97EE01E6A3F6A0039FB5E /* Motor.cpp in Sources */,
 				412084B21E633BF8002A1039 /* MotionController.cpp in Sources */,
-				41C97EBF1E6A39000039FB5E /* InputParser.hpp in Sources */,
+				41C97EDD1E6A3F6A0039FB5E /* InputParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,11 +580,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41C97EC31E6A39000039FB5E /* Motor.cpp in Sources */,
+				41C97EE11E6A3F6A0039FB5E /* Motor.cpp in Sources */,
 				414F71A01E6A1CE100235D31 /* motorTest.cpp in Sources */,
-				41C97EC91E6A39000039FB5E /* Utils.cpp in Sources */,
-				41C97EC01E6A39000039FB5E /* InputParser.hpp in Sources */,
-				41C97ED31E6A3A310039FB5E /* InputParser.cpp in Sources */,
+				41C97EDE1E6A3F6A0039FB5E /* InputParser.cpp in Sources */,
+				41C97EE41E6A3F6A0039FB5E /* Utils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,11 +591,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41C97ED41E6A3A310039FB5E /* InputParser.cpp in Sources */,
-				41C97ECA1E6A39000039FB5E /* Utils.cpp in Sources */,
-				41C97EC11E6A39000039FB5E /* InputParser.hpp in Sources */,
+				41C97EE21E6A3F6A0039FB5E /* Motor.cpp in Sources */,
 				41C97EAD1E6A353E0039FB5E /* resetMotors.cpp in Sources */,
-				41C97EC41E6A39000039FB5E /* Motor.cpp in Sources */,
+				41C97EDF1E6A3F6A0039FB5E /* InputParser.cpp in Sources */,
+				41C97EE51E6A3F6A0039FB5E /* Utils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
