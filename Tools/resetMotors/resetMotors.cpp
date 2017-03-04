@@ -8,7 +8,7 @@
 
 // Using at OS start
 
-// Compile: g++ resetMotors.cpp -lbcm2835
+// Compile: g++ resetMotors.cpp -o ../../Builds/resetMotors -lbcm2835
 
 #include <iostream>
 #include "bcm2835.h"
@@ -21,7 +21,8 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    string exampleCommand = "Example command: ./resetMotors -m1p<motor 1 enable pin> 10 -m2p 11";
+    string exampleCommand = "Example command: ./resetMotors -m1p 16 10 -m2p 13\n"
+    "-m1p - motor 1 enable pin";
     
     if (argc < 3) {
         cout << "Error: wrong args number" << endl;
