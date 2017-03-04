@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <stdlib.h>
-//#include "bcm2835.h"
+#include "bcm2835.h"
 #include <unistd.h>
 #include "../../Utils/InputParser.hpp"
 
@@ -18,7 +18,12 @@ using namespace std;
 
 int main(int argc, const char *argv[]) {
     
-    string exampleCommand = "Example command: ./motorTest -steps 200 -delay 10000<delay between steps in microseconds> -mlep<motor left enable pin> 16 -mlsp<motor left step pin> 20 -mldp<motor left direction pin> 21 -mld<motor left direction> 1<may be 1 or -1> -mrep 13 -mrsp 19 -mrdp 26 -mrd 1";
+    string exampleCommand = "Example command: ./motorTest -steps 200 -delay 10000 -mlep 16 -mlsp 20 -mldp 21 -mld 1 -mrep 13 -mrsp 19 -mrdp 26 -mrd 1\n"
+    "-delay: between steps in microseconds\n"
+    "-mlep: motor left enable pin\n"
+    "-mlsp: motor left step pin\n"
+    "-mldp: motor left direction pin\n"
+    "-mld: motor left direction, may be 1 or -1";
     
     if (argc < 11) {
         cout << "Error: wrong args number" << endl;
@@ -69,66 +74,66 @@ int main(int argc, const char *argv[]) {
         return 1;
     }
     
-//    if (!bcm2835_init())
-//        return 1;
-//        
-//    bcm2835_gpio_fsel(motorLeftEnablePin, BCM2835_GPIO_FSEL_OUTP);
-//    bcm2835_gpio_fsel(motorLeftStepPin, BCM2835_GPIO_FSEL_OUTP);
-//    bcm2835_gpio_fsel(motorLeftDirectionPin, BCM2835_GPIO_FSEL_OUTP);
-//    
-//    bcm2835_gpio_fsel(motorRightEnablePin, BCM2835_GPIO_FSEL_OUTP);
-//    bcm2835_gpio_fsel(motorRightStepPin, BCM2835_GPIO_FSEL_OUTP);
-//    bcm2835_gpio_fsel(motorRightDirectionPin, BCM2835_GPIO_FSEL_OUTP);
-//    
-//    bcm2835_gpio_write(motorLeftEnablePin, LOW); // Enable
-//    bcm2835_gpio_write(motorRightEnablePin, LOW); // Enable
-//    
-//    // Reset
-//    bcm2835_gpio_write(motorLeftStepPin, LOW);
-//    bcm2835_gpio_write(motorLeftDirectionPin, LOW);
-//    bcm2835_gpio_write(motorRightStepPin, LOW);
-//    bcm2835_gpio_write(motorRightDirectionPin, LOW);
-//    
-//    bcm2835_gpio_write(motorLeftDirectionPin, motorLeftDirection > 0 ? LOW : HIGH); // Left direction
-//    bcm2835_gpio_write(motorRightDirectionPin, motorRightDirection < 0 ? LOW : HIGH); // Right direction
-//    
-//    usleep(1000);
-//    
-//    // Forward
-//    
-//    for (int i = 0; i < steps; i++) {
-//        
-//        // cout << "step: " << i + 1 << endl;
-//        
-//        bcm2835_gpio_write(motorLeftStepPin, HIGH);
-//        bcm2835_gpio_write(motorRightStepPin, HIGH);
-//        usleep(delay);
-//        bcm2835_gpio_write(motorLeftStepPin, LOW);
-//        bcm2835_gpio_write(motorRightStepPin, LOW);
-//        usleep(delay);
-//    }
-//        
-//    bcm2835_gpio_write(motorLeftDirectionPin, motorLeftDirection < 0 ? LOW : HIGH);
-//    bcm2835_gpio_write(motorRightDirectionPin, motorRightDirection > 0 ? LOW : HIGH);
-//    
-//    usleep(1000);
-//    
-//    // Backward
-//    
-//    for (int i = 0; i < steps; i++) {
-//        
-//        // cout << "step: " << i + 1 << endl;
-//        
-//        bcm2835_gpio_write(motorLeftStepPin, HIGH);
-//        bcm2835_gpio_write(motorRightStepPin, HIGH);
-//        usleep(delay);
-//        bcm2835_gpio_write(motorLeftStepPin, LOW);
-//        bcm2835_gpio_write(motorRightStepPin, LOW);
-//        usleep(delay);
-//    }
-//    
-//    bcm2835_gpio_write(motorLeftEnablePin, HIGH); // Disable
-//    bcm2835_gpio_write(motorRightEnablePin, HIGH); // Disable
+    if (!bcm2835_init())
+        return 1;
+        
+    bcm2835_gpio_fsel(motorLeftEnablePin, BCM2835_GPIO_FSEL_OUTP);
+    bcm2835_gpio_fsel(motorLeftStepPin, BCM2835_GPIO_FSEL_OUTP);
+    bcm2835_gpio_fsel(motorLeftDirectionPin, BCM2835_GPIO_FSEL_OUTP);
+    
+    bcm2835_gpio_fsel(motorRightEnablePin, BCM2835_GPIO_FSEL_OUTP);
+    bcm2835_gpio_fsel(motorRightStepPin, BCM2835_GPIO_FSEL_OUTP);
+    bcm2835_gpio_fsel(motorRightDirectionPin, BCM2835_GPIO_FSEL_OUTP);
+    
+    bcm2835_gpio_write(motorLeftEnablePin, LOW); // Enable
+    bcm2835_gpio_write(motorRightEnablePin, LOW); // Enable
+    
+    // Reset
+    bcm2835_gpio_write(motorLeftStepPin, LOW);
+    bcm2835_gpio_write(motorLeftDirectionPin, LOW);
+    bcm2835_gpio_write(motorRightStepPin, LOW);
+    bcm2835_gpio_write(motorRightDirectionPin, LOW);
+    
+    bcm2835_gpio_write(motorLeftDirectionPin, motorLeftDirection > 0 ? LOW : HIGH); // Left direction
+    bcm2835_gpio_write(motorRightDirectionPin, motorRightDirection < 0 ? LOW : HIGH); // Right direction
+    
+    usleep(1000);
+    
+    // Forward
+    
+    for (int i = 0; i < steps; i++) {
+        
+        // cout << "step: " << i + 1 << endl;
+        
+        bcm2835_gpio_write(motorLeftStepPin, HIGH);
+        bcm2835_gpio_write(motorRightStepPin, HIGH);
+        usleep(delay);
+        bcm2835_gpio_write(motorLeftStepPin, LOW);
+        bcm2835_gpio_write(motorRightStepPin, LOW);
+        usleep(delay);
+    }
+        
+    bcm2835_gpio_write(motorLeftDirectionPin, motorLeftDirection < 0 ? LOW : HIGH);
+    bcm2835_gpio_write(motorRightDirectionPin, motorRightDirection > 0 ? LOW : HIGH);
+    
+    usleep(1000);
+    
+    // Backward
+    
+    for (int i = 0; i < steps; i++) {
+        
+        // cout << "step: " << i + 1 << endl;
+        
+        bcm2835_gpio_write(motorLeftStepPin, HIGH);
+        bcm2835_gpio_write(motorRightStepPin, HIGH);
+        usleep(delay);
+        bcm2835_gpio_write(motorLeftStepPin, LOW);
+        bcm2835_gpio_write(motorRightStepPin, LOW);
+        usleep(delay);
+    }
+    
+    bcm2835_gpio_write(motorLeftEnablePin, HIGH); // Disable
+    bcm2835_gpio_write(motorRightEnablePin, HIGH); // Disable
     
     return 0;
 }
