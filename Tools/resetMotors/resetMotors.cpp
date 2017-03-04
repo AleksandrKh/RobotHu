@@ -9,7 +9,7 @@
 // Using at OS start
 
 // Compile: g++ resetMotors.cpp -o ../../Builds/resetMotors -lbcm2835
-// Add to autostart: ln -s resetMotors /etc/init.d/
+// Add to autostart: sudo ln -s resetMotors /etc/init.d/
 
 #include <iostream>
 #include "bcm2835.h"
@@ -47,7 +47,7 @@ int main(int argc, const char * argv[]) {
 
         return 1;
     }
-        
+    
     if (!bcm2835_init())
         return 1;
     
