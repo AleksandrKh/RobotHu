@@ -6,6 +6,8 @@
 //  Copyright © 2017 AKTech. All rights reserved.
 //
 
+// Using at OS start
+
 #include <iostream>
 #include "bcm2835.h"
 #include "InputParser.hpp"
@@ -35,6 +37,7 @@ int main(int argc, const char * argv[]) {
     int motor2EnablePin = atoi(motor2EnablePinString.c_str());
     
     if (!motor1EnablePin || !motor2EnablePin) {
+        
         cout << "Error: some pin is not defined" << endl;
         cout << exampleCommand << endl;
 
