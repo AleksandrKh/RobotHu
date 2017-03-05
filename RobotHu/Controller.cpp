@@ -132,12 +132,12 @@ void Controller::startPoseAnalyzer() {
             
             // Check if new coordinate is outside of "calmness area" - area around holding pose where we are keeping stillness
     
-            double calmnessAreaInMeters = kDefaultHoldingPoseDistanceInMeters / kCalmnessAreaInPercent;
+            double calmnessAreaInMeters = holdingPoseDistance / kCalmnessAreaInPercent;
 
-            if (targetCoordinate[2] > kDefaultHoldingPoseDistanceInMeters + calmnessAreaInMeters ||
-                targetCoordinate[2] < kDefaultHoldingPoseDistanceInMeters - calmnessAreaInMeters) {
+            if (targetCoordinate[2] > holdingPoseDistance + calmnessAreaInMeters ||
+                targetCoordinate[2] < holdingPoseDistance - calmnessAreaInMeters) {
                 
-                targetCoordinate[2] -= kDefaultHoldingPoseDistanceInMeters;
+                targetCoordinate[2] -= holdingPoseDistance;
                 shouldUpdate = true;
             }
             
@@ -183,7 +183,7 @@ void Controller::startMotionMonitor() {
 
     while (true) {
         
-        if (fabs(sharedAnalyzedMotionVector.angleInDegrees) > __DBL_EPSILON__ || fabs(sharedAnalyzedMotionVector.distanceInMeters) > __DBL_EPSILON__) {
+        if (fabs(sharedAnalyzedMotionVector.angleInDegrees) > 0.1 || fabs(sharedAnalyzedMotionVector.distanceInMeters) > 0.1) {
             
             if (!MotionController::compareMotionVectors(lastMotionVector, sharedAnalyzedMotionVector)) {
                 
