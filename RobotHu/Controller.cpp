@@ -183,7 +183,7 @@ void Controller::startMotionMonitor() {
 
     while (true) {
         
-        if (fabs(sharedAnalyzedMotionVector.angleInDegrees) > 0.1 || fabs(sharedAnalyzedMotionVector.distanceInMeters) > 0.1) {
+        if (fabs(sharedAnalyzedMotionVector.angleInDegrees) > __DBL_EPSILON__ || fabs(sharedAnalyzedMotionVector.distanceInMeters) > __DBL_EPSILON__) {
             
             if (!MotionController::compareMotionVectors(lastMotionVector, sharedAnalyzedMotionVector)) {
                 
