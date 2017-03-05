@@ -76,26 +76,26 @@ void MotionController::move(MotionVector motionVector) {
     
     sharedMotionInProcess = true;
     
-    Utils::printMessage("Moving started");
+    Utils::printMessage("Motion started");
 
     leftMotor.enable();
     rightMotor.enable();
     
     if (fabs(motionVector.angleInDegrees) > 1) {
-        Utils::printMessage("Turn at the start at " + to_string(motionVector.angleInDegrees) + " degrees");
+        Utils::printMessage("Rotation at the start at " + to_string(motionVector.angleInDegrees) + " degrees");
         rotate(motionVector.angleInDegrees);
     }
     
     if (!sharedNewMotion) { // if no new motion while rotation being processed
         
-        Utils::printMessage("Move " + to_string(motionVector.distanceInMeters) + " meters");
+        Utils::printMessage("Movement of " + to_string(motionVector.distanceInMeters) + " meters");
         go(motionVector.distanceInMeters);
     }
     
     if (!sharedNewMotion) { // if no new motion while moving being processed
         
         if (fabs(motionVector.angleInDegrees) > 1) {
-            Utils::printMessage("Turn at the end at -" + to_string(motionVector.angleInDegrees) + " degrees");
+            Utils::printMessage("Rotation at the end at -" + to_string(motionVector.angleInDegrees) + " degrees");
             rotate(-motionVector.angleInDegrees);
         }
     }
@@ -103,7 +103,7 @@ void MotionController::move(MotionVector motionVector) {
     leftMotor.disable();
     rightMotor.disable();
     
-    Utils::printMessage("Moving finished");
+    Utils::printMessage("Motion finished");
     
     sharedMotionInProcess = false;
     
@@ -117,7 +117,7 @@ void MotionController::rotate(double angleInDegrees) {
     
     int directionFactor = xSideFactor * angleInDegrees / fabs(angleInDegrees);
     
-    Utils::printMessage("Rotation at " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "right" : "left") + " direction");
+    Utils::printMessage("Rotate " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "right" : "left") + " direction");
 
     leftMotor.setDirection(directionFactor);
     rightMotor.setDirection(-directionFactor);
@@ -126,13 +126,15 @@ void MotionController::rotate(double angleInDegrees) {
         
         if (sharedNewMotion) {
             Utils::printMessage("Break rotation due to new motion");
-            break;
+            return;
         }
         
         leftMotor.step();
         rightMotor.step();
         usleep(rotDelayInMicroSec);
     }
+    
+    Utils::printMessage("Rotation completed");
 }
 
 void MotionController::go(double distanceInMeters) {
@@ -141,7 +143,7 @@ void MotionController::go(double distanceInMeters) {
     
     int directionFactor = distanceInMeters / fabs(distanceInMeters);
     
-    Utils::printMessage("Moving at " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "forward" : "backward") + " direction");
+    Utils::printMessage("Move " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "forward" : "backward") + " direction");
     
     leftMotor.setDirection(directionFactor);
     rightMotor.setDirection(-directionFactor);
@@ -150,13 +152,15 @@ void MotionController::go(double distanceInMeters) {
         
         if (sharedNewMotion) {
             Utils::printMessage("Break moving due to new motion");
-            break;
+            return;
         }
         
         leftMotor.step();
         rightMotor.step();
         usleep(goDelayInMicroSec);
     }
+    
+    Utils::printMessage("Moving completed");
 }
 
 #pragma mark - Helpers

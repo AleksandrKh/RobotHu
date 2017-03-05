@@ -63,7 +63,8 @@ void Controller::startPoseEstimator() {
 
 void Controller::didObtainPoseDelegate(vector<double> pose) {
     
-    //Utils::printCoordinate(pose);
+    // Utils::printMessage("New pose obtained from estimator");
+    // Utils::printCoordinate(pose);
     
     time_t now = time(0);
     
@@ -137,7 +138,8 @@ void Controller::startPoseAnalyzer() {
                 
                 sharedAnalyzedMotionVector = MotionController::convertCoordinateToMotionVector(targetCoordinate);
         
-                Utils::printMotionVector(sharedAnalyzedMotionVector);
+                Utils::printMessage("New pose passed analyze");
+                Utils::printCoordinate(targetCoordinate);
             }
         }
         
@@ -180,7 +182,14 @@ void Controller::startMotionMonitor() {
                 
                 lastMotionVector = sharedAnalyzedMotionVector;
                 
-                thread t(&Controller::move, this);
+                Utils::printMessage("New motion vector is sending in motion");
+                Utils::printMotionVector(sharedAnalyzedMotionVector);
+                
+                function<void()> move = [=]() {
+                    MotionController::Instance().shouldMove(lastMotionVector);
+                };
+                
+                thread t(move);
                 t.detach();
             }
         }
@@ -189,50 +198,38 @@ void Controller::startMotionMonitor() {
     }
 }
 
-void Controller::move() {
-    
-    MotionController::Instance().shouldMove(lastMotionVector);
-}
-
 #pragma mark - Test
 
 // For testing motion behaviour without camera data
 
-void Controller::startTest() {
+void Controller::startTest(vector<vector<double> > poses) {
     
     thread t1(&Controller::startPoseAnalyzer, this);
     thread t2(&Controller::startMotionMonitor, this);
-    thread t3(&Controller::startTestPoseGenerator, this);
+
+    function<void()> startTestPoseGenerator = [=]() {
+        
+        Utils::printMessage("Start test pose generator");
+        
+        chrono::seconds interval(5);
+        
+        //    poses = {
+        //        // redefine
+        //    };
+        
+        for (int i = 0; i < poses.size(); i++) {
+            
+            Utils::printMessage("Emit a new test pose");
+            Utils::printCoordinate(poses[i]);
+            
+            didObtainPoseDelegate(poses[i]);
+            
+            this_thread::sleep_for(interval);
+        }
+    };
+    thread t3(startTestPoseGenerator);
 
     t1.join();
     t2.join();
     t3.join();
-}
-
-void Controller::startTestPoseGenerator() {
-    
-    Utils::printMessage("Start test pose generator");
-    
-    chrono::seconds interval(5);
-    
-    vector<vector<double> >testPoses = {
-        
-        // Just examples
-        
-        {-0.3, 0, kHoldingPoseDistanceInMeters - 0.9},
-        {-0.31, 0, kHoldingPoseDistanceInMeters - 0.89},
-        {-0.29, 0, kHoldingPoseDistanceInMeters - 0.89},
-        {-0.29, 0, kHoldingPoseDistanceInMeters - 0.69},
-
-        // add test pose
-    };
-    
-    for (int i = 0; i < testPoses.size(); i++) {
-        
-        Utils::printMessage("Test pose n: " + to_string(i));
-        
-        didObtainPoseDelegate(testPoses[i]);
-        
-        this_thread::sleep_for(interval);
-    }
 }

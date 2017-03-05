@@ -23,7 +23,7 @@ public:
     
     void start();
     
-    void startTest();
+    void startTest(std::vector<std::vector<double> > poses);
     
 private:
     
@@ -43,11 +43,7 @@ private:
     
     // Filters
     bool filterCoordinate(std::vector<double> coordinate);
-    
-    void move();
-    
-    void startTestPoseGenerator();
-    
+        
     std::mutex m;
 };
 

@@ -31,5 +31,5 @@ void Utils::printCoordinate(vector<double> coordinate) {
 
 void Utils::printMotionVector(MotionVector motionVector) {
     
-    cout << "Target angle: " + to_string(motionVector.angleInDegrees) + " Target distance: " + to_string(motionVector.distanceInMeters) + "\n" << endl;
+    cout << "Angle: " + to_string(motionVector.angleInDegrees) + " Distance: " + to_string(motionVector.distanceInMeters) + "\n" << endl;
 }
