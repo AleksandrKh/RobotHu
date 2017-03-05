@@ -10,13 +10,15 @@
 #include "bcm2835.h"
 #include <stdexcept>
 #include <unistd.h>
+#include "../../Utils/Utils.hpp"
 
 using namespace std;
 
 Motor::Motor(int enablePin, int stepPin, int dirPin) {
     
     if (!bcm2835_init()) {
-        throw runtime_error("bcm2835 can't be init");
+        Utils::printError("bcm2835 can't be init");
+        throw exception();
     }
     
     this->enablePin = enablePin;
