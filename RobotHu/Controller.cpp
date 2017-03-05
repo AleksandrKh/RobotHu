@@ -31,7 +31,7 @@ Controller::Controller() {
     sharedAnalyzedMotionVector = {0.0, 0.0};
     lastMotionVector = {0.0, 0.0};
     
-    holdingPoseDistance = kDefaultHoldingPoseDistanceInMeters;
+    holdingPoseDistanceInMeters = kDefaultHoldingPoseDistanceInMeters;
 }
 
 void Controller::start() {
@@ -39,9 +39,9 @@ void Controller::start() {
     start(kDefaultHoldingPoseDistanceInMeters);
 }
 
-void Controller::start(double holdingPoseDistance) {
+void Controller::start(double holdingPoseDistanceInMeters) {
     
-    this->holdingPoseDistance = holdingPoseDistance;
+    this->holdingPoseDistanceInMeters = holdingPoseDistanceInMeters;
 
     // Delegates
     function<void(vector<double>)> didObtainPoseDelegate = [=](vector<double> pose) {
@@ -140,12 +140,12 @@ void Controller::startPoseAnalyzer() {
             
             // Check if new coordinate is outside of "calmness area" - area around holding pose where we are keeping stillness
     
-            double calmnessAreaInMeters = holdingPoseDistance / kCalmnessAreaInPercent;
+            double calmnessAreaInMeters = holdingPoseDistanceInMeters / kCalmnessAreaInPercent;
 
-            if (targetCoordinate[2] > holdingPoseDistance + calmnessAreaInMeters ||
-                targetCoordinate[2] < holdingPoseDistance - calmnessAreaInMeters) {
+            if (targetCoordinate[2] > holdingPoseDistanceInMeters + calmnessAreaInMeters ||
+                targetCoordinate[2] < holdingPoseDistanceInMeters - calmnessAreaInMeters) {
                 
-                targetCoordinate[2] -= holdingPoseDistance;
+                targetCoordinate[2] -= holdingPoseDistanceInMeters;
                 shouldUpdate = true;
             }
             
@@ -219,7 +219,7 @@ void Controller::startMotionMonitor() {
 
 void Controller::startTest(vector<vector<double> > poses, double holdingPoseDistance) {
     
-    this->holdingPoseDistance = holdingPoseDistance;
+    this->holdingPoseDistanceInMeters = holdingPoseDistance;
     
     thread t1(&Controller::startPoseAnalyzer, this);
     thread t2(&Controller::startMotionMonitor, this);

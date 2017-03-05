@@ -24,8 +24,8 @@ using namespace std;
 #define kMinDistanceForRotationInMeters 2.0
 #define kMotorStepInMetersCalibFactor 1
 
-#define kGoSpeedInMeterPerSec 0.05
-#define kRotSpeedInMeterPerSec 0.01
+#define kGoSpeedInMeterPerSec 0.1
+#define kRotSpeedInMeterPerSec 0.05
 
 #define kLeftMotorEnablePin 16
 #define kLeftMotorStepPin 20

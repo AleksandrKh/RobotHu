@@ -40,24 +40,24 @@ Motor::Motor(int enablePin, int stepPin, int dirPin) {
 void Motor::enable() {
     
     bcm2835_gpio_write(enablePin, LOW);
-    usleep(1000);
+    usleep(500);
 }
 
 void Motor::disable() {
     
     bcm2835_gpio_write(enablePin, HIGH);
-    usleep(1000);
+    usleep(500);
 }
 
 void Motor::setDirection(int direction) {
     
     bcm2835_gpio_write(dirPin, direction > 0 ? LOW : HIGH);
-    usleep(1000);
+    usleep(500);
 }
 
 void Motor::step() {
     
     bcm2835_gpio_write(stepPin, HIGH);
     bcm2835_gpio_write(stepPin, LOW);
-    usleep(1000);
+    usleep(500);
 }

@@ -22,13 +22,13 @@ public:
     Controller();
     
     void start();
-    void start(double holdingPoseDistance);
+    void start(double holdingPoseDistanceInMeters);
     
-    void startTest(std::vector<std::vector<double> > poses, double holdingPoseDistance);
+    void startTest(std::vector<std::vector<double> > poses, double holdingPoseDistanceInMeters);
     
 private:
     
-    double holdingPoseDistance;
+    double holdingPoseDistanceInMeters;
     
     MotionVector sharedAnalyzedMotionVector, lastMotionVector;
     std::list<std::vector<double> > sharedLastPosesList;
