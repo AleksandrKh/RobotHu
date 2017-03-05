@@ -26,6 +26,12 @@ using namespace std;
 
 #define kMotionMonitorFreqInSec 3
 
+Controller::Controller() {
+    
+    sharedAnalyzedMotionVector = {0.0, 0.0};
+    lastMotionVector = {0.0, 0.0}
+}
+
 void Controller::start() {
 
     start(kDefaultHoldingPoseDistanceInMeters);

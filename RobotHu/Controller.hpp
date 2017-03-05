@@ -19,6 +19,8 @@ class Controller {
 
 public:
     
+    Controller();
+    
     void start();
     void start(double holdingPoseDistance);
     

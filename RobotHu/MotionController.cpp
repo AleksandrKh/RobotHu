@@ -179,9 +179,7 @@ MotionVector MotionController::convertCoordinateToMotionVector(std::vector<doubl
     
     if (distance < 0)
         angle = 180 - angle;
-    
-    cout << "DIST: " << distance << endl;
-    
+        
     angle *= xSideFactor * x / fabs(x); // consider angle sign
     
     return {fabs(angle) > __DBL_EPSILON__ ? angle : 0.0, fabs(distance) > __DBL_EPSILON__ ? distance : 0.0};
