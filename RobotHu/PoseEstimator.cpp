@@ -21,7 +21,7 @@ using namespace cv;
 static bool readCameraParameters(string filename, Mat &camMatrix, Mat &distCoeffs);
 
 #define kCameraID 0
-#define kCameraParametersFile "sjcam_charuco_calib.yml" // must be unique for any other camera, see calibrateCamera.cpp
+#define kCameraParametersFile "camera.yml" // must be unique for any other camera, see calibrateCamera.cpp
 #define kMarkerDictionaryID 8
 #define kMarkerID 10
 #define kMarkerLengthInMeters 0.1
@@ -42,7 +42,7 @@ void PoseEstimator::startEstimator() {
     
     if (!readCameraParameters(kCameraParametersFile, camMatrix, distCoeffs)) {
         
-        throw runtime_error("Invalid camera file");
+        throw runtime_error("Invalid camera calibration camera.yml file. It should be in the same directory as the executed program");
         
 //        if (didReceiveErrorMessage)
 //            (*didReceiveErrorMessage)("Invalid camera file");
@@ -52,6 +52,10 @@ void PoseEstimator::startEstimator() {
     
     VideoCapture inputVideo;
     inputVideo.open(kCameraID);
+    
+    if (!inputVideo.isOpened()) {
+        throw runtime_error("Camera is not connected");
+    }
     
     while (inputVideo.grab()) {
         
