@@ -151,7 +151,7 @@ void Controller::startPoseAnalyzer() {
                 
                 sharedAnalyzedMotionVector = MotionController::convertCoordinateToMotionVector(targetCoordinate);
         
-                Utils::printMessage("New pose passed analyze");
+                Utils::printMessage("New pose converted to target coordinate");
                 Utils::printCoordinate(targetCoordinate);
             }
         }
