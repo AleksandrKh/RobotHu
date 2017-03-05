@@ -120,7 +120,7 @@ void MotionController::rotate(double angleInDegrees) {
     Utils::printMessage("Rotate " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "right" : "left") + " direction");
 
     leftMotor.setDirection(directionFactor);
-    rightMotor.setDirection(-directionFactor);
+    rightMotor.setDirection(directionFactor);
     
     for (int i = 0; i < stepsNum; i++) {
         
