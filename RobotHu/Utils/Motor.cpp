@@ -11,10 +11,12 @@
 #include <stdexcept>
 #include <unistd.h>
 
+using namespace std;
+
 Motor::Motor(int enablePin, int stepPin, int dirPin) {
     
     if (!bcm2835_init()) {
-        throw std::invalid_argument("bcm2835 can't be init");
+        throw runtime_error("bcm2835 can't be init");
     }
     
     this->enablePin = enablePin;

@@ -42,10 +42,10 @@ void PoseEstimator::startEstimator() {
     
     if (!readCameraParameters(kCameraParametersFile, camMatrix, distCoeffs)) {
         
+        throw runtime_error("Invalid camera file");
+        
 //        if (didReceiveErrorMessage)
 //            (*didReceiveErrorMessage)("Invalid camera file");
-        
-        throw std::invalid_argument("Invalid camera file");
         
         return;
     }
