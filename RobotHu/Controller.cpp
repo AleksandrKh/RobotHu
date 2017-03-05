@@ -30,6 +30,8 @@ Controller::Controller() {
     
     sharedAnalyzedMotionVector = {0.0, 0.0};
     lastMotionVector = {0.0, 0.0};
+    
+    holdingPoseDistance = kDefaultHoldingPoseDistanceInMeters;
 }
 
 void Controller::start() {
@@ -39,7 +41,7 @@ void Controller::start() {
 
 void Controller::start(double holdingPoseDistance) {
     
-    this->holdingPoseDistance = holdingPoseDistance ?: kDefaultHoldingPoseDistanceInMeters;
+    this->holdingPoseDistance = holdingPoseDistance;
 
     // Delegates
     function<void(vector<double>)> didObtainPoseDelegate = [=](vector<double> pose) {
