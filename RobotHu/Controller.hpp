@@ -23,7 +23,7 @@ public:
     
     void start(double holdingPoseDistanceInMeters, double speedInMeterPerSec);
     
-    void startTest(std::vector<std::vector<double> > poses, double holdingPoseDistanceInMeters);
+    void startTest(std::vector<std::vector<double> > poses, double holdingPoseDistance, double speedInMeterPerSec);
     
 private:
     

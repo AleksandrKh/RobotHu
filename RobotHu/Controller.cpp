@@ -210,9 +210,10 @@ void Controller::startMotionMonitor() {
 
 // For testing motion behaviour without camera data
 
-void Controller::startTest(vector<vector<double> > poses, double holdingPoseDistance) {
+void Controller::startTest(vector<vector<double> > poses, double holdingPoseDistance, double speedInMeterPerSec) {
     
     this->holdingPoseDistanceInMeters = holdingPoseDistance;
+    MotionController::Instance().setSpeed(speedInMeterPerSec);
     
     thread t1(&Controller::startPoseAnalyzer, this);
     thread t2(&Controller::startMotionMonitor, this);
