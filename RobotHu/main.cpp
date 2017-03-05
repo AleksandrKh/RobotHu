@@ -14,6 +14,9 @@
 #include "../Utils/InputParser.hpp"
 #include "../Utils/Utils.hpp"
 
+#define kDefaultHoldingPoseDistanceInMeters 1.0
+#define kDefaultSpeedInMeterPerSec 0.1
+
 using namespace std;
 
 int main(int argc, const char * argv[]) {
@@ -37,15 +40,12 @@ int main(int argc, const char * argv[]) {
     if (!testMode) {
         
         const std::string &holdString = input.getCmdOption("-hold");
+        double hold = holdString.length() ? atof(holdString.c_str()) : kDefaultHoldingPoseDistanceInMeters;
         
-        if (!holdString.length()) {
-            controller.start();
-        }
-        else {
-            
-            double holdDistance = atof(holdString.c_str());
-            controller.start(holdDistance);
-        }
+        const std::string &speedString = input.getCmdOption("-speed");
+        double speed = speedString.length() ? atof(speedString.c_str()) : kDefaultSpeedInMeterPerSec;
+
+        controller.start(hold, speed);
     }
     else {
     

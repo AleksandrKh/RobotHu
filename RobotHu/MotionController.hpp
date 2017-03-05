@@ -28,6 +28,8 @@ public:
         static MotionController s;
         return s;
     }
+    
+    void setSpeed(double speedInMeterPerSec);
         
     void shouldMove(MotionVector motionVector);
     
@@ -46,6 +48,9 @@ private:
     
     bool sharedNewMotion;
     bool sharedMotionInProcess;
+    
+    double goSpeedInMeterPerSec, rotSpeedInMeterPerSec;
+
     MotionVector motionVector;
     
     void setup();

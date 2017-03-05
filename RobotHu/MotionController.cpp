@@ -24,8 +24,7 @@ using namespace std;
 #define kMinDistanceForRotationInMeters 2.0
 #define kMotorStepInMetersCalibFactor 1
 
-#define kGoSpeedInMeterPerSec 0.1
-#define kRotSpeedInMeterPerSec 0.05
+#define kDefaultGoSpeedInMeterPerSec 0.1
 
 #define kLeftMotorEnablePin 16
 #define kLeftMotorStepPin 20
@@ -35,24 +34,35 @@ using namespace std;
 #define kRightMotorDirPin 26
 
 void MotionController::setup() {
-
+    
     sharedNewMotion = false;
     sharedMotionInProcess = false;
+    
+    goSpeedInMeterPerSec = kDefaultGoSpeedInMeterPerSec;
     
     motorsSetup();
 }
 
 void MotionController::motorsSetup() {
     
+    rotSpeedInMeterPerSec = goSpeedInMeterPerSec / 2.0;
+
     motorStepInMeters = (2 * M_PI * kWheelsRadiusInMeters / kMotorStepsPerRevolution) * kMotorStepInMetersCalibFactor;
     
     machineTurningCircleLength = M_PI * kDistanceBetweenWheelsInMeters;
     
-    goDelayInMicroSec = motorStepInMeters / kGoSpeedInMeterPerSec * 1000000;
-    rotDelayInMicroSec = motorStepInMeters / kRotSpeedInMeterPerSec * 1000000;
+    goDelayInMicroSec = motorStepInMeters / goSpeedInMeterPerSec * 1000000;
+    rotDelayInMicroSec = motorStepInMeters / rotSpeedInMeterPerSec * 1000000;
     
     leftMotor = Motor(kLeftMotorEnablePin, kLeftMotorStepPin, kLeftMotorDirPin);
     rightMotor = Motor(kRightMotorEnablePin, kRightMotorStepPin, kRightMotorDirPin);
+}
+
+void MotionController::setSpeed(double speedInMeterPerSec) {
+    
+    goSpeedInMeterPerSec = speedInMeterPerSec;
+    
+    motorsSetup();
 }
 
 void MotionController::shouldMove(MotionVector motionVector) {

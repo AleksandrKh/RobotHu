@@ -21,8 +21,7 @@ public:
     
     Controller();
     
-    void start();
-    void start(double holdingPoseDistanceInMeters);
+    void start(double holdingPoseDistanceInMeters, double speedInMeterPerSec);
     
     void startTest(std::vector<std::vector<double> > poses, double holdingPoseDistanceInMeters);
     

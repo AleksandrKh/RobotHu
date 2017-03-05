@@ -21,7 +21,6 @@ using namespace std;
 #define kPoseAnalyzerFreqInMilliSec 100
 
 #define kMinDeviationInMeters 0.05
-#define kDefaultHoldingPoseDistanceInMeters 1.0
 #define kCalmnessAreaInPercent 10.0
 
 #define kMotionMonitorFreqInSec 3
@@ -30,18 +29,12 @@ Controller::Controller() {
     
     sharedAnalyzedMotionVector = {0.0, 0.0};
     lastMotionVector = {0.0, 0.0};
-    
-    holdingPoseDistanceInMeters = kDefaultHoldingPoseDistanceInMeters;
 }
 
-void Controller::start() {
-
-    start(kDefaultHoldingPoseDistanceInMeters);
-}
-
-void Controller::start(double holdingPoseDistanceInMeters) {
+void Controller::start(double holdingPoseDistanceInMeters, double speedInMeterPerSec) {
     
     this->holdingPoseDistanceInMeters = holdingPoseDistanceInMeters;
+    MotionController::Instance().setSpeed(speedInMeterPerSec);
 
     // Delegates
     function<void(vector<double>)> didObtainPoseDelegate = [=](vector<double> pose) {
