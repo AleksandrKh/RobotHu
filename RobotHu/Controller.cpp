@@ -132,12 +132,12 @@ void Controller::startPoseAnalyzer() {
             
             // Check if new coordinate is outside of "calmness area" - area around holding pose where we are keeping stillness
     
-            double calmnessAreaInMeters = holdingPoseDistance / kCalmnessAreaInPercent;
+            double calmnessAreaInMeters = kDefaultHoldingPoseDistanceInMeters / kCalmnessAreaInPercent;
 
-            if (targetCoordinate[2] > holdingPoseDistance + calmnessAreaInMeters ||
-                targetCoordinate[2] < holdingPoseDistance - calmnessAreaInMeters) {
+            if (targetCoordinate[2] > kDefaultHoldingPoseDistanceInMeters + calmnessAreaInMeters ||
+                targetCoordinate[2] < kDefaultHoldingPoseDistanceInMeters - calmnessAreaInMeters) {
                 
-                targetCoordinate[2] -= holdingPoseDistance;
+                targetCoordinate[2] -= kDefaultHoldingPoseDistanceInMeters;
                 shouldUpdate = true;
             }
             
