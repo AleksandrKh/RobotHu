@@ -12,15 +12,19 @@
 #include <iostream>
 #include "Controller.hpp"
 #include "../Utils/InputParser.hpp"
+#include "../Utils/Utils.hpp"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
     
     string info = "Camera should be connected.\n"
-    "To test without camera data execute command:\n"
-    "./robotHu -test 1 -poses <x> <y> <z> <x1> <y1> <z1> .. <xn> <yn> <zn>\n"
-    "Example command: ./robotHu -test 1 -poses 0 0 0.5 0.1 0 0 -0.2 0 -0.3\n";
+    "Example command: ./robotHu -hold 0.5\n"
+    "-hold - distance in meters that the robot is trying to hold between camera and marker, default is 1\n"
+    "To test without camera data execute command with poses vectors: <x> <y> <z> <x1> <y1> <z1> .. <xn> <yn> <zn>\n"
+    "Example command: ./robotHu -test 1 -hold 0.5 -poses 0 0 0.5 0.1 0 0 -0.2 0 -0.3\n"
+    "-hold - required in test mode";
+    
     cout << info << endl;
     
     InputParser input(argc, argv);
@@ -32,20 +36,45 @@ int main(int argc, const char * argv[]) {
     
     if (!testMode) {
         
-        controller.start();
+        const std::string &holdString = input.getCmdOption("-hold");
+        
+        if (!holdString.length()) {
+            controller.start();
+        }
+        else {
+            
+            double holdDistance = atof(holdString.c_str());
+            controller.start(holdDistance);
+        }
     }
     else {
     
-        const std::string &posesString = input.getCmdOption("-poses");
+        const std::string &holdString = input.getCmdOption("-hold");
         
+        if (!holdString.length()) {
+            
+            Utils::printError("-hold param is not exist");
+            return 1;
+        }
+        
+        double holdDistance = atof(holdString.c_str());
+        
+        const std::string &posesString = input.getCmdOption("-poses");
         if (!posesString.length()) {
-            cout << "Error: at least 1 pose should be defined in test mode" << endl;
+            
+            Utils::printError("At least 1 pose should be defined in test mode");
+            return 1;
+        }
+        
+        if (argc < 8) {
+            
+            Utils::printError("Something is not defined");
             return 1;
         }
         
         // Parse poses from the command line
         vector<vector<double> > poses;
-        int poseFirstArgPosition = 4;
+        int poseFirstArgPosition = 6;
         for (int i = poseFirstArgPosition; i < argc; i += 3) {
             vector<double> pose;
             for (int j = 0; j < 3; j++) {
@@ -57,7 +86,7 @@ int main(int argc, const char * argv[]) {
 
         if (poses.size()) {
             
-            controller.startTest(poses);
+            controller.startTest(poses, holdDistance);
         }
     }
 

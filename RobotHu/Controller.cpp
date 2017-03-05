@@ -21,19 +21,26 @@ using namespace std;
 #define kPoseAnalyzerFreqInMilliSec 100
 
 #define kMinDeviationInMeters 0.05
-#define kHoldingPoseDistanceInMeters 1.0
+#define kDefaultHoldingPoseDistanceInMeters 1.0
 #define kCalmnessAreaInPercent 10.0
 
 #define kMotionMonitorFreqInSec 3
 
 void Controller::start() {
 
+    start(kDefaultHoldingPoseDistanceInMeters);
+}
+
+void Controller::start(double holdingPoseDistance) {
+    
+    this->holdingPoseDistance = holdingPoseDistance;
+    
     // Delegates
     function<void(vector<double>)> didObtainPoseDelegate = [=](vector<double> pose) {
         this->didObtainPoseDelegate(pose);
     };
     PoseEstimator::Instance().didObtainPoseDelegate = &didObtainPoseDelegate;
-
+    
     function<void(string)> didReceiveErrorMessage = [=](string errorMessage) {
         this->didReceiveErrorMessage(errorMessage);
     };
@@ -53,6 +60,9 @@ void Controller::start() {
 // Analyzes pose and returns delegate
 
 void Controller::startPoseEstimator() {
+    
+    if (!holdingPoseDistance)
+        holdingPoseDistance = kDefaultHoldingPoseDistanceInMeters;
     
     Utils::printMessage("Start pose estimator");
 
@@ -125,12 +135,12 @@ void Controller::startPoseAnalyzer() {
             
             // Check if new coordinate is outside of "calmness area" - area around holding pose where we are keeping stillness
     
-            double calmnessAreaInMeters = kHoldingPoseDistanceInMeters / kCalmnessAreaInPercent;
+            double calmnessAreaInMeters = holdingPoseDistance / kCalmnessAreaInPercent;
 
-            if (targetCoordinate[2] > kHoldingPoseDistanceInMeters + calmnessAreaInMeters ||
-                targetCoordinate[2] < kHoldingPoseDistanceInMeters - calmnessAreaInMeters) {
+            if (targetCoordinate[2] > holdingPoseDistance + calmnessAreaInMeters ||
+                targetCoordinate[2] < holdingPoseDistance - calmnessAreaInMeters) {
                 
-                targetCoordinate[2] -= kHoldingPoseDistanceInMeters;
+                targetCoordinate[2] -= holdingPoseDistance;
                 shouldUpdate = true;
             }
             
@@ -202,7 +212,9 @@ void Controller::startMotionMonitor() {
 
 // For testing motion behaviour without camera data
 
-void Controller::startTest(vector<vector<double> > poses) {
+void Controller::startTest(vector<vector<double> > poses, double holdingPoseDistance) {
+    
+    this->holdingPoseDistance = holdingPoseDistance;
     
     thread t1(&Controller::startPoseAnalyzer, this);
     thread t2(&Controller::startMotionMonitor, this);

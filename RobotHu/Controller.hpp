@@ -19,13 +19,14 @@ class Controller {
 
 public:
     
-    Controller() {};
-    
     void start();
+    void start(double holdingPoseDistance);
     
-    void startTest(std::vector<std::vector<double> > poses);
+    void startTest(std::vector<std::vector<double> > poses, double holdingPoseDistance);
     
 private:
+    
+    double holdingPoseDistance;
     
     MotionVector sharedAnalyzedMotionVector, lastMotionVector;
     std::list<std::vector<double> > sharedLastPosesList;
