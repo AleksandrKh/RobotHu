@@ -54,7 +54,8 @@ void PoseEstimator::startEstimator() {
     inputVideo.open(kCameraID);
     
     if (!inputVideo.isOpened()) {
-        throw runtime_error("Camera is not connected");
+        Utils::printError("Camera is not connected");
+        throw exception();
     }
     
     while (inputVideo.grab()) {
