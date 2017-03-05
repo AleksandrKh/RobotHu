@@ -66,7 +66,7 @@ int main(int argc, const char * argv[]) {
             return 1;
         }
         
-        if (argc < 8) {
+        if (argc < 9) {
             
             Utils::printError("Something is not defined");
             return 1;
