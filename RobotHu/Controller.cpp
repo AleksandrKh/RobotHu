@@ -33,8 +33,8 @@ void Controller::start() {
 
 void Controller::start(double holdingPoseDistance) {
     
-    this->holdingPoseDistance = holdingPoseDistance;
-    
+    this->holdingPoseDistance = holdingPoseDistance ?: kDefaultHoldingPoseDistanceInMeters;
+
     // Delegates
     function<void(vector<double>)> didObtainPoseDelegate = [=](vector<double> pose) {
         this->didObtainPoseDelegate(pose);
@@ -60,9 +60,6 @@ void Controller::start(double holdingPoseDistance) {
 // Analyzes pose and returns delegate
 
 void Controller::startPoseEstimator() {
-    
-    if (!holdingPoseDistance)
-        holdingPoseDistance = kDefaultHoldingPoseDistanceInMeters;
     
     Utils::printMessage("Start pose estimator");
 
