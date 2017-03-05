@@ -105,7 +105,7 @@ void MotionController::move(MotionVector motionVector) {
     if (!sharedNewMotion) { // if no new motion while moving being processed
         
         if (fabs(motionVector.angleInDegrees) > 1) {
-            Utils::printMessage("Rotation at the end at -" + to_string(motionVector.angleInDegrees) + " degrees");
+            Utils::printMessage("Rotation at the end at " + to_string(motionVector.angleInDegrees) + " degrees");
             rotate(-motionVector.angleInDegrees);
         }
     }
