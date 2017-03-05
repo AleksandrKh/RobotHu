@@ -21,9 +21,9 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    string info = "Camera should be connected.\n"
-    "Example command: ./robotHu -hold 0.5\n"
+    string info = "Example command: ./robotHu -hold 0.5 -speed 0.1\n"
     "-hold - distance in meters that the robot is trying to hold between camera and marker, default is 1\n"
+    "-speed - speed in meter per sec\n"
     "To test without camera data execute command with poses vectors: <x> <y> <z> <x1> <y1> <z1> .. <xn> <yn> <zn>\n"
     "Example command: ./robotHu -test 1 -hold 0.5 -poses 0 0 0.5 0.1 0 0 -0.2 0 -0.3\n"
     "-hold - required in test mode";
