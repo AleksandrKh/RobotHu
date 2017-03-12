@@ -152,6 +152,8 @@
 		41C97EE81E6A3FD70039FB5E /* Motor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Motor.hpp; sourceTree = "<group>"; };
 		41C97EEC1E6AF9360039FB5E /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		41C97EED1E6B1F8D0039FB5E /* sjcam_charuco_calib.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sjcam_charuco_calib.yml; sourceTree = "<group>"; };
+		41FFEDCD1E75CD9D00019F5C /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		41FFEDCE1E75DBD000019F5C /* run.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = run.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +264,7 @@
 		412084481E61B6A2002A1039 /* RobotHu */ = {
 			isa = PBXGroup;
 			children = (
+				41FFEDCD1E75CD9D00019F5C /* config.h */,
 				412084491E61B6A2002A1039 /* main.cpp */,
 				4120848C1E620A7D002A1039 /* Controller.hpp */,
 				4120848B1E620A7D002A1039 /* Controller.cpp */,
@@ -378,6 +381,7 @@
 			isa = PBXGroup;
 			children = (
 				41C97EEC1E6AF9360039FB5E /* .gitignore */,
+				41FFEDCE1E75DBD000019F5C /* run.sh */,
 			);
 			path = Builds;
 			sourceTree = "<group>";

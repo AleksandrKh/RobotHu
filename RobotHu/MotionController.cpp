@@ -7,6 +7,7 @@
 //
 
 #include "MotionController.hpp"
+#include "config.h"
 #include "../Utils/Utils.hpp"
 #include <cmath>
 #include <thread>
@@ -15,28 +16,10 @@
 
 using namespace std;
 
-#define xSideFactor 1 // 1 - Left side of the camera under zero, right is over zero, -1 - vice versa
-#define ySideFactor 1 // 1 - Upper side of the camera under zero, lower is over zero, -1 - vice versa
-
-#define kMotorStepsPerRevolution k17HS4401MotorStepsPerRevolution
-#define kWheelsRadiusInMeters 0.05
-#define kDistanceBetweenWheelsInMeters 0.15
-#define kMinDistanceForRotationInMeters 2.0
-#define kMotorStepInMetersCalibFactor 1
-
-#define kDefaultGoSpeedInMeterPerSec 0.1
-
-#define kLeftMotorEnablePin 16
-#define kLeftMotorStepPin 20
-#define kLeftMotorDirPin 21
-#define kRightMotorEnablePin 13
-#define kRightMotorStepPin 19
-#define kRightMotorDirPin 26
-
 void MotionController::setup() {
     
-    sharedNewMotion = false;
-    sharedMotionInProcess = false;
+    newMotionShared = false;
+    motionInProcessShared = false;
     
     goSpeedInMeterPerSec = kDefaultGoSpeedInMeterPerSec;
     
@@ -67,13 +50,14 @@ void MotionController::setSpeed(double speedInMeterPerSec) {
 
 void MotionController::shouldMove(MotionVector motionVector) {
     
-    sharedNewMotion = true;
+    Utils::printMotionVector(motionVector);
+    newMotionShared = true;
     
     while (true) {
         
-        if (sharedNewMotion && !sharedMotionInProcess) {
+        if (newMotionShared && !motionInProcessShared) {
             
-            sharedNewMotion = false;
+            newMotionShared = false;
             move(motionVector);
             break;
         }
@@ -84,29 +68,34 @@ void MotionController::move(MotionVector motionVector) {
     
     m.lock();
     
-    sharedMotionInProcess = true;
+    motionInProcessShared = true;
     
     Utils::printMessage("Motion started");
 
     leftMotor.enable();
     rightMotor.enable();
     
-    if (fabs(motionVector.angleInDegrees) > 1) {
-        Utils::printMessage("Rotation at the start at " + to_string(motionVector.angleInDegrees) + " degrees");
-        rotate(motionVector.angleInDegrees);
+    if (fabs(motionVector.xzCorrectionAngleInDeg) > 1) {
+        Utils::printMessage("XZ correction rotation at " + to_string(motionVector.xzCorrectionAngleInDeg) + " degrees");
+        rotate(motionVector.xzCorrectionAngleInDeg);
     }
     
-    if (!sharedNewMotion) { // if no new motion while rotation being processed
+    if (fabs(motionVector.angleInDeg) > 1) {
+        Utils::printMessage("Initial rotation at " + to_string(motionVector.angleInDeg) + " degrees");
+        rotate(motionVector.angleInDeg);
+    }
+    
+    if (!newMotionShared) { // if no new motion while rotation being processed
         
         Utils::printMessage("Movement of " + to_string(motionVector.distanceInMeters) + " meters");
         go(motionVector.distanceInMeters);
     }
     
-    if (!sharedNewMotion) { // if no new motion while moving being processed
+    if (!newMotionShared) { // if no new motion while moving being processed
         
-        if (fabs(motionVector.angleInDegrees) > 1) {
-            Utils::printMessage("Rotation at the end at " + to_string(motionVector.angleInDegrees) + " degrees");
-            rotate(-motionVector.angleInDegrees);
+        if (fabs(motionVector.angleInDeg) > 1) {
+            Utils::printMessage("Reversed rotation at " + to_string(motionVector.angleInDeg) + " degrees");
+            rotate(-motionVector.angleInDeg);
         }
     }
     
@@ -115,7 +104,7 @@ void MotionController::move(MotionVector motionVector) {
     
     Utils::printMessage("Motion finished");
     
-    sharedMotionInProcess = false;
+    motionInProcessShared = false;
     
     m.unlock();
 }
@@ -125,7 +114,7 @@ void MotionController::rotate(double angleInDegrees) {
     double turningSegmentOfCicleLength = machineTurningCircleLength * angleInDegrees / 360.0f;
     int stepsNum = round(turningSegmentOfCicleLength / motorStepInMeters);
     
-    int directionFactor = xSideFactor * angleInDegrees / fabs(angleInDegrees);
+    int directionFactor = angleInDegrees / fabs(angleInDegrees);
     
     Utils::printMessage("Rotate " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "right" : "left") + " direction");
 
@@ -134,7 +123,7 @@ void MotionController::rotate(double angleInDegrees) {
     
     for (int i = 0; i < stepsNum; i++) {
         
-        if (sharedNewMotion) {
+        if (newMotionShared) {
             Utils::printMessage("Break rotation due to new motion");
             return;
         }
@@ -160,7 +149,7 @@ void MotionController::go(double distanceInMeters) {
     
     for (int i = 0; i < abs(stepsNum); i++) {
         
-        if (sharedNewMotion) {
+        if (newMotionShared) {
             Utils::printMessage("Break moving due to new motion");
             return;
         }
@@ -171,31 +160,4 @@ void MotionController::go(double distanceInMeters) {
     }
     
     Utils::printMessage("Moving completed");
-}
-
-#pragma mark - Helpers
-
-MotionVector MotionController::convertCoordinateToMotionVector(std::vector<double> coordinate) {
-    
-    double x = coordinate[0];
-    double z = coordinate[2];
-    
-    double distance = 0.0;
-    distance = sqrt(pow(x, 2) + pow(z, 2));
-    distance *= z / fabs(z); // consider direction sign
-    
-    double angle = 0.0;
-    angle = RADIANS_TO_DEGREES(acos(fabs(z / distance)));
-    
-    if (distance < 0)
-        angle = 180 - angle;
-        
-    angle *= xSideFactor * x / fabs(x); // consider angle sign
-    
-    return {fabs(angle) > __DBL_EPSILON__ ? angle : 0.0, fabs(distance) > __DBL_EPSILON__ ? distance : 0.0};
-}
-
-bool MotionController::compareMotionVectors(MotionVector mv1, MotionVector mv2) {
-    
-    return mv1.angleInDegrees == mv2.angleInDegrees && mv1.distanceInMeters == mv2.distanceInMeters;
 }

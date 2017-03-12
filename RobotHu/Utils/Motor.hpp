@@ -11,9 +11,6 @@
 
 #include <stdio.h>
 
-// 17HS4401 stepper (RED 2B GREEB 2A) (YELLOW 1A BLUE 1B) in parentheses may be reversed
-#define k17HS4401MotorStepsPerRevolution 200
-
 class Motor {
     
 public:

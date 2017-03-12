@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include "../RobotHu/MotionController.hpp"
+#include "../RobotHu/PoseEstimator.hpp"
 
 #define DEGREES_TO_RADIANS(degrees) ((M_PI * degrees)/180.0f)
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0f / M_PI))
@@ -24,6 +25,7 @@ public:
     static void printMessage(std::string message);
     static void printError(std::string errorMessage);
     static void printCoordinate(std::vector<double> coordinate);
+    static void printPoseVector(PoseVector poseVector);
     static void printMotionVector(MotionVector motionVector);
 };
 

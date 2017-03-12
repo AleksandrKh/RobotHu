@@ -6,33 +6,34 @@
 //  Copyright © 2017 AKTech. All rights reserved.
 //
 
-// Compilation from the route of main file:
+// Compilation from the root of main file:
 // g++ -std=c++14 -o ../Builds/robotHu main.cpp Controller.cpp PoseEstimator.cpp MotionController.cpp Utils/Motor.cpp ../Utils/Utils.cpp ../Utils/InputParser.hpp -lbcm2835 `pkg-config --cflags --libs opencv` -lpthread
 
 #include <iostream>
+#include "config.h"
 #include "Controller.hpp"
 #include "../Utils/InputParser.hpp"
 #include "../Utils/Utils.hpp"
-
-#define kDefaultHoldingPoseDistanceInMeters 1.0
-#define kDefaultSpeedInMeterPerSec 0.1
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
     
     string info = "Example command: ./robotHu -hold 0.5 -speed 0.1\n"
-    "-hold - distance in meters that the robot is trying to hold between camera and marker, default is 1\n"
-    "-speed - speed in meter per sec\n"
-    "To test without camera data execute command with poses vectors: <x> <y> <z> <x1> <y1> <z1> .. <xn> <yn> <zn>\n"
-    "Example command: ./robotHu -test 1 -hold 0.5 -speed 0.1 -poses 0 0 0.5 0.1 0 0 -0.2 0 -0.3\n"
-    "-hold - required in test mode\n"
-    "-speed - required in test mode";
+    "-hold: distance in meters that the robot is trying to hold between camera and marker, default is 1\n"
+    "-speed: speed in meter per sec\n"
+    "To test without camera data execute command with poses vectors: <xzAngle> <x> <z> <xzAngle1> <x1> <z1> .. <xzAnglen> <xn> <zn>\n"
+    "Example command: ./robotHu -test 1 -hold 0.5 -speed 0.1 -poses 10 0.1 0.5 20 0.3 0 -20 0 -0.3\n"
+    "-hold: required in test mode\n"
+    "-speed: required in test mode\n"
+    "-xzAngle: angle between marker and camera in XZ plane\n"
+    "-x: x offset\n"
+    "-z: z offset\n";
     
     cout << info << endl;
     
     InputParser input(argc, argv);
-    const std::string &testString = input.getCmdOption("-test");
+    const std::string testString = input.getCmdOption("-test");
     
     bool testMode = testString.length() ? true : false;
     

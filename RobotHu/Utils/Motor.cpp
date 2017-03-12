@@ -33,7 +33,7 @@ Motor::Motor(int enablePin, int stepPin, int dirPin) {
     bcm2835_gpio_write(enablePin, LOW);
     bcm2835_gpio_write(enablePin, HIGH);
     
-    // Reset step pin
+    // "Reset" step pin
     bcm2835_gpio_write(stepPin, LOW);
 }
 

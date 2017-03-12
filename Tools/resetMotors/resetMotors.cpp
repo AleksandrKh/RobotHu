@@ -25,7 +25,7 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     
     string exampleCommand = "Example command: ./resetMotors -m1p 16 -m2p 13\n"
-    "-m1p - motor 1 enable pin";
+    "-m1p: motor 1 enable pin";
     
     InputParser input(argc, argv);
 

@@ -18,12 +18,13 @@ using namespace std;
 
 int main(int argc, const char *argv[]) {
     
-    string exampleCommand = "Example command: ./motorTest -steps 200 -delay 10000 -mlep 16 -mlsp 20 -mldp 21 -mld 1 -mrep 13 -mrsp 19 -mrdp 26 -mrd 1\n"
+    string exampleCommand = "Example command: ./motorTest -steps 200 -delay 10000 -mlep 16 -mlsp 20 -mldp 21 -mld 1 -mrep 13 -mrsp 19 -mrdp 26 -mrd 1 -backward 1\n"
     "-delay: between steps in microseconds\n"
     "-mlep: motor left enable pin\n"
     "-mlsp: motor left step pin\n"
     "-mldp: motor left direction pin\n"
-    "-mld: motor left direction, may be 1 or -1";
+    "-mld: motor left direction, may be 1 or -1\n"
+    "-backward: set 1 if you need reverse moving";
     
     InputParser input(argc, argv);
     
@@ -56,6 +57,9 @@ int main(int argc, const char *argv[]) {
     
     const std::string &motorRightDirectionString = input.getCmdOption("-mrd");
     int motorRightDirection = atoi(motorRightDirectionString.c_str());
+    
+    const std::string &motorBackwardString = input.getCmdOption("-backward");
+    int motorBackward = atoi(motorBackwardString.c_str());
     
     if (!steps || !delay ||
         !motorLeftEnablePin || !motorLeftStepPin || !motorLeftDirectionPin || !motorLeftDirection ||
@@ -106,23 +110,26 @@ int main(int argc, const char *argv[]) {
         usleep(delay);
     }
         
-    bcm2835_gpio_write(motorLeftDirectionPin, motorLeftDirection < 0 ? LOW : HIGH);
-    bcm2835_gpio_write(motorRightDirectionPin, motorRightDirection > 0 ? LOW : HIGH);
-    
     usleep(10000);
     
-    // Backward
-    
-    for (int i = 0; i < steps; i++) {
+    if (motorBackward > 0) {
         
-        // cout << "step: " << i + 1 << endl;
+        // Backward
         
-        bcm2835_gpio_write(motorLeftStepPin, HIGH);
-        bcm2835_gpio_write(motorRightStepPin, HIGH);
-        usleep(delay);
-        bcm2835_gpio_write(motorLeftStepPin, LOW);
-        bcm2835_gpio_write(motorRightStepPin, LOW);
-        usleep(delay);
+        bcm2835_gpio_write(motorLeftDirectionPin, motorLeftDirection < 0 ? LOW : HIGH);
+        bcm2835_gpio_write(motorRightDirectionPin, motorRightDirection > 0 ? LOW : HIGH);
+        
+        for (int i = 0; i < steps; i++) {
+            
+            // cout << "step: " << i + 1 << endl;
+            
+            bcm2835_gpio_write(motorLeftStepPin, HIGH);
+            bcm2835_gpio_write(motorRightStepPin, HIGH);
+            usleep(delay);
+            bcm2835_gpio_write(motorLeftStepPin, LOW);
+            bcm2835_gpio_write(motorRightStepPin, LOW);
+            usleep(delay);
+        }
     }
     
     bcm2835_gpio_write(motorLeftEnablePin, HIGH); // Disable

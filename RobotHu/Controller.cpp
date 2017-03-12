@@ -7,7 +7,7 @@
 //
 
 #include "Controller.hpp"
-#include "PoseEstimator.hpp"
+#include "config.h"
 #include "../Utils/Utils.hpp"
 #include <iostream>
 #include <thread>
@@ -17,18 +17,14 @@ using namespace std;
 
 #define kPosesListSize 3
 #define kPoseListUpdateDelayInSec 0.5
-
-#define kPoseAnalyzerFreqInMilliSec 100
-
-#define kMinDeviationInMeters 0.05
-#define kCalmnessAreaInPercent 10.0
-
+#define kPoseAnalyzerFreqInMilliSec 200
 #define kMotionMonitorFreqInSec 3
 
 Controller::Controller() {
     
-    sharedAnalyzedMotionVector = {0.0, 0.0};
-    lastMotionVector = {0.0, 0.0};
+    analyzedMotionShared = {0, 0, 0};
+    lastPose = {0, 0, 0};
+    isMotionUpdatedShared = false;
 }
 
 void Controller::start(double holdingPoseDistanceInMeters, double speedInMeterPerSec) {
@@ -37,7 +33,7 @@ void Controller::start(double holdingPoseDistanceInMeters, double speedInMeterPe
     MotionController::Instance().setSpeed(speedInMeterPerSec);
 
     // Delegates
-    function<void(vector<double>)> didObtainPoseDelegate = [=](vector<double> pose) {
+    function<void(PoseVector)> didObtainPoseDelegate = [=](PoseVector pose) {
         this->didObtainPoseDelegate(pose);
     };
     PoseEstimator::Instance().didObtainPoseDelegate = &didObtainPoseDelegate;
@@ -69,25 +65,25 @@ void Controller::startPoseEstimator() {
 
 #pragma mark - PoseEstimator delegates
 
-void Controller::didObtainPoseDelegate(vector<double> pose) {
+void Controller::didObtainPoseDelegate(PoseVector pose) {
     
-    // Utils::printMessage("New pose obtained from estimator");
-    // Utils::printCoordinate(pose);
-    
+//     Utils::printMessage("New pose obtained from estimator");
+//     Utils::printPoseVector(pose);
+
     time_t now = time(0);
     
-    if (sharedLastPosesList.empty()) {
+    if (lastPosesListShared.empty()) {
         
-        sharedLastPosesList.push_back(pose);
+        lastPosesListShared.push_back(pose);
         lastAcceptedPoseTime = now;
         return;
     }
     else if (difftime(now, lastAcceptedPoseTime) > kPoseListUpdateDelayInSec) {
     
-        if (sharedLastPosesList.size() == kPosesListSize)
-            sharedLastPosesList.pop_front();
+        if (lastPosesListShared.size() == kPosesListSize)
+            lastPosesListShared.pop_front();
         
-        sharedLastPosesList.push_back(pose);
+        lastPosesListShared.push_back(pose);
     }
 }
 
@@ -108,70 +104,74 @@ void Controller::startPoseAnalyzer() {
     
     while (true) {
         
-        // Get average coordinate between last poses
-        double avgX = 0, avgY = 0, avgZ = 0;
+        // Get average pose between last poses
+        PoseVector avgPose = {0, 0, 0};
         
-        for (auto const& i : sharedLastPosesList) {
+        for (auto const& i : lastPosesListShared) {
             
-            avgX += i[0];
-            avgY += i[1];
-            avgZ += i[2];
+            avgPose.xzAngleInDeg += i.xzAngleInDeg;
+            avgPose.xDistanceInMeters += i.xDistanceInMeters;
+            avgPose.zDistanceInMeters += i.zDistanceInMeters;
         }
         
-        double posesListSize = (double)sharedLastPosesList.size();
+        double posesListSize = (double)lastPosesListShared.size();
         
-        avgX /= posesListSize;
-        avgY /= posesListSize;
-        avgZ /= posesListSize;
+        avgPose.xzAngleInDeg /= posesListSize;
+        avgPose.xDistanceInMeters /= posesListSize;
+        avgPose.zDistanceInMeters /= posesListSize;
         
-        vector<double> targetCoordinate = {avgX, avgY, avgZ};
-        
-        // Filter coordinate
-        if (filterCoordinate(targetCoordinate)) {
+        if (filterPose(avgPose)) {
             
-            bool shouldUpdate = false;
+            analyzedMotionShared = convertPoseToMotionVector(avgPose);
             
-            // Check if new coordinate is outside of "calmness area" - area around holding pose where we are keeping stillness
-    
-            double calmnessAreaInMeters = holdingPoseDistanceInMeters / kCalmnessAreaInPercent;
+            Utils::printMessage("New target coordinate recalculated");
+            Utils::printMotionVector(analyzedMotionShared);
+            
+            m.lock();
+            isMotionUpdatedShared = true;
+            m.unlock();
+        }
 
-            if (targetCoordinate[2] > holdingPoseDistanceInMeters + calmnessAreaInMeters ||
-                targetCoordinate[2] < holdingPoseDistanceInMeters - calmnessAreaInMeters) {
-                
-                targetCoordinate[2] -= holdingPoseDistanceInMeters;
-                shouldUpdate = true;
-            }
-            
-            if (shouldUpdate) {
-                
-                sharedAnalyzedMotionVector = MotionController::convertCoordinateToMotionVector(targetCoordinate);
-        
-                Utils::printMessage("New target coordinate recalculated");
-                Utils::printCoordinate(targetCoordinate);
-            }
-        }
-        
         this_thread::sleep_for(interval);
     }
 }
 
-bool Controller::filterCoordinate(vector<double> coordinate) {
-    
-    if (lastFilteredCoordinate.empty()) {
-        lastFilteredCoordinate = {0, 0, 0};
-    }
+bool Controller::filterPose(PoseVector pose) {
     
     // Check min deviation from last coordinate
-    if (fabs(lastFilteredCoordinate[0] - coordinate[0]) > kMinDeviationInMeters ||
-        fabs(lastFilteredCoordinate[1] - coordinate[1]) > kMinDeviationInMeters ||
-        fabs(lastFilteredCoordinate[2] - coordinate[2]) > kMinDeviationInMeters) {
+    if (fabs(pose.xzAngleInDeg - lastPose.xzAngleInDeg) > kMinXZAnlgeDeviationInDeg ||
+        fabs(pose.xDistanceInMeters - lastPose.xDistanceInMeters) > kMinDistanceDeviationInMeters ||
+        fabs(pose.zDistanceInMeters - lastPose.zDistanceInMeters) > kMinDistanceDeviationInMeters) {
         
-        lastFilteredCoordinate = coordinate;
-        
+        lastPose = pose;
+ 
         return true;
     }
     
     return false;
+}
+
+MotionVector Controller::convertPoseToMotionVector(PoseVector pose) {
+    
+    MotionVector motion;
+    
+    motion.xzCorrectionAngleInDeg = pose.xzAngleInDeg;
+
+    double holdingDistance = pose.zDistanceInMeters - holdingPoseDistanceInMeters;
+    motion.distanceInMeters = sqrt(pow(pose.xDistanceInMeters, 2) + pow(holdingDistance, 2));
+    
+    motion.angleInDeg = RADIANS_TO_DEGREES(atan(fabs(holdingDistance / pose.xDistanceInMeters)));
+    
+    if (holdingDistance < 0) {
+        motion.angleInDeg += 90;
+    }
+    else {
+        motion.angleInDeg = 90 - motion.angleInDeg;
+    }
+    
+    motion.angleInDeg *= xSideFactor * pose.xDistanceInMeters / fabs(pose.xDistanceInMeters); // consider angle sign
+    
+    return motion;
 }
 
 #pragma mark - Motion monitor
@@ -184,22 +184,21 @@ void Controller::startMotionMonitor() {
 
     while (true) {
         
-        if (fabs(sharedAnalyzedMotionVector.angleInDegrees) > __DBL_EPSILON__ || fabs(sharedAnalyzedMotionVector.distanceInMeters) > __DBL_EPSILON__) {
+        if (isMotionUpdatedShared) {
             
-            if (!MotionController::compareMotionVectors(lastMotionVector, sharedAnalyzedMotionVector)) {
-                
-                lastMotionVector = sharedAnalyzedMotionVector;
-                
-                Utils::printMessage("New motion vector is sending in motion");
-                Utils::printMotionVector(sharedAnalyzedMotionVector);
-                
-                function<void()> move = [=]() {
-                    MotionController::Instance().shouldMove(lastMotionVector);
-                };
-                
-                thread t(move);
-                t.detach();
-            }
+            m.lock();
+            isMotionUpdatedShared = false;
+            m.unlock();
+            
+            Utils::printMessage("New pose is sending in motion");
+            Utils::printMotionVector(analyzedMotionShared);
+            
+            function<void()> move = [=]() {
+                MotionController::Instance().shouldMove(analyzedMotionShared);
+            };
+            
+            thread t(move);
+            t.detach();
         }
         
         this_thread::sleep_for(interval);
@@ -233,7 +232,12 @@ void Controller::startTest(vector<vector<double> > poses, double holdingPoseDist
             Utils::printMessage("Emit a new test pose");
             Utils::printCoordinate(poses[i]);
             
-            didObtainPoseDelegate(poses[i]);
+            PoseVector pose;
+            pose.xzAngleInDeg = poses[i][0];
+            pose.xDistanceInMeters = poses[i][1];
+            pose.zDistanceInMeters = poses[i][2];
+            
+            didObtainPoseDelegate(pose); 
             
             this_thread::sleep_for(interval);
         }

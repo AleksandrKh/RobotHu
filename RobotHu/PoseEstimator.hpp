@@ -12,6 +12,13 @@
 #include <vector>
 #include <functional>
 
+struct PoseVector {
+    
+    double xzAngleInDeg;
+    double xDistanceInMeters;
+    double zDistanceInMeters;
+};
+
 class PoseEstimator {
     
 public:
@@ -25,7 +32,7 @@ public:
     void start();
     
     // Delegates
-    std::function<void(std::vector<double> pose)> *didObtainPoseDelegate;
+    std::function<void(PoseVector)> *didObtainPoseDelegate;
     std::function<void(std::string errorMessage)> *didReceiveErrorMessage;
     
 private:

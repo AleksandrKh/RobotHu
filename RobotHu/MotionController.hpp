@@ -15,7 +15,8 @@
 
 struct MotionVector {
     
-    double angleInDegrees;
+    double xzCorrectionAngleInDeg;
+    double angleInDeg;
     double distanceInMeters;
 };
 
@@ -32,10 +33,7 @@ public:
     void setSpeed(double speedInMeterPerSec);
         
     void shouldMove(MotionVector motionVector);
-    
-    static MotionVector convertCoordinateToMotionVector(std::vector<double> coordinate);
-    static bool compareMotionVectors(MotionVector mv1, MotionVector mv2);
-    
+        
 private:
     
     MotionController() {
@@ -46,8 +44,8 @@ private:
     MotionController(MotionController const&) = delete;
     MotionController& operator = (MotionController const&) = delete;
     
-    bool sharedNewMotion;
-    bool sharedMotionInProcess;
+    bool newMotionShared;
+    bool motionInProcessShared;
     
     double goSpeedInMeterPerSec, rotSpeedInMeterPerSec;
 
@@ -60,8 +58,6 @@ private:
     
     void rotate(double angleInDegrees);
     void go(double distance);
-    
-    int convertRotationAngleToSteps(double angleInDegrees);
     
     double motorStepInMeters;
     double machineTurningCircleLength;

@@ -7,6 +7,7 @@
 //
 
 #include "PoseEstimator.hpp"
+#include "config.h"
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
@@ -19,12 +20,6 @@ using namespace std;
 using namespace cv;
 
 static bool readCameraParameters(string filename, Mat &camMatrix, Mat &distCoeffs);
-
-#define kCameraID 0
-#define kCameraParametersFile "camera.yml" // must be unique for any other camera, see calibrateCamera.cpp
-#define kMarkerDictionaryID 8
-#define kMarkerID 10
-#define kMarkerLengthInMeters 0.1
 
 void PoseEstimator::start() {
         
@@ -43,12 +38,11 @@ void PoseEstimator::startEstimator() {
     if (!readCameraParameters(kCameraParametersFile, camMatrix, distCoeffs)) {
         
         Utils::printError("Invalid camera calibration camera.yml file. It should be in the same directory as the executed program");
-        throw exception();
 
 //        if (didReceiveErrorMessage)
 //            (*didReceiveErrorMessage)("Invalid camera file");
         
-        return;
+        throw exception();
     }
     
     VideoCapture inputVideo;
@@ -75,54 +69,59 @@ void PoseEstimator::startEstimator() {
             
             aruco::estimatePoseSingleMarkers(corners, kMarkerLengthInMeters, camMatrix, distCoeffs, rvecs, tvecs);
             
-            vector<double> resultVector;
+            PoseVector resultPose = {0, 0};
             vector<int> resultIds;
-            vector<vector<Point2f> > resultCorners;
-            vector<Vec3d> resultRvecs, resultTvecs;
+//            vector<vector<Point2f> > resultCorners;
+//            vector<Vec3d> resultRvecs, resultTvecs;
             
             for (unsigned int i = 0; i < ids.size(); i++) {
                 
                 if (ids[i] != kMarkerID)
                     continue;
                 
+                double xyRot = atan(rvecs[i][1] / rvecs[i][0]);
+                
+                if (fabs(RADIANS_TO_DEGREES(xyRot)) > kMaxMarkerXYRotInDegrees)
+                    continue;
+                
                 // Calc camera pose
                 double x = 0, y = 0, z = 0;
                 
-//                Mat R;
-//                Rodrigues(rvecs[i], R);
-//                Mat cameraPose = -R.t() * (Mat)tvecs[i];
-//
-//                x = cameraPose.at<double>(0,0);
-//                y = cameraPose.at<double>(0,1);
-//                z = cameraPose.at<double>(0,2);
+                Mat R;
+                Rodrigues(rvecs[i], R);
+                Mat cameraPose = -R.t() * (Mat)tvecs[i];
                 
-                // Rotation invariant (only translation vectors)
-                x = tvecs[i][0];
-                y = tvecs[i][1];
-                z = tvecs[i][2];
-                
-                //cout << "X: " << tvecs[i][0] << " Y: " << tvecs[i][1] << " Z: " << tvecs[i][2] << endl;
+                x = cameraPose.at<double>(0,0);
+                y = cameraPose.at<double>(0,1);
+                z = cameraPose.at<double>(0,2);
+                                
+                // cout << "X: " << x << " Y: " << y << " Z: " << z << endl;
                 
                 // Take vector from nearest marker
-                if (resultVector.empty() || z < resultVector[2]) {
+                if (resultPose.zDistanceInMeters == 0 || z < resultPose.zDistanceInMeters) {
                     
-                    resultVector = {x, y, z};
+                    resultPose.zDistanceInMeters = z;
+                    resultPose.xDistanceInMeters = tvecs[i][0];
+                    
+                    // Invariant rotation in XZ plane
+                    resultPose.xzAngleInDeg = RADIANS_TO_DEGREES(atan2(sqrt(pow(x, 2) + pow(y, 2)), z));
+                    resultPose.xzAngleInDeg *= x / fabs(x);
                     
                     resultIds = {ids[i]};
-                    resultCorners = {corners[i]};
-                    resultRvecs = {rvecs[i]};
-                    resultTvecs = {tvecs[i]};
+//                    resultCorners = {corners[i]};
+//                    resultRvecs = {rvecs[i]};
+//                    resultTvecs = {tvecs[i]};
                 }
             }
             
             if (resultIds.size()) {
                 
-                aruco::drawDetectedMarkers(image, resultCorners, resultIds);
+                // aruco::drawDetectedMarkers(image, resultCorners, resultIds);
                 
-                aruco::drawAxis(image, camMatrix, distCoeffs, resultRvecs[0], resultTvecs[0], kMarkerLengthInMeters * 0.5f);
+                // aruco::drawAxis(image, camMatrix, distCoeffs, resultRvecs[0], resultTvecs[0], kMarkerLengthInMeters * 0.5f);
                 
                 if (didObtainPoseDelegate) 
-                    (*didObtainPoseDelegate)(resultVector);
+                    (*didObtainPoseDelegate)(resultPose);
             }
         }
         
