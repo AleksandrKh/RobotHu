@@ -75,9 +75,9 @@ void MotionController::move(MotionVector motionVector) {
     leftMotor.enable();
     rightMotor.enable();
     
-    if (fabs(motionVector.xzCorrectionAngleInDeg) > 1) {
-        Utils::printMessage("XZ correction rotation at " + to_string(motionVector.xzCorrectionAngleInDeg) + " degrees");
-        rotate(motionVector.xzCorrectionAngleInDeg);
+    if (fabs(motionVector.xzAngleInDeg) > 1) {
+        Utils::printMessage("XZ correction rotation at " + to_string(motionVector.xzAngleInDeg) + " degrees");
+        rotate(motionVector.xzAngleInDeg);
     }
     
     if (fabs(motionVector.angleInDeg) > 1) {

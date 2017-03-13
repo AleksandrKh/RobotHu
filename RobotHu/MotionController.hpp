@@ -15,7 +15,7 @@
 
 struct MotionVector {
     
-    double xzCorrectionAngleInDeg;
+    double xzAngleInDeg;
     double angleInDeg;
     double distanceInMeters;
 };

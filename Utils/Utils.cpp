@@ -36,5 +36,5 @@ void Utils::printPoseVector(PoseVector poseVector) {
 
 void Utils::printMotionVector(MotionVector motionVector) {
     
-    cout << "Motion: XZ angle: " + to_string(motionVector.xzCorrectionAngleInDeg) + " angle: " + to_string(motionVector.angleInDeg) + " distance: " + to_string(motionVector.distanceInMeters) + "\n" << endl;
+    cout << "Motion: XZ angle: " + to_string(motionVector.xzAngleInDeg) + " angle: " + to_string(motionVector.angleInDeg) + " distance: " + to_string(motionVector.distanceInMeters) + "\n" << endl;
 }

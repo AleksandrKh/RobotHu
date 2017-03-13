@@ -155,7 +155,7 @@ MotionVector Controller::convertPoseToMotion(PoseVector pose) {
     
     MotionVector motion;
     
-    motion.xzCorrectionAngleInDeg = pose.xzAngleInDeg;
+    motion.xzAngleInDeg = pose.xzAngleInDeg;
 
     double holdingDistance = pose.zDistanceInMeters - holdingPoseDistanceInMeters;
     motion.distanceInMeters = sqrt(pow(pose.xDistanceInMeters, 2) + pow(holdingDistance, 2));
