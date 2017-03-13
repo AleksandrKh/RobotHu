@@ -5,5 +5,5 @@ Hard:
 - Two wheels on stepper motors (17HS4401) connected via driver (A4988) with RPi GPIO
 
 Soft:
-- OpenCV
+- OpenCV with modules
 

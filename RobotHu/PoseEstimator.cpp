@@ -13,7 +13,6 @@
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/aruco.hpp>
 #include "../Utils/Utils.hpp"
-
 #include <iostream>
 
 using namespace std;
@@ -69,7 +68,7 @@ void PoseEstimator::startEstimator() {
             
             aruco::estimatePoseSingleMarkers(corners, kMarkerLengthInMeters, camMatrix, distCoeffs, rvecs, tvecs);
             
-            PoseVector resultPose = {0, 0};
+            PoseVector resultPose = {0, 0, 0};
             vector<int> resultIds;
 //            vector<vector<Point2f> > resultCorners;
 //            vector<Vec3d> resultRvecs, resultTvecs;
@@ -81,7 +80,8 @@ void PoseEstimator::startEstimator() {
                 
                 double xyRot = atan(rvecs[i][1] / rvecs[i][0]);
                 
-                if (fabs(RADIANS_TO_DEGREES(xyRot)) > kMaxMarkerXYRotInDegrees)
+                // check Y axis direction to use angles properly // TODO: make invariant
+                if (fabs(RADIANS_TO_DEGREES(xyRot)) > kMaxMarkerXYRotDeviationInDegrees)
                     continue;
                 
                 // Calc camera pose
@@ -101,9 +101,9 @@ void PoseEstimator::startEstimator() {
                 if (resultPose.zDistanceInMeters == 0 || z < resultPose.zDistanceInMeters) {
                     
                     resultPose.zDistanceInMeters = z;
-                    resultPose.xDistanceInMeters = tvecs[i][0];
+                    resultPose.xDistanceInMeters = tvecs[i][0]; // rot invariant
                     
-                    // Invariant rotation in XZ plane
+                    // Rotation in XZ plane // TODO: make invariant
                     resultPose.xzAngleInDeg = RADIANS_TO_DEGREES(atan2(sqrt(pow(x, 2) + pow(y, 2)), z));
                     resultPose.xzAngleInDeg *= x / fabs(x);
                     

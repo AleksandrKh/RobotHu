@@ -122,7 +122,7 @@ void Controller::startPoseAnalyzer() {
         
         if (filterPose(avgPose)) {
             
-            analyzedMotionShared = convertPoseToMotionVector(avgPose);
+            analyzedMotionShared = convertPoseToMotion(avgPose);
             
             Utils::printMessage("New target coordinate recalculated");
             Utils::printMotionVector(analyzedMotionShared);
@@ -138,7 +138,7 @@ void Controller::startPoseAnalyzer() {
 
 bool Controller::filterPose(PoseVector pose) {
     
-    // Check min deviation from last coordinate
+    // Check min deviation from last pose
     if (fabs(pose.xzAngleInDeg - lastPose.xzAngleInDeg) > kMinXZAnlgeDeviationInDeg ||
         fabs(pose.xDistanceInMeters - lastPose.xDistanceInMeters) > kMinDistanceDeviationInMeters ||
         fabs(pose.zDistanceInMeters - lastPose.zDistanceInMeters) > kMinDistanceDeviationInMeters) {
@@ -151,7 +151,7 @@ bool Controller::filterPose(PoseVector pose) {
     return false;
 }
 
-MotionVector Controller::convertPoseToMotionVector(PoseVector pose) {
+MotionVector Controller::convertPoseToMotion(PoseVector pose) {
     
     MotionVector motion;
     
@@ -209,7 +209,7 @@ void Controller::startMotionMonitor() {
 
 // For testing motion behaviour without camera data
 
-void Controller::startTest(vector<vector<double> > poses, double holdingPoseDistance, double speedInMeterPerSec) {
+void Controller::startTest(vector<PoseVector> poses, double holdingPoseDistance, double speedInMeterPerSec) {
     
     this->holdingPoseDistanceInMeters = holdingPoseDistance;
     MotionController::Instance().setSpeed(speedInMeterPerSec);
@@ -230,14 +230,9 @@ void Controller::startTest(vector<vector<double> > poses, double holdingPoseDist
         for (int i = 0; i < poses.size(); i++) {
             
             Utils::printMessage("Emit a new test pose");
-            Utils::printCoordinate(poses[i]);
+            Utils::printPoseVector(poses[i]);
             
-            PoseVector pose;
-            pose.xzAngleInDeg = poses[i][0];
-            pose.xDistanceInMeters = poses[i][1];
-            pose.zDistanceInMeters = poses[i][2];
-            
-            didObtainPoseDelegate(pose); 
+            didObtainPoseDelegate(poses[i]);
             
             this_thread::sleep_for(interval);
         }

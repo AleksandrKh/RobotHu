@@ -14,6 +14,7 @@
 #include "Controller.hpp"
 #include "../Utils/InputParser.hpp"
 #include "../Utils/Utils.hpp"
+#include "PoseEstimator.hpp"
 
 using namespace std;
 
@@ -65,14 +66,20 @@ int main(int argc, const char * argv[]) {
         }
         
         // Parse poses from the command line
-        vector<vector<double> > poses;
+        vector<PoseVector> poses;
+        
         int poseFirstArgPosition = 8;
+        
         for (int i = poseFirstArgPosition; i < argc; i += 3) {
-            vector<double> pose;
-            for (int j = 0; j < 3; j++) {
-                string value = argv[i+j];
-                pose.push_back(atof(value.c_str()));
-            }
+            
+            PoseVector pose;
+            string xzAngleInDegString = argv[i];
+            pose.xzAngleInDeg = atof(xzAngleInDegString.c_str());
+            string xDistanceInMetersString = argv[i+1];
+            pose.xDistanceInMeters = atof(xDistanceInMetersString.c_str());
+            string zDistanceInMetersString = argv[i+2];
+            pose.zDistanceInMeters = atof(zDistanceInMetersString.c_str());
+
             poses.push_back(pose);
         }
 

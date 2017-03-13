@@ -8,7 +8,7 @@
 
 // Using at OS start to reset motors
 
-// Compile: g++ resetMotors.cpp -o ../../Builds/resetMotors -lbcm2835
+// Compile: g++ resetMotors.cpp -o resetMotors -lbcm2835
 // To run at start add: /path_to/resetMotors -m1p <pin_num> -m2p <pin_num> &
 // to /etc/rc.local
 

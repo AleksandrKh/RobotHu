@@ -21,13 +21,13 @@ void MotionController::setup() {
     newMotionShared = false;
     motionInProcessShared = false;
     
-    goSpeedInMeterPerSec = kDefaultGoSpeedInMeterPerSec;
-    
     motorsSetup();
 }
 
 void MotionController::motorsSetup() {
     
+    goSpeedInMeterPerSec = kDefaultGoSpeedInMeterPerSec;
+
     rotSpeedInMeterPerSec = goSpeedInMeterPerSec / 2.0;
 
     motorStepInMeters = (2 * M_PI * kWheelsRadiusInMeters / kMotorStepsPerRevolution) * kMotorStepInMetersCalibFactor;

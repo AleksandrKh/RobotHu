@@ -47,21 +47,18 @@ private:
     bool newMotionShared;
     bool motionInProcessShared;
     
-    double goSpeedInMeterPerSec, rotSpeedInMeterPerSec;
-
-    MotionVector motionVector;
-    
     void setup();
     void motorsSetup();
+    
+    double goSpeedInMeterPerSec, rotSpeedInMeterPerSec;
+    double motorStepInMeters;
+    double machineTurningCircleLength;
+    double goDelayInMicroSec, rotDelayInMicroSec;
     
     void move(MotionVector motionVector);
     
     void rotate(double angleInDegrees);
     void go(double distance);
-    
-    double motorStepInMeters;
-    double machineTurningCircleLength;
-    double goDelayInMicroSec, rotDelayInMicroSec;
     
     Motor leftMotor, rightMotor;
     

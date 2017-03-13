@@ -24,7 +24,7 @@ public:
     
     void start(double holdingPoseDistanceInMeters, double speedInMeterPerSec);
     
-    void startTest(std::vector<std::vector<double> > poses, double holdingPoseDistance, double speedInMeterPerSec);
+    void startTest(std::vector<PoseVector> poses, double holdingPoseDistance, double speedInMeterPerSec);
     
 private:
     
@@ -47,8 +47,7 @@ private:
     
     // Filters
     bool filterPose(PoseVector pose);
-    bool isPoseVectorsIdentical(PoseVector pose1, PoseVector pose2);
-    MotionVector convertPoseToMotionVector(PoseVector pose);
+    MotionVector convertPoseToMotion(PoseVector pose);
     
     std::mutex m;
 };
