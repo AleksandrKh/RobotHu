@@ -10,6 +10,8 @@
 #define config_h
 
 #define kCameraID 0
+#define kCameraFrameWidth 640
+#define kCameraFrameHeight 480
 #define kCameraParametersFile "camera.yml" // see calibrateCamera.cpp
 #define kMarkerDictionaryID 8
 #define kMarkerID 10

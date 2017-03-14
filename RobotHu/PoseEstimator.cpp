@@ -47,6 +47,9 @@ void PoseEstimator::startEstimator() {
     VideoCapture inputVideo;
     inputVideo.open(kCameraID);
     
+    inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, kCameraFrameWidth);
+    inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, kCameraFrameHeight);
+
     if (!inputVideo.isOpened()) {
         Utils::printError("Camera is not connected");
         throw exception();
