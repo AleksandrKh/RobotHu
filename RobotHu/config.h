@@ -10,7 +10,7 @@
 #define config_h
 
 #define kCameraID 0
-#define kCameraParametersFile "camera.yml" // must be unique for any other camera, see calibrateCamera.cpp
+#define kCameraParametersFile "camera.yml" // see calibrateCamera.cpp
 #define kMarkerDictionaryID 8
 #define kMarkerID 10
 #define kMarkerLengthInMeters 0.1

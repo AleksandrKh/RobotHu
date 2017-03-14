@@ -153,6 +153,7 @@
 		41C97EE81E6A3FD70039FB5E /* Motor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Motor.hpp; sourceTree = "<group>"; };
 		41C97EEC1E6AF9360039FB5E /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		41C97EED1E6B1F8D0039FB5E /* sjcam_charuco_calib.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sjcam_charuco_calib.yml; sourceTree = "<group>"; };
+		41D1F3DA1E78761200B95B35 /* unknown_webcamera.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = unknown_webcamera.yml; sourceTree = "<group>"; };
 		41FFEDCD1E75CD9D00019F5C /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		41FFEDCE1E75DBD000019F5C /* run.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = run.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -296,6 +297,7 @@
 		412084B61E635282002A1039 /* tmp */ = {
 			isa = PBXGroup;
 			children = (
+				41D1F3DA1E78761200B95B35 /* unknown_webcamera.yml */,
 				414F718A1E6A15E100235D31 /* bcm2835.h */,
 				4120BC621E68CB3F004CA2E7 /* motor_connection_scheme.png */,
 				41C97EED1E6B1F8D0039FB5E /* sjcam_charuco_calib.yml */,
