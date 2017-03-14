@@ -7,3 +7,6 @@ Hard:
 Soft:
 - OpenCV with modules
 
+Compile: `sh Builds/compile.sh`
+
+Run: `sh Builds/run.sh`
