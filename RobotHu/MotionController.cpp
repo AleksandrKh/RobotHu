@@ -26,7 +26,8 @@ void MotionController::setup() {
 
 void MotionController::motorsSetup() {
     
-    goSpeedInMeterPerSec = kDefaultGoSpeedInMeterPerSec;
+    if (!goSpeedInMeterPerSec)
+        goSpeedInMeterPerSec = kDefaultGoSpeedInMeterPerSec;
 
     rotSpeedInMeterPerSec = goSpeedInMeterPerSec / 2.0;
 
