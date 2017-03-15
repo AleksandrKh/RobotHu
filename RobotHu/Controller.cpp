@@ -17,7 +17,7 @@ using namespace std;
 
 #define kPosesListSize 3
 #define kPoseListUpdateDelayInSec 0.5
-#define kPoseAnalyzerFreqInMilliSec 200
+#define kPoseAnalyzerFreqInMilliSec 1000
 #define kMotionMonitorFreqInSec 3
 
 Controller::Controller() {
@@ -50,11 +50,11 @@ void Controller::start(double holdingPoseDistanceInMeters, double speedInMeterPe
     
     thread t1(&Controller::startPoseEstimator, this);
     thread t2(&Controller::startPoseAnalyzer, this);
-    thread t3(&Controller::startMotionMonitor, this);
+    //thread t3(&Controller::startMotionMonitor, this);
     
     t1.join();
     t2.join();
-    t3.join();
+    //t3.join();
 }
 
 #pragma mark - PoseEstimator
@@ -136,12 +136,22 @@ void Controller::startPoseAnalyzer() {
             
             analyzedMotionShared = convertPoseToMotion(avgPose);
             
-            Utils::printMessage("New target coordinate recalculated");
+//            Utils::printMessage("New target coordinate recalculated");
+//            Utils::printMotionVector(analyzedMotionShared);
+            
+            Utils::printMessage("New pose is sending in motion");
             Utils::printMotionVector(analyzedMotionShared);
             
-            m.lock();
-            isMotionUpdatedShared = true;
-            m.unlock();
+            function<void()> move = [=]() {
+                MotionController::Instance().shouldMove(analyzedMotionShared);
+            };
+            
+            thread t(move);
+            t.detach();
+            
+//            m.lock();
+//            isMotionUpdatedShared = true;
+//            m.unlock();
         }
 
         this_thread::sleep_for(interval);
@@ -189,31 +199,31 @@ MotionVector Controller::convertPoseToMotion(PoseVector pose) {
 
 void Controller::startMotionMonitor() {
     
-    Utils::printMessage("Start motion monitor");
-    
-    chrono::seconds interval(kMotionMonitorFreqInSec);
-
-    while (true) {
-        
-        if (isMotionUpdatedShared) {
-            
-            m.lock();
-            isMotionUpdatedShared = false;
-            m.unlock();
-            
-            Utils::printMessage("New pose is sending in motion");
-            Utils::printMotionVector(analyzedMotionShared);
-            
-            function<void()> move = [=]() {
-                MotionController::Instance().shouldMove(analyzedMotionShared);
-            };
-            
-            thread t(move);
-            t.detach();
-        }
-        
-        this_thread::sleep_for(interval);
-    }
+//    Utils::printMessage("Start motion monitor");
+//    
+//    chrono::seconds interval(kMotionMonitorFreqInSec);
+//
+//    while (true) {
+//        
+//        if (isMotionUpdatedShared) {
+//            
+//            m.lock();
+//            isMotionUpdatedShared = false;
+//            m.unlock();
+//            
+//            Utils::printMessage("New pose is sending in motion");
+//            Utils::printMotionVector(analyzedMotionShared);
+//            
+//            function<void()> move = [=]() {
+//                MotionController::Instance().shouldMove(analyzedMotionShared);
+//            };
+//            
+//            thread t(move);
+//            t.detach();
+//        }
+//        
+//        this_thread::sleep_for(interval);
+//    }
 }
 
 #pragma mark - Test
