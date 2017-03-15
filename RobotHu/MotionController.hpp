@@ -31,9 +31,10 @@ public:
     }
     
     void setSpeed(double speedInMeterPerSec);
-        
     void shouldMove(MotionVector motionVector);
-        
+    
+    bool stopMotionShared;
+    
 private:
     
     MotionController() {
@@ -44,7 +45,6 @@ private:
     MotionController(MotionController const&) = delete;
     MotionController& operator = (MotionController const&) = delete;
     
-    bool stopMotionShared;
     bool motionInProcessShared;
     
     void setup();

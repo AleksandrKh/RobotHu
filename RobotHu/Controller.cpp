@@ -94,7 +94,7 @@ void Controller::didObtainPoseDelegate(PoseVector pose) {
 
 void Controller::didLostPoseDelegate() {
     
-    Utils::printMessage("Marker is lost");
+    MotionController::Instance().stopMotionShared = true;
 }
 
 void Controller::didReceiveErrorMessage(string errorMessage) {
