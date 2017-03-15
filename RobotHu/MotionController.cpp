@@ -111,7 +111,7 @@ void MotionController::move(MotionVector motionVector) {
 
 void MotionController::rotate(double angleInDeg) {
     
-    double turningSegmentOfCicleLength = machineTurningCircleLength * angleInDeg / 360.0f;
+    double turningSegmentOfCicleLength = fabs(machineTurningCircleLength * angleInDeg / 360.0f);
     int stepsNum = round(turningSegmentOfCicleLength / motorStepLengthInMeters);
     
     int directionFactor = angleInDeg / fabs(angleInDeg);
