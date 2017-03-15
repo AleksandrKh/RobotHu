@@ -39,7 +39,7 @@
 #define kRightMotorStepPin 19
 #define kRightMotorDirPin 26
 
-#define xSideFactor 1 // 1 - Left side of the camera under zero, right is over zero, -1 - vice versa
-#define ySideFactor 1 // 1 - Upper side of the camera under zero, lower is over zero, -1 - vice versa
+#define xSideFactor 1.0 // 1 - Left side of the camera under zero, right is over zero, -1 - vice versa
+#define ySideFactor 1.0 // 1 - Upper side of the camera under zero, lower is over zero, -1 - vice versa
 
 #endif /* config_h */

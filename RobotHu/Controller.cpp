@@ -169,8 +169,11 @@ MotionVector Controller::convertPoseToMotion(PoseVector pose) {
         motion.angleInDeg = 90 - motion.angleInDeg;
     }
     
-    motion.angleInDeg *= xSideFactor * pose.xDistanceInMeters / fabs(pose.xDistanceInMeters); // consider angle sign
+    if (pose.xDistanceInMeters)
+        motion.angleInDeg *= pose.xDistanceInMeters / fabs(pose.xDistanceInMeters); // consider angle sign
     
+    motion.angleInDeg *= xSideFactor;
+
     return motion;
 }
 
