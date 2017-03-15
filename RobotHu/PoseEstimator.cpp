@@ -36,7 +36,7 @@ void PoseEstimator::startEstimator() {
     
     if (!readCameraParameters(kCameraParametersFile, camMatrix, distCoeffs)) {
         
-        Utils::printError("Invalid camera calibration camera.yml file. It should be in the same directory as the executed program");
+        Utils::printError("Invalid camera calibration .yml file. It should be in the same directory as the executed program");
 
 //        if (didReceiveErrorMessage)
 //            (*didReceiveErrorMessage)("Invalid camera file");

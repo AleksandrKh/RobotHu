@@ -16,7 +16,7 @@
 #define kMarkerDictionaryID 8
 #define kMarkerID 10
 #define kMarkerLengthInMeters 0.1
-#define kMaxMarkerXYRotDeviationInDegrees 10 // marker should be posed with upwards Y axis // TODO: make invariant
+#define kMaxMarkerXYRotDeviationInDegrees 20 // marker should be posed with upwards Y axis // TODO: make invariant
 
 #define kDefaultHoldingPoseDistanceInMeters 1.0
 #define kDefaultSpeedInMeterPerSec 0.1
