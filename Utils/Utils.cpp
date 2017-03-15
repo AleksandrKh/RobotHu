@@ -31,7 +31,7 @@ void Utils::printCoordinate(vector<double> coordinate) {
 
 void Utils::printPoseVector(PoseVector poseVector) {
     
-    cout << "Pose: XZ angle: " + to_string(poseVector.xzAngleInDeg) + "Z distance: " + to_string(poseVector.zDistanceInMeters) + "X distance: " + to_string(poseVector.xDistanceInMeters) + "\n" << endl;
+    cout << "Pose: XZ angle: " + to_string(poseVector.xzAngleInDeg) + " Z distance: " + to_string(poseVector.zDistanceInMeters) + " X distance: " + to_string(poseVector.xDistanceInMeters) + "\n" << endl;
 }
 
 void Utils::printMotionVector(MotionVector motionVector) {

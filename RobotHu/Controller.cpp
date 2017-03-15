@@ -132,7 +132,7 @@ void Controller::startPoseAnalyzer() {
         
         PoseVector avgPose = lastPosesListShared.back();
         
-        if (filterPose(avgPose)) {
+        //if (filterPose(avgPose)) {
             
             analyzedMotionShared = convertPoseToMotion(avgPose);
             
@@ -152,7 +152,7 @@ void Controller::startPoseAnalyzer() {
 //            m.lock();
 //            isMotionUpdatedShared = true;
 //            m.unlock();
-        }
+        //}
 
         this_thread::sleep_for(interval);
     }
