@@ -51,13 +51,13 @@ private:
     void motorsSetup();
     
     double goSpeedInMeterPerSec, rotSpeedInMeterPerSec;
-    double motorStepInMeters;
+    double motorStepLengthInMeters;
     double machineTurningCircleLength;
     double goDelayInMicroSec, rotDelayInMicroSec;
     
     void move(MotionVector motionVector);
     
-    void rotate(double angleInDegrees);
+    void rotate(double angleInDeg);
     void go(double distance);
     
     Motor leftMotor, rightMotor;

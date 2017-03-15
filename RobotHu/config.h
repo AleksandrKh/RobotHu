@@ -27,8 +27,8 @@
 // 17HS4401 stepper (RED 2B GREEN 2A) (YELLOW 1A BLUE 1B) in parentheses may be reversed
 #define kMotorStepsPerRevolution 200
 
-#define kWheelsRadiusInMeters 0.05
-#define kDistanceBetweenWheelsInMeters 0.15
+#define kWheelsDiameterInMeters 0.064
+#define kDistanceBetweenWheelsInMeters 0.18
 #define kMotorStepInMetersCalibFactor 1
 #define kDefaultGoSpeedInMeterPerSec 0.1
 

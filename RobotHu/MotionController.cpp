@@ -30,12 +30,12 @@ void MotionController::motorsSetup() {
 
     rotSpeedInMeterPerSec = goSpeedInMeterPerSec / 2.0;
 
-    motorStepInMeters = (2 * M_PI * kWheelsRadiusInMeters / kMotorStepsPerRevolution) * kMotorStepInMetersCalibFactor;
+    motorStepLengthInMeters = (M_PI * kWheelsDiameterInMeters / kMotorStepsPerRevolution) * kMotorStepInMetersCalibFactor;
     
     machineTurningCircleLength = M_PI * kDistanceBetweenWheelsInMeters;
     
-    goDelayInMicroSec = motorStepInMeters / goSpeedInMeterPerSec * 1000000;
-    rotDelayInMicroSec = motorStepInMeters / rotSpeedInMeterPerSec * 1000000;
+    goDelayInMicroSec = motorStepLengthInMeters / goSpeedInMeterPerSec * 1000000;
+    rotDelayInMicroSec = motorStepLengthInMeters / rotSpeedInMeterPerSec * 1000000;
     
     leftMotor = Motor(kLeftMotorEnablePin, kLeftMotorStepPin, kLeftMotorDirPin);
     rightMotor = Motor(kRightMotorEnablePin, kRightMotorStepPin, kRightMotorDirPin);
@@ -109,12 +109,12 @@ void MotionController::move(MotionVector motionVector) {
     m.unlock();
 }
 
-void MotionController::rotate(double angleInDegrees) {
+void MotionController::rotate(double angleInDeg) {
     
-    double turningSegmentOfCicleLength = machineTurningCircleLength * angleInDegrees / 360.0f;
-    int stepsNum = round(turningSegmentOfCicleLength / motorStepInMeters);
+    double turningSegmentOfCicleLength = machineTurningCircleLength * angleInDeg / 360.0f;
+    int stepsNum = round(turningSegmentOfCicleLength / motorStepLengthInMeters);
     
-    int directionFactor = angleInDegrees / fabs(angleInDegrees);
+    int directionFactor = angleInDeg / fabs(angleInDeg);
     
     Utils::printMessage("Rotate " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "right" : "left") + " direction");
 
@@ -138,7 +138,7 @@ void MotionController::rotate(double angleInDegrees) {
 
 void MotionController::go(double distanceInMeters) {
     
-    int stepsNum = round(distanceInMeters / motorStepInMeters);
+    int stepsNum = round(distanceInMeters / motorStepLengthInMeters);
     
     int directionFactor = distanceInMeters / fabs(distanceInMeters);
     
