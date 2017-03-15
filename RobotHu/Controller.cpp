@@ -115,20 +115,22 @@ void Controller::startPoseAnalyzer() {
     while (true) {
         
         // Get average pose between last poses
-        PoseVector avgPose = {0, 0, 0};
+//        PoseVector avgPose = {0, 0, 0};
+//        
+//        for (auto const& i : lastPosesListShared) {
+//            
+//            avgPose.xzAngleInDeg += i.xzAngleInDeg;
+//            avgPose.xDistanceInMeters += i.xDistanceInMeters;
+//            avgPose.zDistanceInMeters += i.zDistanceInMeters;
+//        }
+//        
+//        double posesListSize = (double)lastPosesListShared.size();
+//        
+//        avgPose.xzAngleInDeg /= posesListSize;
+//        avgPose.xDistanceInMeters /= posesListSize;
+//        avgPose.zDistanceInMeters /= posesListSize;
         
-        for (auto const& i : lastPosesListShared) {
-            
-            avgPose.xzAngleInDeg += i.xzAngleInDeg;
-            avgPose.xDistanceInMeters += i.xDistanceInMeters;
-            avgPose.zDistanceInMeters += i.zDistanceInMeters;
-        }
-        
-        double posesListSize = (double)lastPosesListShared.size();
-        
-        avgPose.xzAngleInDeg /= posesListSize;
-        avgPose.xDistanceInMeters /= posesListSize;
-        avgPose.zDistanceInMeters /= posesListSize;
+        PoseVector avgPose = lastPosesListShared.back();
         
         if (filterPose(avgPose)) {
             
