@@ -94,7 +94,7 @@ void Controller::didObtainPoseDelegate(PoseVector pose) {
 
 void Controller::didLostPoseDelegate() {
     
-    MotionController::Instance().stopMotionShared = true;
+    //MotionController::Instance().stopMotionShared = true;
 }
 
 void Controller::didReceiveErrorMessage(string errorMessage) {
