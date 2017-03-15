@@ -161,7 +161,7 @@ MotionVector Controller::convertPoseToMotion(PoseVector pose) {
     motion.distanceInMeters = sqrt(pow(pose.xDistanceInMeters, 2) + pow(holdingDistance, 2));
     motion.distanceInMeters *= holdingDistance / fabs(holdingDistance);
     
-    motion.angleInDeg = RADIANS_TO_DEGREES(atan(fabs(pose.xDistanceInMeters / holdingDistance)));
+    motion.angleInDeg = -RADIANS_TO_DEGREES(atan(fabs(pose.xDistanceInMeters / holdingDistance)));
     
     if (pose.xDistanceInMeters)
         motion.angleInDeg *= pose.xDistanceInMeters / fabs(pose.xDistanceInMeters);
