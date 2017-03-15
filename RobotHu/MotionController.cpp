@@ -30,9 +30,9 @@ void MotionController::motorsSetup() {
 
     rotSpeedInMeterPerSec = goSpeedInMeterPerSec / 2.0;
 
-    motorStepLengthInMeters = (M_PI * kWheelsDiameterInMeters / kMotorStepsPerRevolution) * kMotorStepInMetersCalibFactor;
+    motorStepLengthInMeters = (M_PI * kWheelsDiameterInMeters / (double)kMotorStepsPerRevolution) * kMotorStepInMetersCalibFactor;
     
-    machineTurningCircleLength = M_PI * kDistanceBetweenWheelsInMeters;
+    rotationCircleLength = M_PI * kDistanceBetweenWheelsInMeters;
     
     goDelayInMicroSec = motorStepLengthInMeters / goSpeedInMeterPerSec * 1000000;
     rotDelayInMicroSec = motorStepLengthInMeters / rotSpeedInMeterPerSec * 1000000;
@@ -111,8 +111,13 @@ void MotionController::move(MotionVector motionVector) {
 
 void MotionController::rotate(double angleInDeg) {
     
-    double turningSegmentOfCicleLength = fabs(machineTurningCircleLength * angleInDeg / 360.0f);
-    int stepsNum = round(turningSegmentOfCicleLength / motorStepLengthInMeters);
+    double rotationSegment = fabs(rotationCircleLength * angleInDeg / 360.0);
+    int stepsNum = round(rotationSegment / motorStepLengthInMeters);
+    
+    // TODO
+    cout << "step length: " << motorStepLengthInMeters << endl
+    << "circle length: " << rotationCircleLength << endl
+    << "rotation segm: " << rotationSegment << endl;
     
     int directionFactor = angleInDeg / fabs(angleInDeg);
     

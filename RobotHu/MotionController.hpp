@@ -52,7 +52,7 @@ private:
     
     double goSpeedInMeterPerSec, rotSpeedInMeterPerSec;
     double motorStepLengthInMeters;
-    double machineTurningCircleLength;
+    double rotationCircleLength;
     double goDelayInMicroSec, rotDelayInMicroSec;
     
     void move(MotionVector motionVector);
