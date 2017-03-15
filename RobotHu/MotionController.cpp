@@ -86,11 +86,11 @@ void MotionController::move(MotionVector motionVector) {
     
     if (!stopMotionShared) { // if no new motion while rotation being processed
         
-        if (fabs(motionVector.angleInDeg) > 1) {
-            Utils::printMessage("Initial rotation at " + to_string(motionVector.angleInDeg) + " degrees");
-            rotate(motionVector.angleInDeg);
-            usleep(kInMovesTimeoutImMicrosec);
-        }
+//        if (fabs(motionVector.angleInDeg) > 1) {
+//            Utils::printMessage("Initial rotation at " + to_string(motionVector.angleInDeg) + " degrees");
+//            rotate(motionVector.angleInDeg);
+//            usleep(kInMovesTimeoutImMicrosec);
+//        }
     }
     
     if (!stopMotionShared) { // if no new motion while rotation being processed
@@ -102,11 +102,11 @@ void MotionController::move(MotionVector motionVector) {
     
     if (!stopMotionShared) { // if no new motion while moving being processed
         
-        if (fabs(motionVector.angleInDeg) > 1) {
-            Utils::printMessage("Reversed rotation at " + to_string(motionVector.angleInDeg) + " degrees");
-            rotate(-motionVector.angleInDeg);
-            usleep(kInMovesTimeoutImMicrosec);
-        }
+//        if (fabs(motionVector.angleInDeg) > 1) {
+//            Utils::printMessage("Reversed rotation at " + to_string(motionVector.angleInDeg) + " degrees");
+//            rotate(-motionVector.angleInDeg);
+//            usleep(kInMovesTimeoutImMicrosec);
+//        }
     }
     
     leftMotor.disable();
