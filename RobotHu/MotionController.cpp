@@ -14,6 +14,8 @@
 #include <iostream>
 #include <unistd.h>
 
+#define kInMovesTimeoutImMicrosec 300000
+
 using namespace std;
 
 void MotionController::setup() {
@@ -79,17 +81,23 @@ void MotionController::move(MotionVector motionVector) {
     if (fabs(motionVector.xzAngleInDeg) > 1) {
         Utils::printMessage("XZ correction rotation at " + to_string(motionVector.xzAngleInDeg) + " degrees");
         rotate(motionVector.xzAngleInDeg);
+        usleep(kInMovesTimeoutImMicrosec);
     }
     
-    if (fabs(motionVector.angleInDeg) > 1) {
-        Utils::printMessage("Initial rotation at " + to_string(motionVector.angleInDeg) + " degrees");
-        rotate(motionVector.angleInDeg);
+    if (!newMotionShared) { // if no new motion while rotation being processed
+        
+        if (fabs(motionVector.angleInDeg) > 1) {
+            Utils::printMessage("Initial rotation at " + to_string(motionVector.angleInDeg) + " degrees");
+            rotate(motionVector.angleInDeg);
+            usleep(kInMovesTimeoutImMicrosec);
+        }
     }
     
     if (!newMotionShared) { // if no new motion while rotation being processed
         
         Utils::printMessage("Movement of " + to_string(motionVector.distanceInMeters) + " meters");
         go(motionVector.distanceInMeters);
+        usleep(kInMovesTimeoutImMicrosec);
     }
     
     if (!newMotionShared) { // if no new motion while moving being processed
@@ -97,6 +105,7 @@ void MotionController::move(MotionVector motionVector) {
         if (fabs(motionVector.angleInDeg) > 1) {
             Utils::printMessage("Reversed rotation at " + to_string(motionVector.angleInDeg) + " degrees");
             rotate(-motionVector.angleInDeg);
+            usleep(kInMovesTimeoutImMicrosec);
         }
     }
     
