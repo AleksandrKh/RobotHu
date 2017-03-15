@@ -81,24 +81,24 @@ void MotionController::move(MotionVector motionVector) {
         rotate(motionVector.xzAngleInDeg);
     }
     
-//    if (fabs(motionVector.angleInDeg) > 1) {
-//        Utils::printMessage("Initial rotation at " + to_string(motionVector.angleInDeg) + " degrees");
-//        rotate(motionVector.angleInDeg);
-//    }
-//    
-//    if (!newMotionShared) { // if no new motion while rotation being processed
-//        
-//        Utils::printMessage("Movement of " + to_string(motionVector.distanceInMeters) + " meters");
-//        go(motionVector.distanceInMeters);
-//    }
-//    
-//    if (!newMotionShared) { // if no new motion while moving being processed
-//        
-//        if (fabs(motionVector.angleInDeg) > 1) {
-//            Utils::printMessage("Reversed rotation at " + to_string(motionVector.angleInDeg) + " degrees");
-//            rotate(-motionVector.angleInDeg);
-//        }
-//    }
+    if (fabs(motionVector.angleInDeg) > 1) {
+        Utils::printMessage("Initial rotation at " + to_string(motionVector.angleInDeg) + " degrees");
+        rotate(motionVector.angleInDeg);
+    }
+    
+    if (!newMotionShared) { // if no new motion while rotation being processed
+        
+        Utils::printMessage("Movement of " + to_string(motionVector.distanceInMeters) + " meters");
+        go(motionVector.distanceInMeters);
+    }
+    
+    if (!newMotionShared) { // if no new motion while moving being processed
+        
+        if (fabs(motionVector.angleInDeg) > 1) {
+            Utils::printMessage("Reversed rotation at " + to_string(motionVector.angleInDeg) + " degrees");
+            rotate(-motionVector.angleInDeg);
+        }
+    }
     
     leftMotor.disable();
     rightMotor.disable();
@@ -114,11 +114,6 @@ void MotionController::rotate(double angleInDeg) {
     
     double rotationSegment = fabs(rotationCircleLength * angleInDeg / 360.0);
     int stepsNum = round(rotationSegment / motorStepLengthInMeters);
-    
-    // TODO
-    cout << "step length: " << motorStepLengthInMeters << endl
-    << "circle length: " << rotationCircleLength << endl
-    << "rotation segm: " << rotationSegment << endl;
     
     int directionFactor = angleInDeg / fabs(angleInDeg);
     
