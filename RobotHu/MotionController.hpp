@@ -44,7 +44,7 @@ private:
     MotionController(MotionController const&) = delete;
     MotionController& operator = (MotionController const&) = delete;
     
-    bool newMotionShared;
+    bool stopMotionShared;
     bool motionInProcessShared;
     
     void setup();
@@ -59,6 +59,8 @@ private:
     
     void rotate(double angleInDeg);
     void go(double distance);
+    
+    void stop();
     
     Motor leftMotor, rightMotor;
     

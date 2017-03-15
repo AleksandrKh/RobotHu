@@ -33,6 +33,7 @@ public:
     
     // Delegates
     std::function<void(PoseVector)> *didObtainPoseDelegate;
+    std::function<void()> *didLostPoseDelegate;
     std::function<void(std::string errorMessage)> *didReceiveErrorMessage;
     
 private:

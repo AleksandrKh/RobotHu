@@ -43,6 +43,11 @@ void Controller::start(double holdingPoseDistanceInMeters, double speedInMeterPe
     };
     PoseEstimator::Instance().didReceiveErrorMessage = &didReceiveErrorMessage;
     
+    function<void()> didLostPoseDelegate = [=]() {
+        this->didLostPoseDelegate();
+    };
+    PoseEstimator::Instance().didLostPoseDelegate = &didLostPoseDelegate;
+    
     thread t1(&Controller::startPoseEstimator, this);
     thread t2(&Controller::startPoseAnalyzer, this);
     thread t3(&Controller::startMotionMonitor, this);
@@ -85,6 +90,11 @@ void Controller::didObtainPoseDelegate(PoseVector pose) {
         
         lastPosesListShared.push_back(pose);
     }
+}
+
+void Controller::didLostPoseDelegate() {
+    
+    Utils::printMessage("Marker is lost");
 }
 
 void Controller::didReceiveErrorMessage(string errorMessage) {

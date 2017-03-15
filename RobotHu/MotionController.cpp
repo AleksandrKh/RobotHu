@@ -20,7 +20,7 @@ using namespace std;
 
 void MotionController::setup() {
     
-    newMotionShared = false;
+    stopMotionShared = false;
     motionInProcessShared = false;
     
     motorsSetup();
@@ -54,13 +54,13 @@ void MotionController::setSpeed(double speedInMeterPerSec) {
 void MotionController::shouldMove(MotionVector motionVector) {
     
     Utils::printMotionVector(motionVector);
-    newMotionShared = true;
+    stopMotionShared = true;
     
     while (true) {
         
-        if (newMotionShared && !motionInProcessShared) {
+        if (stopMotionShared && !motionInProcessShared) {
             
-            newMotionShared = false;
+            stopMotionShared = false;
             move(motionVector);
             break;
         }
@@ -78,13 +78,13 @@ void MotionController::move(MotionVector motionVector) {
     leftMotor.enable();
     rightMotor.enable();
     
-    if (fabs(motionVector.xzAngleInDeg) > 1) {
-        Utils::printMessage("XZ correction rotation at " + to_string(motionVector.xzAngleInDeg) + " degrees");
-        rotate(motionVector.xzAngleInDeg);
-        usleep(kInMovesTimeoutImMicrosec);
-    }
+//    if (fabs(motionVector.xzAngleInDeg) > 1) {
+//        Utils::printMessage("XZ correction rotation at " + to_string(motionVector.xzAngleInDeg) + " degrees");
+//        rotate(motionVector.xzAngleInDeg);
+//        usleep(kInMovesTimeoutImMicrosec);
+//    }
     
-    if (!newMotionShared) { // if no new motion while rotation being processed
+    if (!stopMotionShared) { // if no new motion while rotation being processed
         
         if (fabs(motionVector.angleInDeg) > 1) {
             Utils::printMessage("Initial rotation at " + to_string(motionVector.angleInDeg) + " degrees");
@@ -93,14 +93,14 @@ void MotionController::move(MotionVector motionVector) {
         }
     }
     
-    if (!newMotionShared) { // if no new motion while rotation being processed
+    if (!stopMotionShared) { // if no new motion while rotation being processed
         
         Utils::printMessage("Movement of " + to_string(motionVector.distanceInMeters) + " meters");
         go(motionVector.distanceInMeters);
         usleep(kInMovesTimeoutImMicrosec);
     }
     
-    if (!newMotionShared) { // if no new motion while moving being processed
+    if (!stopMotionShared) { // if no new motion while moving being processed
         
         if (fabs(motionVector.angleInDeg) > 1) {
             Utils::printMessage("Reversed rotation at " + to_string(motionVector.angleInDeg) + " degrees");
@@ -133,7 +133,7 @@ void MotionController::rotate(double angleInDeg) {
     
     for (int i = 0; i < stepsNum; i++) {
         
-        if (newMotionShared) {
+        if (stopMotionShared) {
             Utils::printMessage("Break rotation due to new motion");
             return;
         }
@@ -159,7 +159,7 @@ void MotionController::go(double distanceInMeters) {
     
     for (int i = 0; i < abs(stepsNum); i++) {
         
-        if (newMotionShared) {
+        if (stopMotionShared) {
             Utils::printMessage("Break moving due to new motion");
             return;
         }
@@ -170,4 +170,10 @@ void MotionController::go(double distanceInMeters) {
     }
     
     Utils::printMessage("Moving completed");
+}
+
+
+void MotionController::stop() {
+    
+    stopMotionShared = true;
 }

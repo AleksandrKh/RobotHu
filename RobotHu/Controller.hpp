@@ -43,6 +43,7 @@ private:
     
     // Incoming delegates
     void didObtainPoseDelegate(PoseVector pose);
+    void didLostPoseDelegate();
     void didReceiveErrorMessage(std::string errorMessage);
     
     // Filters

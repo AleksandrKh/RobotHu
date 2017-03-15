@@ -67,6 +67,8 @@ void PoseEstimator::startEstimator() {
         
         aruco::detectMarkers(image, dictionary, corners, ids, detectorParams);
         
+        bool poseFound = false;
+        
         if (ids.size() > 0) {
             
             aruco::estimatePoseSingleMarkers(corners, kMarkerLengthInMeters, camMatrix, distCoeffs, rvecs, tvecs);
@@ -123,9 +125,17 @@ void PoseEstimator::startEstimator() {
                 
                 // aruco::drawAxis(image, camMatrix, distCoeffs, resultRvecs[0], resultTvecs[0], kMarkerLengthInMeters * 0.5f);
                 
+                poseFound = true;
+                
                 if (didObtainPoseDelegate) 
                     (*didObtainPoseDelegate)(resultPose);
             }
+        }
+        
+        if (!poseFound) {
+            
+            if (didLostPoseDelegate)
+                (*didLostPoseDelegate)();
         }
         
         // Only from main thread
