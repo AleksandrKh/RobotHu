@@ -103,17 +103,20 @@ void Controller::startPoseAnalyzer() {
         isPoseUpdated = false;
         m.unlock();
         
-        MotionVector motion = convertPoseToMotion(lastPose);
-        
-        Utils::printMessage("New motion");
-        Utils::printMotionVector(motion);
+        if (filterPose(lastPose)) {
             
-        function<void()> move = [=]() {
-            MotionController::Instance().shouldMove(motion);
-        };
-        
-        thread t(move);
-        t.detach();
+            MotionVector motion = convertPoseToMotion(lastPose);
+            
+            Utils::printMessage("New motion");
+            Utils::printMotionVector(motion);
+            
+            function<void()> move = [=]() {
+                MotionController::Instance().shouldMove(motion);
+            };
+            
+            thread t(move);
+            t.detach();
+        }
         
         this_thread::sleep_for(interval);
     }
@@ -122,12 +125,9 @@ void Controller::startPoseAnalyzer() {
 bool Controller::filterPose(PoseVector pose) {
     
     // Check min deviation from last pose
-    if (fabs(pose.xzAngleInDeg - lastPose.xzAngleInDeg) > kMinXZAnlgeDeviationInDeg ||
-        fabs(pose.xDistanceInMeters - lastPose.xDistanceInMeters) > kMinDistanceDeviationInMeters ||
-        fabs(pose.zDistanceInMeters - lastPose.zDistanceInMeters) > kMinDistanceDeviationInMeters) {
-        
-        lastPose = pose;
- 
+    if (fabs(pose.xDistanceInMeters - lastPose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
+        fabs(pose.zDistanceInMeters - lastPose.zDistanceInMeters) > kMinZDistanceDeviationInMeters) {
+         
         return true;
     }
     
