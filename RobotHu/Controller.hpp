@@ -10,11 +10,8 @@
 #define Controller_hpp
 
 #include <vector>
-#include <functional>
-#include <list>
 #include "MotionController.hpp"
 #include "PoseEstimator.hpp"
-#include <mutex>
 
 class Controller {
 
@@ -30,16 +27,10 @@ private:
     
     double holdingPoseDistanceInMeters;
     
-    std::list<PoseVector > lastPosesListShared;
     PoseVector lastPose;
-    MotionVector analyzedMotionShared;
-    bool isMotionUpdatedShared;
-
-    time_t lastAcceptedPoseTime;
 
     void startPoseEstimator();
     void startPoseAnalyzer();
-    void startMotionMonitor();
     
     // Incoming delegates
     void didObtainPoseDelegate(PoseVector pose);
@@ -49,8 +40,6 @@ private:
     // Filters
     bool filterPose(PoseVector pose);
     MotionVector convertPoseToMotion(PoseVector pose);
-    
-    std::mutex m;
 };
 
 #endif /* Controller_hpp */

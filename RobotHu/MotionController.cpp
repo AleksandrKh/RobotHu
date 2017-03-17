@@ -171,9 +171,3 @@ void MotionController::go(double distanceInMeters) {
     
     Utils::printMessage("Moving completed");
 }
-
-
-void MotionController::stop() {
-    
-    stopMotionShared = true;
-}

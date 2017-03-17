@@ -15,16 +15,11 @@
 
 using namespace std;
 
-#define kPosesListSize 3
-#define kPoseListUpdateDelayInSec 0.5
 #define kPoseAnalyzerFreqInMilliSec 1000
-#define kMotionMonitorFreqInSec 3
 
 Controller::Controller() {
     
-    analyzedMotionShared = {0, 0, 0};
     lastPose = {0, 0, 0};
-    isMotionUpdatedShared = false;
 }
 
 void Controller::start(double holdingPoseDistanceInMeters, double speedInMeterPerSec) {
@@ -50,11 +45,9 @@ void Controller::start(double holdingPoseDistanceInMeters, double speedInMeterPe
     
     thread t1(&Controller::startPoseEstimator, this);
     thread t2(&Controller::startPoseAnalyzer, this);
-    //thread t3(&Controller::startMotionMonitor, this);
     
     t1.join();
     t2.join();
-    //t3.join();
 }
 
 #pragma mark - PoseEstimator
@@ -72,29 +65,14 @@ void Controller::startPoseEstimator() {
 
 void Controller::didObtainPoseDelegate(PoseVector pose) {
     
-     Utils::printMessage("New pose obtained from estimator");
-     Utils::printPoseVector(pose);
-
-    time_t now = time(0);
+    Utils::printMessage("New pose obtained from estimator");
+    Utils::printPoseVector(pose);
     
-    if (lastPosesListShared.empty()) {
-        
-        lastPosesListShared.push_back(pose);
-        lastAcceptedPoseTime = now;
-        return;
-    }
-    else if (difftime(now, lastAcceptedPoseTime) > kPoseListUpdateDelayInSec) {
-    
-        if (lastPosesListShared.size() == kPosesListSize)
-            lastPosesListShared.pop_front();
-        
-        lastPosesListShared.push_back(pose);
-    }
+    lastPose = pose;
 }
 
 void Controller::didLostPoseDelegate() {
     
-    //MotionController::Instance().stopMotionShared = true;
 }
 
 void Controller::didReceiveErrorMessage(string errorMessage) {
@@ -114,46 +92,18 @@ void Controller::startPoseAnalyzer() {
     
     while (true) {
         
-        // Get average pose between last poses
-//        PoseVector avgPose = {0, 0, 0};
-//        
-//        for (auto const& i : lastPosesListShared) {
-//            
-//            avgPose.xzAngleInDeg += i.xzAngleInDeg;
-//            avgPose.xDistanceInMeters += i.xDistanceInMeters;
-//            avgPose.zDistanceInMeters += i.zDistanceInMeters;
-//        }
-//        
-//        double posesListSize = (double)lastPosesListShared.size();
-//        
-//        avgPose.xzAngleInDeg /= posesListSize;
-//        avgPose.xDistanceInMeters /= posesListSize;
-//        avgPose.zDistanceInMeters /= posesListSize;
+        MotionVector motion = convertPoseToMotion(lastPose);
         
-        PoseVector avgPose = lastPosesListShared.back();
+        Utils::printMessage("New motion");
+        Utils::printMotionVector(motion);
+            
+        function<void()> move = [=]() {
+            MotionController::Instance().shouldMove(motion);
+        };
         
-        //if (filterPose(avgPose)) {
-            
-            analyzedMotionShared = convertPoseToMotion(avgPose);
-            
-//            Utils::printMessage("New target coordinate recalculated");
-//            Utils::printMotionVector(analyzedMotionShared);
-            
-            Utils::printMessage("New pose is sending in motion");
-            Utils::printMotionVector(analyzedMotionShared);
-            
-            function<void()> move = [=]() {
-                MotionController::Instance().shouldMove(analyzedMotionShared);
-            };
-            
-            thread t(move);
-            t.detach();
-            
-//            m.lock();
-//            isMotionUpdatedShared = true;
-//            m.unlock();
-        //}
-
+        thread t(move);
+        t.detach();
+        
         this_thread::sleep_for(interval);
     }
 }
@@ -195,37 +145,6 @@ MotionVector Controller::convertPoseToMotion(PoseVector pose) {
     return motion;
 }
 
-#pragma mark - Motion monitor
-
-void Controller::startMotionMonitor() {
-    
-//    Utils::printMessage("Start motion monitor");
-//    
-//    chrono::seconds interval(kMotionMonitorFreqInSec);
-//
-//    while (true) {
-//        
-//        if (isMotionUpdatedShared) {
-//            
-//            m.lock();
-//            isMotionUpdatedShared = false;
-//            m.unlock();
-//            
-//            Utils::printMessage("New pose is sending in motion");
-//            Utils::printMotionVector(analyzedMotionShared);
-//            
-//            function<void()> move = [=]() {
-//                MotionController::Instance().shouldMove(analyzedMotionShared);
-//            };
-//            
-//            thread t(move);
-//            t.detach();
-//        }
-//        
-//        this_thread::sleep_for(interval);
-//    }
-}
-
 #pragma mark - Test
 
 // For testing motion behaviour without camera data
@@ -236,7 +155,6 @@ void Controller::startTest(vector<PoseVector> poses, double holdingPoseDistance,
     MotionController::Instance().setSpeed(speedInMeterPerSec);
     
     thread t1(&Controller::startPoseAnalyzer, this);
-    thread t2(&Controller::startMotionMonitor, this);
 
     function<void()> startTestPoseGenerator = [=]() {
         
@@ -258,9 +176,9 @@ void Controller::startTest(vector<PoseVector> poses, double holdingPoseDistance,
             this_thread::sleep_for(interval);
         }
     };
-    thread t3(startTestPoseGenerator);
+    
+    thread t2(startTestPoseGenerator);
 
     t1.join();
     t2.join();
-    t3.join();
 }
