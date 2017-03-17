@@ -20,6 +20,7 @@ using namespace std;
 Controller::Controller() {
     
     lastPose = {0, 0, 0};
+    isPoseUpdated = false;
 }
 
 void Controller::start(double holdingPoseDistanceInMeters, double speedInMeterPerSec) {
@@ -69,6 +70,9 @@ void Controller::didObtainPoseDelegate(PoseVector pose) {
     Utils::printPoseVector(pose);
     
     lastPose = pose;
+    m.lock();
+    isPoseUpdated = true;
+    m.unlock();
 }
 
 void Controller::didLostPoseDelegate() {
@@ -91,6 +95,13 @@ void Controller::startPoseAnalyzer() {
     chrono::milliseconds interval(kPoseAnalyzerFreqInMilliSec);
     
     while (true) {
+        
+        if (!isPoseUpdated)
+            continue;
+        
+        m.lock();
+        isPoseUpdated = false;
+        m.unlock();
         
         MotionVector motion = convertPoseToMotion(lastPose);
         

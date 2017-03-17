@@ -12,6 +12,7 @@
 #include <vector>
 #include "MotionController.hpp"
 #include "PoseEstimator.hpp"
+#include <mutex>
 
 class Controller {
 
@@ -28,6 +29,7 @@ private:
     double holdingPoseDistanceInMeters;
     
     PoseVector lastPose;
+    bool isPoseUpdated;
 
     void startPoseEstimator();
     void startPoseAnalyzer();
@@ -40,6 +42,8 @@ private:
     // Filters
     bool filterPose(PoseVector pose);
     MotionVector convertPoseToMotion(PoseVector pose);
+    
+    std::mutex m;
 };
 
 #endif /* Controller_hpp */
