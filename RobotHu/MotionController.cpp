@@ -95,9 +95,9 @@ void MotionController::move(MotionVector motionVector) {
     
     if (!stopMotionShared) { // if no new motion while rotation being processed
         
-//        Utils::printMessage("Movement of " + to_string(motionVector.distanceInMeters) + " meters");
-//        go(motionVector.distanceInMeters);
-//        usleep(kInMovesTimeoutImMicrosec);
+        Utils::printMessage("Movement of " + to_string(motionVector.distanceInMeters) + " meters");
+        go(motionVector.distanceInMeters);
+        usleep(kInMovesTimeoutImMicrosec);
     }
     
     if (!stopMotionShared) { // if no new motion while moving being processed
