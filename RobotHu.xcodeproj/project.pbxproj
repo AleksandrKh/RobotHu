@@ -142,6 +142,7 @@
 		414F71981E6A1CD100235D31 /* createBoard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = createBoard.cpp; sourceTree = "<group>"; };
 		414F719A1E6A1CD100235D31 /* generateMarker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = generateMarker.cpp; sourceTree = "<group>"; };
 		414F719C1E6A1CD100235D31 /* motorTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = motorTest.cpp; sourceTree = "<group>"; };
+		415DB06E1E7C867400DDBDD7 /* reset.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = reset.sh; sourceTree = "<group>"; };
 		41655A0E1E7605420020B1E8 /* compile.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = compile.sh; sourceTree = "<group>"; };
 		41C404781E6673900083F841 /* motorTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = motorTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		41C97EA31E6A35060039FB5E /* resetMotors */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = resetMotors; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -386,6 +387,7 @@
 				41C97EEC1E6AF9360039FB5E /* .gitignore */,
 				41FFEDCE1E75DBD000019F5C /* run.sh */,
 				41655A0E1E7605420020B1E8 /* compile.sh */,
+				415DB06E1E7C867400DDBDD7 /* reset.sh */,
 			);
 			path = Builds;
 			sourceTree = "<group>";
