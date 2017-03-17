@@ -21,8 +21,8 @@
 #define kDefaultHoldingPoseDistanceInMeters 1.0
 #define kDefaultSpeedInMeterPerSec 0.1
 
-#define kMinZDistanceDeviationInMeters 0.1
-#define kMinXDistanceDeviationInMeters 0.05
+#define kMinZDistanceDeviationInMeters 0.15
+#define kMinXDistanceDeviationInMeters 0.1
 #define kMinXZAnlgeDeviationInDeg 5
 #define kMinXDistanceDeviationBetweenPosesInMeters 0.03
 #define kMinZDistanceDeviationBetweenPosesInMeters 0.03
