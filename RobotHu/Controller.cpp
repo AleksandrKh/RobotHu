@@ -127,10 +127,12 @@ void Controller::startPoseAnalyzer() {
 
 bool Controller::filterPose(PoseVector pose) {
     
-    if (fabs(pose.xDistanceInMeters - prevPose.xDistanceInMeters) > kMinZDistanceDeviationBetweenPosesInMeters ||
+    if (fabs(pose.xzAngleInDeg - prevPose.xzAngleInDeg) > kMinXZAngleDeviationBetweenPosesInDeg ||
+        fabs(pose.xDistanceInMeters - prevPose.xDistanceInMeters) > kMinZDistanceDeviationBetweenPosesInMeters ||
         fabs(pose.zDistanceInMeters - prevPose.zDistanceInMeters) > kMinXDistanceDeviationBetweenPosesInMeters) {
         
-        if (fabs(pose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
+        if (fabs(pose.xzAngleInDeg) > kMinXZAnlgeDeviationInDeg ||
+            fabs(pose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
             fabs(pose.zDistanceInMeters - holdingPoseDistanceInMeters) > kMinZDistanceDeviationInMeters) {
             
             return true;
