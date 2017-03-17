@@ -24,6 +24,8 @@
 #define kMinZDistanceDeviationInMeters 0.1
 #define kMinXDistanceDeviationInMeters 0.05
 #define kMinXZAnlgeDeviationInDeg 5
+#define kMinXDistanceDeviationBetweenPosesInMeters 0.03
+#define kMinZDistanceDeviationBetweenPosesInMeters 0.03
 
 // 17HS4401 stepper (RED 2B GREEN 2A) (YELLOW 1A BLUE 1B) in parentheses may be reversed
 #define kMotorStepsPerRevolution 200

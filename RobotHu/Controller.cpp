@@ -15,11 +15,12 @@
 
 using namespace std;
 
-#define kPoseAnalyzerFreqInMilliSec 1000
+#define kPoseAnalyzerFreqInMilliSec 300
 
 Controller::Controller() {
     
     lastPose = {0, 0, 0};
+    prevPose = {0, 0, 0};
     isPoseUpdated = false;
 }
 
@@ -66,8 +67,8 @@ void Controller::startPoseEstimator() {
 
 void Controller::didObtainPoseDelegate(PoseVector pose) {
     
-    Utils::printMessage("New pose obtained from estimator");
-    Utils::printPoseVector(pose);
+//    Utils::printMessage("New pose obtained from estimator");
+//    Utils::printPoseVector(pose);
     
     lastPose = pose;
     m.lock();
@@ -103,7 +104,9 @@ void Controller::startPoseAnalyzer() {
         isPoseUpdated = false;
         m.unlock();
         
-        if (filterPose(lastPose)) {
+        if (!MotionController::Instance().motionInProcessShared && filterPose(lastPose)) {
+            
+            prevPose = lastPose;
             
             MotionVector motion = convertPoseToMotion(lastPose);
             
@@ -124,11 +127,14 @@ void Controller::startPoseAnalyzer() {
 
 bool Controller::filterPose(PoseVector pose) {
     
-    // Check min deviation from last pose
-    if (fabs(pose.xDistanceInMeters - lastPose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
-        fabs(pose.zDistanceInMeters - lastPose.zDistanceInMeters) > kMinZDistanceDeviationInMeters) {
-         
-        return true;
+    if (fabs(pose.xDistanceInMeters - prevPose.xDistanceInMeters) > kMinZDistanceDeviationBetweenPosesInMeters ||
+        fabs(pose.zDistanceInMeters - prevPose.zDistanceInMeters) > kMinXDistanceDeviationBetweenPosesInMeters) {
+        
+        if (fabs(pose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
+            fabs(pose.zDistanceInMeters - holdingPoseDistanceInMeters) > kMinZDistanceDeviationInMeters) {
+            
+            return true;
+        }
     }
     
     return false;

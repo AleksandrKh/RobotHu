@@ -28,7 +28,7 @@ private:
     
     double holdingPoseDistanceInMeters;
     
-    PoseVector lastPose;
+    PoseVector lastPose, prevPose;
     bool isPoseUpdated;
 
     void startPoseEstimator();
