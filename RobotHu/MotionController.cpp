@@ -33,7 +33,7 @@ void MotionController::motorsSetup() {
 
     rotSpeedInMeterPerSec = goSpeedInMeterPerSec / 2.0;
 
-    motorStepLengthInMeters = (M_PI * kWheelsDiameterInMeters / (double)kMotorStepsPerRevolution) * kMotorStepInMetersCalibFactor;
+    motorStepLengthInMeters = (M_PI * kWheelsDiameterInMeters / (double)kMotorStepsPerRevolution);
     
     rotationCircleLength = M_PI * kDistanceBetweenWheelsInMeters;
     
@@ -148,7 +148,7 @@ void MotionController::rotate(double angleInDeg) {
 
 void MotionController::go(double distanceInMeters) {
     
-    int stepsNum = round(distanceInMeters / motorStepLengthInMeters);
+    int stepsNum = round(kMotorStepInMetersGoCalibFactor * distanceInMeters / motorStepLengthInMeters);
     
     int directionFactor = distanceInMeters / fabs(distanceInMeters);
     
