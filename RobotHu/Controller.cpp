@@ -66,8 +66,8 @@ void Controller::startPoseEstimator() {
 
 void Controller::didObtainPoseDelegate(PoseVector pose) {
     
-    Utils::printMessage("New pose obtained from estimator");
-    Utils::printPoseVector(pose);
+//    Utils::printMessage("New pose obtained from estimator");
+//    Utils::printPoseVector(pose);
     
     lastPose = pose;
     m.lock();
