@@ -32,7 +32,7 @@
 
 #define kWheelsDiameterInMeters 0.064
 #define kDistanceBetweenWheelsInMeters 0.18
-#define kMotorStepInMetersGoCalibFactor 1.6
+#define kMotorStepInMetersGoCalibFactor 1.65
 #define kDefaultGoSpeedInMeterPerSec 0.1
 
 #define kLeftMotorEnablePin 16
