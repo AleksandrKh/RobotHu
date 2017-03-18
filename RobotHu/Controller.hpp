@@ -40,6 +40,7 @@ private:
     void didReceiveErrorMessage(std::string errorMessage);
     
     // Filters
+    bool filterXZAngle(double angle);
     bool filterPose(PoseVector pose);
     MotionVector convertPoseToMotion(PoseVector pose);
     

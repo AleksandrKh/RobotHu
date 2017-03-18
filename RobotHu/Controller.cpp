@@ -104,18 +104,12 @@ void Controller::startPoseAnalyzer() {
         isPoseUpdated = false;
         m.unlock();
         
-        if (!MotionController::Instance().motionInProcessShared && filterPose(lastPose)) {
-            
-            prevPose = lastPose;
-            
-            MotionVector motion = convertPoseToMotion(lastPose);
-            
-            Utils::printMessage("New motion");
-            Utils::printPoseVector(lastPose);
-            Utils::printMotionVector(motion);
+        double xzAngleInDeg = lastPose.xzAngleInDeg;
+        
+        if (filterXZAngle(xzAngleInDeg)) {
             
             function<void()> move = [=]() {
-                MotionController::Instance().shouldMove(motion);
+                MotionController::Instance().rotate(xzAngleInDeg);
             };
             
             thread t(move);
@@ -123,7 +117,38 @@ void Controller::startPoseAnalyzer() {
         }
         
         this_thread::sleep_for(interval);
+
+        
+//        if (!MotionController::Instance().motionInProcessShared && filterPose(lastPose)) {
+//            
+//            prevPose = lastPose;
+//            
+//            MotionVector motion = convertPoseToMotion(lastPose);
+//            
+//            Utils::printMessage("New motion");
+//            Utils::printPoseVector(lastPose);
+//            Utils::printMotionVector(motion);
+//            
+//            function<void()> move = [=]() {
+//                MotionController::Instance().shouldMove(motion);
+//            };
+//            
+//            thread t(move);
+//            t.detach();
+//        }
+//        
+//        this_thread::sleep_for(interval);
     }
+}
+
+bool Controller::filterXZAngle(double angle) {
+    
+    if (fabs(angle) > kMinXZAnlgeDeviationInDeg) {
+        
+        return true;
+    }
+    
+    return false;
 }
 
 bool Controller::filterPose(PoseVector pose) {

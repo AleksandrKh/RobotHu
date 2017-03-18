@@ -35,6 +35,9 @@ public:
     
     bool motionInProcessShared;
     
+    void rotate(double angleInDeg);
+    void go(double distance);
+    
 private:
     
     MotionController() {
@@ -56,9 +59,6 @@ private:
     double goDelayInMicroSec, rotDelayInMicroSec;
     
     void move(MotionVector motionVector);
-    
-    void rotate(double angleInDeg);
-    void go(double distance);
     
     Motor leftMotor, rightMotor;
     
