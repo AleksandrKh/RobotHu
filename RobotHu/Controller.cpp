@@ -78,6 +78,7 @@ void Controller::didObtainPoseDelegate(PoseVector pose) {
 
 void Controller::didLostPoseDelegate() {
     
+    // Lost pose
 }
 
 void Controller::didReceiveErrorMessage(string errorMessage) {
@@ -130,6 +131,8 @@ bool Controller::filterPose(PoseVector pose) {
     
     return false;
 }
+
+// Pretty stupid trajectory calculator, but working
 
 MotionVector Controller::convertPoseToMotion(PoseVector pose) {
     
