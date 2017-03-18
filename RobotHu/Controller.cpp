@@ -113,6 +113,8 @@ void Controller::startPoseAnalyzer() {
         
         if (filterXZAngle(xzAngleInDeg)) {
             
+            Utils::printPoseVector(lastPose);
+            
             MotionController::Instance().rotate(xzAngleInDeg);
             usleep(1000000);
 
