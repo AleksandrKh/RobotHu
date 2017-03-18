@@ -16,17 +16,14 @@
 #define kMarkerDictionaryID 8
 #define kMarkerID 10
 #define kMarkerLengthInMeters 0.1
-#define kMaxMarkerXYRotDeviationInDegrees 20 // marker should be posed with upwards Y axis // TODO: make invariant
 
 #define kDefaultHoldingPoseDistanceInMeters 1.0
 #define kDefaultSpeedInMeterPerSec 0.1
 
 #define kMinZDistanceDeviationInMeters 0.15
 #define kMinXDistanceDeviationInMeters 0.1
-#define kMinXZAnlgeDeviationInDeg 5
 #define kMinXDistanceDeviationBetweenPosesInMeters 0.03
 #define kMinZDistanceDeviationBetweenPosesInMeters 0.03
-#define kMinXZAngleDeviationBetweenPosesInDeg 3
 
 // 17HS4401 stepper (RED 2B GREEN 2A) (YELLOW 1A BLUE 1B) in parentheses may be reversed
 #define kMotorStepsPerRevolution 200

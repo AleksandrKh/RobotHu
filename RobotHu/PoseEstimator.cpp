@@ -83,12 +83,6 @@ void PoseEstimator::startEstimator() {
                 if (ids[i] != kMarkerID)
                     continue;
                 
-                double xyRot = atan(rvecs[i][1] / rvecs[i][0]);
-                
-                // check Y axis direction to use angles properly // TODO: make invariant
-                if (fabs(RADIANS_TO_DEGREES(xyRot)) > kMaxMarkerXYRotDeviationInDegrees)
-                    continue;
-                
                 // Calc camera pose
                 double x = 0, y = 0, z = 0;
                 
@@ -100,6 +94,7 @@ void PoseEstimator::startEstimator() {
 //                y = cameraPose.at<double>(0,1);
 //                z = cameraPose.at<double>(0,2);
                 
+                // rot inv vector
                 x = tvecs[i][0];
                 y = tvecs[i][1];
                 z = tvecs[i][2];
