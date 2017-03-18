@@ -111,6 +111,7 @@ void Controller::startPoseAnalyzer() {
             MotionVector motion = convertPoseToMotion(lastPose);
             
             Utils::printMessage("New motion");
+            Utils::printPoseVector(lastPose);
             Utils::printMotionVector(motion);
             
             function<void()> move = [=]() {
