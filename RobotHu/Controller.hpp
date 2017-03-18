@@ -28,12 +28,11 @@ private:
     
     double holdingPoseDistanceInMeters;
     
-    PoseVector lastPose, prevPose;
+    PoseVector lastPose;
     bool isPoseUpdated;
-    bool isMotionInProcess;
 
     void startPoseEstimator();
-    void startPoseAnalyzer();
+    void startPoseHandler();
     
     // Incoming delegates
     void didObtainPoseDelegate(PoseVector pose);
@@ -41,7 +40,6 @@ private:
     void didReceiveErrorMessage(std::string errorMessage);
     
     // Filters
-    bool filterXZAngle(double angle);
     bool filterPose(PoseVector pose);
     MotionVector convertPoseToMotion(PoseVector pose);
     

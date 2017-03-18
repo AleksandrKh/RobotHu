@@ -23,11 +23,10 @@ int main(int argc, const char * argv[]) {
     string info = "Example command: ./robotHu -hold 0.5 -speed 0.1\n"
     "-hold: distance in meters that the robot is trying to hold between camera and marker, default is 1\n"
     "-speed: speed in meter per sec\n"
-    "To test without camera data execute command with poses vectors: <xzAngle> <x> <z> <xzAngle1> <x1> <z1> .. <xzAnglen> <xn> <zn>\n"
-    "Example command: ./robotHu -test 1 -hold 0.5 -speed 0.1 -poses 10 0.1 0.5 20 0.3 0 -20 0 -0.3\n"
+    "To test without camera data execute command with poses vectors: <x> <z> <x1> <z1> .. <xn> <zn>\n"
+    "Example command: ./robotHu -test 1 -hold 0.5 -speed 0.1 -poses 0.1 0.5 0.3 0 0 -0.3\n"
     "-hold: required in test mode\n"
     "-speed: required in test mode\n"
-    "-xzAngle: angle between marker and camera in XZ plane\n"
     "-x: x offset\n"
     "-z: z offset\n";
     
@@ -73,8 +72,6 @@ int main(int argc, const char * argv[]) {
         for (int i = poseFirstArgPosition; i < argc; i += 3) {
             
             PoseVector pose;
-            string xzAngleInDegString = argv[i];
-            pose.xzAngleInDeg = atof(xzAngleInDegString.c_str());
             string xDistanceInMetersString = argv[i+1];
             pose.xDistanceInMeters = atof(xDistanceInMetersString.c_str());
             string zDistanceInMetersString = argv[i+2];

@@ -73,7 +73,7 @@ void PoseEstimator::startEstimator() {
             
             aruco::estimatePoseSingleMarkers(corners, kMarkerLengthInMeters, camMatrix, distCoeffs, rvecs, tvecs);
             
-            PoseVector resultPose = {0, 0, 0};
+            PoseVector resultPose = {0, 0};
             vector<int> resultIds;
 //            vector<vector<Point2f> > resultCorners;
 //            vector<Vec3d> resultRvecs, resultTvecs;
@@ -92,26 +92,25 @@ void PoseEstimator::startEstimator() {
                 // Calc camera pose
                 double x = 0, y = 0, z = 0;
                 
-                Mat R;
-                Rodrigues(rvecs[i], R);
-                Mat cameraPose = -R.t() * (Mat)tvecs[i];
+//                Mat R;
+//                Rodrigues(rvecs[i], R);
+//                Mat cameraPose = -R.t() * (Mat)tvecs[i];
+//                
+//                x = cameraPose.at<double>(0,0);
+//                y = cameraPose.at<double>(0,1);
+//                z = cameraPose.at<double>(0,2);
                 
-                x = cameraPose.at<double>(0,0);
-                y = cameraPose.at<double>(0,1);
-                z = cameraPose.at<double>(0,2);
-                                
+                x = tvecs[i][0];
+                y = tvecs[i][1];
+                z = tvecs[i][2];
+                
                 // cout << "X: " << x << " Y: " << y << " Z: " << z << endl;
                 
                 // Take vector from nearest marker
                 if (resultPose.zDistanceInMeters == 0 || z < resultPose.zDistanceInMeters) {
                     
                     resultPose.zDistanceInMeters = z;
-                    resultPose.xDistanceInMeters = tvecs[i][0]; // rot invariant
-                    
-                    
-                    // Rotation in XZ plane // TODO: make invariant
-                    resultPose.xzAngleInDeg = RADIANS_TO_DEGREES(atan2(sqrt(pow(x, 2) + pow(y, 2)), z));
-                    //resultPose.xzAngleInDeg *= x / fabs(x);
+                    resultPose.xDistanceInMeters = x;
                                         
                     resultIds = {ids[i]};
 //                    resultCorners = {corners[i]};

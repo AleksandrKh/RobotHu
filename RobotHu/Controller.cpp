@@ -20,8 +20,7 @@ using namespace std;
 
 Controller::Controller() {
     
-    lastPose = {0, 0, 0};
-    prevPose = {0, 0, 0};
+    lastPose = {0, 0};
     isPoseUpdated = false;
 }
 
@@ -47,7 +46,7 @@ void Controller::start(double holdingPoseDistanceInMeters, double speedInMeterPe
     PoseEstimator::Instance().didLostPoseDelegate = &didLostPoseDelegate;
     
     thread t1(&Controller::startPoseEstimator, this);
-    thread t2(&Controller::startPoseAnalyzer, this);
+    thread t2(&Controller::startPoseHandler, this);
     
     t1.join();
     t2.join();
@@ -90,13 +89,9 @@ void Controller::didReceiveErrorMessage(string errorMessage) {
 
 // Analyzing and filtration "dirty" pose data from OpenCV
 
-void Controller::startPoseAnalyzer() { // TODO rename
+void Controller::startPoseHandler() {
 
     Utils::printMessage("Start pose analyzer");
-    
-//    function<void()> motionCompleted = [=]() {
-//        isMotionInProcess = false;
-//    };
 
     chrono::milliseconds interval(kPoseAnalyzerFreqInMilliSec);
     
@@ -111,32 +106,7 @@ void Controller::startPoseAnalyzer() { // TODO rename
         
         PoseVector pose = lastPose;
         
-//        if (filterPose(pose)) {
-//            
-//            Utils::printPoseVector(pose);
-//            
-//            MotionController::Instance().rotate(xzAngleInDeg);
-//            usleep(1000000);
-//
-////            isMotionInProcess = true;
-////            
-////            function<void()> move = [=]() {
-////                MotionController::Instance().rotate2(xzAngleInDeg, motionCompleted);
-////            };
-////            
-////            thread t(move);
-////            t.detach();
-//        }
-//        else {
-//            
-//        }
-//        
-//        this_thread::sleep_for(interval);
-
-        
-        if (!MotionController::Instance().motionInProcessShared && filterPose(pose)) {
-            
-            //prevPose = lastPose;
+        if (filterPose(pose)) {
             
             MotionVector motion = convertPoseToMotion(pose);
             
@@ -146,49 +116,19 @@ void Controller::startPoseAnalyzer() { // TODO rename
             
             MotionController::Instance().shouldMove(motion);
             usleep(1000000);
-            
-//            function<void()> move = [=]() {
-//                
-//            };
-//            
-//            thread t(move);
-//            t.detach();
         }
         
         this_thread::sleep_for(interval);
     }
 }
 
-bool Controller::filterXZAngle(double angle) {
-    
-    if (fabs(angle) > kMinXZAnlgeDeviationInDeg) {
-        
-        return true;
-    }
-    
-    return false;
-}
-
 bool Controller::filterPose(PoseVector pose) {
     
-    if (/*fabs(pose.xzAngleInDeg) > kMinXZAnlgeDeviationInDeg ||*/
-        fabs(pose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
+    if (fabs(pose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
         fabs(pose.zDistanceInMeters - holdingPoseDistanceInMeters) > kMinZDistanceDeviationInMeters) {
         
         return true;
     }
-    
-//    if (/*fabs(pose.xzAngleInDeg - prevPose.xzAngleInDeg) > kMinXZAngleDeviationBetweenPosesInDeg ||*/
-//        fabs(pose.xDistanceInMeters - prevPose.xDistanceInMeters) > kMinZDistanceDeviationBetweenPosesInMeters ||
-//        fabs(pose.zDistanceInMeters - prevPose.zDistanceInMeters) > kMinXDistanceDeviationBetweenPosesInMeters) {
-//        
-//        if (/*fabs(pose.xzAngleInDeg) > kMinXZAnlgeDeviationInDeg ||*/
-//            fabs(pose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
-//            fabs(pose.zDistanceInMeters - holdingPoseDistanceInMeters) > kMinZDistanceDeviationInMeters) {
-//            
-//            return true;
-//        }
-//    }
     
     return false;
 }
@@ -197,8 +137,6 @@ MotionVector Controller::convertPoseToMotion(PoseVector pose) {
     
     MotionVector motion;
     
-    motion.xzAngleInDeg = pose.xzAngleInDeg;
-
     double holdingDistance = pose.zDistanceInMeters - holdingPoseDistanceInMeters;
 
     if (pose.zDistanceInMeters == 0) {
@@ -236,7 +174,7 @@ void Controller::startTest(vector<PoseVector> poses, double holdingPoseDistance,
     this->holdingPoseDistanceInMeters = holdingPoseDistance;
     MotionController::Instance().setSpeed(speedInMeterPerSec);
     
-    thread t1(&Controller::startPoseAnalyzer, this);
+    thread t1(&Controller::startPoseHandler, this);
 
     function<void()> startTestPoseGenerator = [=]() {
         

@@ -16,7 +16,6 @@
 
 struct MotionVector {
     
-    double xzAngleInDeg;
     double angleInDeg;
     double distanceInMeters;
 };
@@ -34,14 +33,6 @@ public:
     void setSpeed(double speedInMeterPerSec);
     void shouldMove(MotionVector motionVector);
     
-    bool motionInProcessShared;
-    
-    void rotate(double angleInDeg);
-    
-    void rotate2(double angleInDeg, std::function<void()> completion);
-    
-    void go(double distance);
-    
 private:
     
     MotionController() {
@@ -53,6 +44,7 @@ private:
     MotionController& operator = (MotionController const&) = delete;
     
     bool stopMotionShared;
+    bool motionInProcessShared;
     
     void setup();
     void motorsSetup();
@@ -63,6 +55,8 @@ private:
     double goDelayInMicroSec, rotDelayInMicroSec;
     
     void move(MotionVector motionVector);
+    void rotate(double angleInDeg);
+    void go(double distance);
     
     Motor leftMotor, rightMotor;
     

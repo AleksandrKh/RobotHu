@@ -81,12 +81,6 @@ void MotionController::move(MotionVector motionVector) {
     leftMotor.enable();
     rightMotor.enable();
     
-//    if (fabs(motionVector.xzAngleInDeg) > 1) {
-//        Utils::printMessage("XZ correction rotation at " + to_string(motionVector.xzAngleInDeg) + " degrees");
-//        rotate(motionVector.xzAngleInDeg);
-//        usleep(kInMovesTimeoutImMicrosec);
-//    }
-    
     if (!stopMotionShared) { // if no new motion while rotation being processed
         
         if (fabs(motionVector.angleInDeg) > 1) {
@@ -147,35 +141,6 @@ void MotionController::rotate(double angleInDeg) {
     }
     
     Utils::printMessage("Rotation completed");
-}
-
-void MotionController::rotate2(double angleInDeg, function<void()> completion) {
-    
-    double rotationSegment = fabs(rotationCircleLength * angleInDeg / 360.0);
-    int stepsNum = round(rotationSegment / motorStepLengthInMeters);
-    
-    int directionFactor = angleInDeg / fabs(angleInDeg);
-    
-    Utils::printMessage("Rotate " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "right" : "left") + " direction");
-    
-    leftMotor.setDirection(directionFactor);
-    rightMotor.setDirection(directionFactor);
-    
-    for (int i = 0; i < stepsNum; i++) {
-        
-        if (stopMotionShared) {
-            Utils::printMessage("Break rotation due to new motion");
-            return;
-        }
-        
-        leftMotor.step();
-        rightMotor.step();
-        usleep(rotDelayInMicroSec);
-    }
-    
-    Utils::printMessage("Rotation completed");
-    
-    completion();
 }
 
 void MotionController::go(double distanceInMeters) {

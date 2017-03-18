@@ -14,7 +14,6 @@
 
 struct PoseVector { // it's Y invariant pose, also we consider marker rotation in XZ plane
     
-    double xzAngleInDeg;
     double xDistanceInMeters;
     double zDistanceInMeters;
 };
