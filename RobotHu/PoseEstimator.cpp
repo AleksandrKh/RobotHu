@@ -108,10 +108,11 @@ void PoseEstimator::startEstimator() {
                     resultPose.zDistanceInMeters = z;
                     resultPose.xDistanceInMeters = tvecs[i][0]; // rot invariant
                     
+                    
                     // Rotation in XZ plane // TODO: make invariant
                     resultPose.xzAngleInDeg = RADIANS_TO_DEGREES(atan2(sqrt(pow(x, 2) + pow(y, 2)), z));
-                    resultPose.xzAngleInDeg *= x / fabs(x);
-                    
+                    //resultPose.xzAngleInDeg *= x / fabs(x);
+                                        
                     resultIds = {ids[i]};
 //                    resultCorners = {corners[i]};
 //                    resultRvecs = {rvecs[i]};

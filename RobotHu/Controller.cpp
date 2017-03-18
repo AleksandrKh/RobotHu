@@ -90,7 +90,7 @@ void Controller::didReceiveErrorMessage(string errorMessage) {
 
 // Analyzing and filtration "dirty" pose data from OpenCV
 
-void Controller::startPoseAnalyzer() {
+void Controller::startPoseAnalyzer() { // TODO rename
 
     Utils::printMessage("Start pose analyzer");
     
@@ -109,50 +109,53 @@ void Controller::startPoseAnalyzer() {
         isPoseUpdated = false;
         m.unlock();
         
-        double xzAngleInDeg = lastPose.xzAngleInDeg;
+        PoseVector pose = lastPose;
         
-        if (filterXZAngle(xzAngleInDeg)) {
-            
-            Utils::printPoseVector(lastPose);
-            
-            MotionController::Instance().rotate(xzAngleInDeg);
-            usleep(1000000);
-
-//            isMotionInProcess = true;
+//        if (filterPose(pose)) {
 //            
-//            function<void()> move = [=]() {
-//                MotionController::Instance().rotate2(xzAngleInDeg, motionCompleted);
-//            };
+//            Utils::printPoseVector(pose);
 //            
-//            thread t(move);
-//            t.detach();
-        }
-        else {
-            
-        }
-        
-        this_thread::sleep_for(interval);
-
-        
-//        if (!MotionController::Instance().motionInProcessShared && filterPose(lastPose)) {
+//            MotionController::Instance().rotate(xzAngleInDeg);
+//            usleep(1000000);
+//
+////            isMotionInProcess = true;
+////            
+////            function<void()> move = [=]() {
+////                MotionController::Instance().rotate2(xzAngleInDeg, motionCompleted);
+////            };
+////            
+////            thread t(move);
+////            t.detach();
+//        }
+//        else {
 //            
-//            prevPose = lastPose;
-//            
-//            MotionVector motion = convertPoseToMotion(lastPose);
-//            
-//            Utils::printMessage("New motion");
-//            Utils::printPoseVector(lastPose);
-//            Utils::printMotionVector(motion);
-//            
-//            function<void()> move = [=]() {
-//                MotionController::Instance().shouldMove(motion);
-//            };
-//            
-//            thread t(move);
-//            t.detach();
 //        }
 //        
 //        this_thread::sleep_for(interval);
+
+        
+        if (!MotionController::Instance().motionInProcessShared && filterPose(pose)) {
+            
+            //prevPose = lastPose;
+            
+            MotionVector motion = convertPoseToMotion(pose);
+            
+            Utils::printMessage("New motion");
+            Utils::printPoseVector(pose);
+            Utils::printMotionVector(motion);
+            
+            MotionController::Instance().shouldMove(motion);
+            usleep(1000000);
+            
+//            function<void()> move = [=]() {
+//                
+//            };
+//            
+//            thread t(move);
+//            t.detach();
+        }
+        
+        this_thread::sleep_for(interval);
     }
 }
 
@@ -168,17 +171,24 @@ bool Controller::filterXZAngle(double angle) {
 
 bool Controller::filterPose(PoseVector pose) {
     
-    if (/*fabs(pose.xzAngleInDeg - prevPose.xzAngleInDeg) > kMinXZAngleDeviationBetweenPosesInDeg ||*/
-        fabs(pose.xDistanceInMeters - prevPose.xDistanceInMeters) > kMinZDistanceDeviationBetweenPosesInMeters ||
-        fabs(pose.zDistanceInMeters - prevPose.zDistanceInMeters) > kMinXDistanceDeviationBetweenPosesInMeters) {
+    if (/*fabs(pose.xzAngleInDeg) > kMinXZAnlgeDeviationInDeg ||*/
+        fabs(pose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
+        fabs(pose.zDistanceInMeters - holdingPoseDistanceInMeters) > kMinZDistanceDeviationInMeters) {
         
-        if (/*fabs(pose.xzAngleInDeg) > kMinXZAnlgeDeviationInDeg ||*/
-            fabs(pose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
-            fabs(pose.zDistanceInMeters - holdingPoseDistanceInMeters) > kMinZDistanceDeviationInMeters) {
-            
-            return true;
-        }
+        return true;
     }
+    
+//    if (/*fabs(pose.xzAngleInDeg - prevPose.xzAngleInDeg) > kMinXZAngleDeviationBetweenPosesInDeg ||*/
+//        fabs(pose.xDistanceInMeters - prevPose.xDistanceInMeters) > kMinZDistanceDeviationBetweenPosesInMeters ||
+//        fabs(pose.zDistanceInMeters - prevPose.zDistanceInMeters) > kMinXDistanceDeviationBetweenPosesInMeters) {
+//        
+//        if (/*fabs(pose.xzAngleInDeg) > kMinXZAnlgeDeviationInDeg ||*/
+//            fabs(pose.xDistanceInMeters) > kMinXDistanceDeviationInMeters ||
+//            fabs(pose.zDistanceInMeters - holdingPoseDistanceInMeters) > kMinZDistanceDeviationInMeters) {
+//            
+//            return true;
+//        }
+//    }
     
     return false;
 }
