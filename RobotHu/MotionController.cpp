@@ -6,6 +6,9 @@
 //  Copyright © 2017 AKTech. All rights reserved.
 //
 
+// TODO протестить выравнивание отдельно
+// TODO протестить повороты по иксу отдельно, это должно быть после выравнивания
+
 #include "MotionController.hpp"
 #include "config.h"
 #include "../Utils/Utils.hpp"

@@ -149,17 +149,29 @@ MotionVector Controller::convertPoseToMotion(PoseVector pose) {
     motion.xzAngleInDeg = pose.xzAngleInDeg;
 
     double holdingDistance = pose.zDistanceInMeters - holdingPoseDistanceInMeters;
-    motion.distanceInMeters = sqrt(pow(pose.xDistanceInMeters, 2) + pow(holdingDistance, 2));
-    motion.distanceInMeters *= holdingDistance / fabs(holdingDistance);
+
+    if (pose.zDistanceInMeters == 0) {
+        motion.distanceInMeters = 0;
+    }
+    else {
+        motion.distanceInMeters = sqrt(pow(pose.xDistanceInMeters, 2) + pow(holdingDistance, 2));
+        motion.distanceInMeters *= holdingDistance / fabs(holdingDistance);
+    }
     
-    motion.angleInDeg = -RADIANS_TO_DEGREES(atan(fabs(pose.xDistanceInMeters / holdingDistance)));
-    
-    if (pose.xDistanceInMeters)
-        motion.angleInDeg *= pose.xDistanceInMeters / fabs(pose.xDistanceInMeters);
-    if (holdingDistance)
-        motion.angleInDeg *= holdingDistance / fabs(holdingDistance);
-    
-    motion.angleInDeg *= xSideFactor;
+    if (pose.xDistanceInMeters == 0) {
+        motion.angleInDeg = 0;
+    }
+    else {
+        
+        motion.angleInDeg = -RADIANS_TO_DEGREES(atan(fabs(pose.xDistanceInMeters / holdingDistance)));
+        
+        if (pose.xDistanceInMeters)
+            motion.angleInDeg *= pose.xDistanceInMeters / fabs(pose.xDistanceInMeters);
+        if (holdingDistance)
+            motion.angleInDeg *= holdingDistance / fabs(holdingDistance);
+        
+        motion.angleInDeg *= xSideFactor;
+    }
 
     return motion;
 }
