@@ -87,8 +87,6 @@ void Controller::didReceiveErrorMessage(string errorMessage) {
 
 #pragma mark - Pose analyzer
 
-// Analyzing and filtration "dirty" pose data from OpenCV
-
 void Controller::startPoseHandler() {
 
     Utils::printMessage("Start pose analyzer");
