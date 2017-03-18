@@ -130,6 +130,9 @@ void MotionController::rotate(double angleInDeg) {
     int directionFactor = angleInDeg / fabs(angleInDeg);
     
     Utils::printMessage("Rotate " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "right" : "left") + " direction");
+    
+    leftMotor.enable();
+    rightMotor.enable();
 
     leftMotor.setDirection(directionFactor);
     rightMotor.setDirection(directionFactor);
@@ -145,6 +148,9 @@ void MotionController::rotate(double angleInDeg) {
         rightMotor.step();
         usleep(rotDelayInMicroSec);
     }
+    
+    leftMotor.disable();
+    rightMotor.disable();
     
     Utils::printMessage("Rotation completed");
 }
