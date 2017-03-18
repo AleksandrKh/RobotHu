@@ -12,6 +12,7 @@
 #include <iostream>
 #include <thread>
 #include <cmath>
+#include <unistd.h>
 
 using namespace std;
 
@@ -113,6 +114,7 @@ void Controller::startPoseAnalyzer() {
         if (filterXZAngle(xzAngleInDeg)) {
             
             MotionController::Instance().rotate(xzAngleInDeg);
+            usleep(1000000);
 
 //            isMotionInProcess = true;
 //            
