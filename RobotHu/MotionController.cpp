@@ -149,6 +149,35 @@ void MotionController::rotate(double angleInDeg) {
     Utils::printMessage("Rotation completed");
 }
 
+void MotionController::rotate2(double angleInDeg, function<void()> completion) {
+    
+    double rotationSegment = fabs(rotationCircleLength * angleInDeg / 360.0);
+    int stepsNum = round(rotationSegment / motorStepLengthInMeters);
+    
+    int directionFactor = angleInDeg / fabs(angleInDeg);
+    
+    Utils::printMessage("Rotate " + to_string(stepsNum) + " steps in " + (directionFactor > 0 ? "right" : "left") + " direction");
+    
+    leftMotor.setDirection(directionFactor);
+    rightMotor.setDirection(directionFactor);
+    
+    for (int i = 0; i < stepsNum; i++) {
+        
+        if (stopMotionShared) {
+            Utils::printMessage("Break rotation due to new motion");
+            return;
+        }
+        
+        leftMotor.step();
+        rightMotor.step();
+        usleep(rotDelayInMicroSec);
+    }
+    
+    Utils::printMessage("Rotation completed");
+    
+    completion();
+}
+
 void MotionController::go(double distanceInMeters) {
     
     int stepsNum = round(kMotorStepInMetersGoCalibFactor * distanceInMeters / motorStepLengthInMeters);

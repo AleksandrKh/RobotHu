@@ -30,6 +30,7 @@ private:
     
     PoseVector lastPose, prevPose;
     bool isPoseUpdated;
+    bool isMotionInProcess;
 
     void startPoseEstimator();
     void startPoseAnalyzer();

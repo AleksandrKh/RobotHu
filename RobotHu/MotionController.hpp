@@ -12,6 +12,7 @@
 #include <vector>
 #include <mutex>
 #include "Utils/Motor.hpp"
+#include <functional>
 
 struct MotionVector {
     
@@ -36,6 +37,9 @@ public:
     bool motionInProcessShared;
     
     void rotate(double angleInDeg);
+    
+    void rotate2(double angleInDeg, std::function<void()> completion);
+    
     void go(double distance);
     
 private:

@@ -92,12 +92,16 @@ void Controller::didReceiveErrorMessage(string errorMessage) {
 void Controller::startPoseAnalyzer() {
 
     Utils::printMessage("Start pose analyzer");
+    
+    function<void()> motionCompleted = [=]() {
+        isMotionInProcess = false;
+    };
 
     chrono::milliseconds interval(kPoseAnalyzerFreqInMilliSec);
     
     while (true) {
         
-        if (!isPoseUpdated)
+        if (isMotionInProcess || !isPoseUpdated)
             continue;
         
         m.lock();
@@ -108,8 +112,10 @@ void Controller::startPoseAnalyzer() {
         
         if (filterXZAngle(xzAngleInDeg)) {
             
+            isMotionInProcess = true;
+            
             function<void()> move = [=]() {
-                MotionController::Instance().rotate(xzAngleInDeg);
+                MotionController::Instance().rotate2(xzAngleInDeg, motionCompleted);
             };
             
             thread t(move);
